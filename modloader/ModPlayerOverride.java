@@ -1,9 +1,11 @@
 package modloader;
 
+import java.io.Serializable;
+
 import game.Player;
 
 // This class allows you to make the player update uniquely when playing with your mod
-public abstract class ModPlayerOverride implements Cloneable {
+public abstract class ModPlayerOverride implements Cloneable, Serializable {
    // Uniquely update the player with this mod
    public abstract void update(Player player);
 

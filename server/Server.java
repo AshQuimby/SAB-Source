@@ -113,7 +113,6 @@ public class Server {
                         try {
                             Screen s = (Screen) DeepCopy.deepCopy(window.getScreen());
 
-                            System.out.println(s);
                             for (SABConnection connection : connections) {
                                 connection.send(s);
                             }
