@@ -3,8 +3,6 @@ package game.projectile;
 import game.Player;
 import game.character.EmptySoldier;
 import game.physics.*;
-import java.util.List;
-import game.particle.Particle;
 
 public class Screw extends Projectile {
     public Screw(double x, double y, double velX, double velY, double kb, double kbDir, int owner, int direction,

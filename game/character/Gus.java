@@ -4,6 +4,7 @@ import game.Player;
 import game.physics.Vector;
 import game.SoundEngine;
 import game.projectile.*;
+import game.projectile.final_asses.LightsOut;
 
 public class Gus extends Character {
    public Gus() {
@@ -78,6 +79,11 @@ public class Gus extends Character {
 
    @Override
    public void chargeAttack(Player player, int charge) {
+   }
+
+   @Override
+   public void finalAss(Player player) {
+      player.battleScreen.addProjectile(new LightsOut(player));
    }
 
    @Override

@@ -72,4 +72,8 @@ public class Vector implements Serializable {
    public Vector snap(int gridSize) {
       return new Vector(Math.floor(x / gridSize) * gridSize, Math.floor(y / gridSize) * gridSize);
    }
+
+   public static Vector zero() {
+      return new Vector(0, 0);
+   }
 }

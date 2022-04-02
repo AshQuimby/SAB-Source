@@ -3,8 +3,6 @@ package game.particle;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 
-import game.GameObject;
-import game.physics.Vector;
 import game.Images;
 import game.screen.BattleScreen;
 

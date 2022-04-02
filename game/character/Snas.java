@@ -5,6 +5,7 @@ import game.physics.Vector;
 import game.SoundEngine;
 import game.particle.GravityParticle;
 import game.projectile.*;
+import game.projectile.final_asses.BasterSpam;
 
 public class Snas extends Character {
    public Snas() {
@@ -84,12 +85,17 @@ public class Snas extends Character {
    }
 
    @Override
+   public void finalAss(Player player) {
+      player.battleScreen.addProjectile(new BasterSpam(player));
+   }
+
+   @Override
    public void chargeAttack(Player player, int charge) {
       player.charge = 0;
       if (charge > 40)
          charge = 40;
       SoundEngine.playSound("glaster_baster");
-      player.battleScreen.addProjectileAtCenter(
+      player.battleScreen.addProjectile(
             new GlasterBeam(player.center().x + 90 * player.direction - 76 / 4, player.center().y - 76 / 4,
                   player.keyLayout,
                   player.direction,

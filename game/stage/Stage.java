@@ -43,7 +43,7 @@ public class Stage implements Serializable {
       return unsafeBlastZone;
    }
 
-   public void update() {
+   public final void update() {
       for (Platform platform : platforms) {
          if (platform.updates()) {
             UpdatingPlatform updatingPlatform = (UpdatingPlatform) platform;
@@ -59,6 +59,11 @@ public class Stage implements Serializable {
       for (CustomStageObject stageObject : deadStageObjects) {
          stageObjects.remove(stageObject);
       }
+
+      postUpdate();
+   }
+
+   public void postUpdate() {
    }
 
    public void render(Graphics g, ImageObserver target) {
@@ -71,6 +76,11 @@ public class Stage implements Serializable {
          battleScreen.renderObject(g, Images.getImage(stageObject.image), stageObject.position,
                (int) stageObject.width, (int) stageObject.height, false, target);
       }
+
+      postRender(g, target);
+   }
+
+   public void postRender(Graphics g, ImageObserver target) {
    }
 
    public void selectScreenRender(Graphics g, ImageObserver target) {
@@ -118,7 +128,7 @@ public class Stage implements Serializable {
 
       return collisions;
    }
-   
+
    public List<Platform> getPlatformCollisions(AABB hitbox) {
       List<Platform> collisions = new ArrayList<>();
 

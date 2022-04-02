@@ -9,6 +9,7 @@ public class PoopyMan extends ModCharacter {
    // and you WILL HAVE to have it or your mod will no longer be supported
 
    public PoopyMan() {
+      super();
       // width of each frame (must match the image)
       width = 64;
       // height of each frame (must match the image)

@@ -7,8 +7,8 @@ public abstract class ModProjectile extends Projectile {
     public int modIndex;
     /*
      * All of mod projectile's inherited variables
-     * public int direction = 1;
-     * public int frame = 0;
+     * public int direction;
+     * public int frame;
      * public boolean alive;
      * public Hurtbox hurtbox;
      * public int damage;
@@ -19,10 +19,10 @@ public abstract class ModProjectile extends Projectile {
      * public int height;
      * public int life;
      * public int owner;
-     * public int updatesPerTick = 1;
+     * public int updatesPerTick;
      * public Player ownerPlayer;
-     * public boolean unreflectable = false;
-     * public boolean draw = true;
+     * public boolean unreflectable;
+     * public boolean draw;
      * public String fileName;
      * public BattleScreen battleScreen;
      */

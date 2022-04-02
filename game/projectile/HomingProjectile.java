@@ -4,20 +4,23 @@ import game.Player;
 
 public abstract class HomingProjectile extends Projectile {
 
-   Player targetPlayer;
-   double distance;
+   protected Player targetPlayer;
+   protected double distance;
 
    public void update() {
+      double bestDistance = -1;
       if (!battleScreen.getGameEnded()) {
-         for (int i = 0; i < 2; i++) {
-            if (battleScreen.getPlayers(i) != ownerPlayer) {
-               targetPlayer = battleScreen.getPlayers(i);
+         for (Player player : battleScreen.getPlayerList()) {
+            distance = Math.sqrt((player.pos.x - pos.x) * (player.pos.x - pos.x)
+                  + (player.pos.y - pos.y) * (player.pos.y - pos.y));
+            if (player != ownerPlayer && (distance < bestDistance || bestDistance == -1)) {
+               targetPlayer = player;
+               bestDistance = distance;
             }
          }
-         distance = Math.sqrt((targetPlayer.pos.x - pos.x) * (targetPlayer.pos.x - pos.x)
-               + (targetPlayer.pos.y - pos.y) * (targetPlayer.pos.y - pos.y));
-         updateAfterTargeting();
       }
+      distance = bestDistance;
+      updateAfterTargeting();
    }
 
    public abstract void updateAfterTargeting();

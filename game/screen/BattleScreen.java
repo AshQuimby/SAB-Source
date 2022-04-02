@@ -416,16 +416,16 @@ public class BattleScreen implements Screen {
                 player.render(g, target);
         }
 
-        for (Projectile projectile : projectiles) {
-            if (projectile.drawPriority())
-                projectile.render(g, target);
-        }
-
         for (AssBall assBall : assBalls) {
             assBall.render(g, target);
         }
 
         stage.render(g, target);
+
+        for (Projectile projectile : projectiles) {
+            if (projectile.drawPriority())
+                projectile.render(g, target);
+        }
 
         for (Particle particle : particles) {
             particle.render(g, this, target);

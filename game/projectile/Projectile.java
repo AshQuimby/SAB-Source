@@ -103,6 +103,12 @@ public abstract class Projectile extends GameObject {
       } else if (draw) {
          battleScreen.renderObject(g, image, pos, width, height, frame, false, target);
       }
+
+      postRender(g, target);
+   }
+
+   public void postRender(Graphics g, ImageObserver target) {
+
    }
 
    public Vector center() {
