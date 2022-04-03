@@ -430,6 +430,9 @@ public class BattleScreen implements Screen {
         for (Particle particle : particles) {
             particle.render(g, this, target);
         }
+
+        stage.preRenderUI(g, target);
+
         if (players.size() > 1) {
             if (players.get(0) != null)
                 drawText(new Vector(576 - 128 - 24, 640), 20, players.get(0).damage + "%", new Color(255, 255, 255), g,

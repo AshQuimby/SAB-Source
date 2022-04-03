@@ -215,6 +215,9 @@ public class Stage implements Serializable {
       return name;
    }
 
+   public void preRenderUI(Graphics g, ImageObserver target) {
+   }
+
    public Stage copy() {
       try {
          return (Stage) this.getClass().getConstructors()[0].newInstance((Object[]) null);
