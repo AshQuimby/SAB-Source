@@ -41,6 +41,7 @@ public class BattleScreen implements Screen {
     private boolean showHitboxes;
     private int parryTime;
     private int slowDownTime;
+    private int assBallTimer;
 
     private Player winner;
 
@@ -83,6 +84,12 @@ public class BattleScreen implements Screen {
         gameEnded = false;
         positionPlayers();
         camera = new Camera(1152, 704);
+
+        assBallTimer = 1000;
+    }
+
+    public void changeAssBallTimer(int time) {
+        assBallTimer += time;
     }
 
     public List<Player> getPlayerList() {
@@ -204,10 +211,6 @@ public class BattleScreen implements Screen {
             triggerHitboxes();
         }
 
-        if (event.getKeyCode() == KeyEvent.VK_V) { // debugging
-            assBalls.add(new AssBall(this));
-        }
-
         if (!gameEnded) {
             player1.keyPressed(event);
             player2.keyPressed(event);
@@ -293,6 +296,14 @@ public class BattleScreen implements Screen {
                 cameraShake = 0;
             }
         }
+
+        if (assBallTimer < 0) {
+            assBalls.add(new AssBall(this));
+            assBallTimer = 2000;
+        } else {
+            assBallTimer--;
+        }
+
         if (parryTime > 0) {
             parryTime--;
         } else {

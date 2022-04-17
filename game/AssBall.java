@@ -28,7 +28,7 @@ public class AssBall extends GameObject {
       fakePlayer = new PsuedoPlayer(battleScreen);
       tempVelocity = new Vector(0, 0);
       this.battleScreen = battleScreen;
-      pos = battleScreen.getStage().getSafeBlastZone().getCenter();
+      pos = battleScreen.getStage().getUnsafeBlastZone().getRandomPoint();
    }
 
    public void update() {
@@ -40,6 +40,7 @@ public class AssBall extends GameObject {
       velocity = velocity.mul(0.98);
       velocity.x += Math.random() - 0.5;
       velocity.y += Math.random() - 0.5;
+      battleScreen.changeAssBallTimer(1);
       velocity.add(new Vector(0.1, 0)
             .rotateBy(Vector.sub(battleScreen.getStage().getSafeBlastZone().getCenter(), pos).rotationOf()));
       if (++frameTimer >= 8) {

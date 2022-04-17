@@ -109,6 +109,12 @@ public class PoopyMan extends ModCharacter {
    }
 
    @Override
+   public void finalAss(Player player) {
+      SoundEngine.playSound("fart");
+      player.battleScreen.addProjectileAtCenter(new SludgeBomb(player));
+   }
+
+   @Override
    public void chargeAttack(Player player, int charge) {
       // we add this because we don't want the charge to cap at some point
       if (charge >= 60) {

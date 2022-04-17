@@ -641,6 +641,7 @@ public class Player extends GameObject {
    public void hitPlayerByNonProjectile(int damage, double kbStr, double kbDir, double kbDamageMult) {
       falling = false;
       charging = false;
+      battleScreen.changeAssBallTimer(-damage);
       charge = 0;
       SoundEngine.playSound("hit");
       tookDamage = true;
