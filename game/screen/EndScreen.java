@@ -86,8 +86,12 @@ public class EndScreen implements Screen {
     @Override
     public void render(Graphics g, ImageObserver target) {
         g.drawImage(Images.getImage("game_end_background.png"), 0, 0, target);
-
-        if (winner.costume != 0) {
+        if (winner.selectedChar.fileName.equals("true_god.png")){
+            g.drawImage(Images.getImage(
+                    "true_god.png"),
+                    576 - 800 + gameEndTimer / 2, -600 - gameEndTimer * 64, 1600 - gameEndTimer, 1600, target);
+        }
+        else if (winner.costume != 0) {
             g.drawImage(Images.getImage(
                     winner.selectedChar.fileName.substring(0, winner.selectedChar.fileName.length() - 4)
                             + "_render_alt_" + winner.costume + ".png"),

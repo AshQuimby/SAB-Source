@@ -102,7 +102,8 @@ public class BattleScreen implements Screen {
     }
 
     public void cameraShake(int intensity) {
-        cameraShake = intensity;
+        if (intensity > cameraShake)
+            cameraShake = intensity;
     }
 
     private void positionPlayers() {
@@ -355,8 +356,8 @@ public class BattleScreen implements Screen {
             viewport.setY2(stage.getSafeBlastZone().getY2());
         }
         viewport.setPosition(
-                viewport.getPosition().add((Math.random() - 0.5) * cameraShake * 4,
-                        (Math.random() - 0.5) * cameraShake * 4));
+                viewport.getPosition().add((Math.random() - 0.5) * Math.pow((double) cameraShake / 3, 2),
+                        (Math.random() - 0.5) * Math.pow((double) cameraShake / 3, 2)));
 
         camera.setPosition(viewport.getCenter());
     }
@@ -407,7 +408,16 @@ public class BattleScreen implements Screen {
             g.drawImage(Images.getImage(stage.getBackground()), 0, 0, target);
 
         for (Projectile projectile : projectiles) {
-            if (!projectile.drawPriority())
+            projectile.preRender(g, target);
+        }
+
+        for (Projectile projectile : projectiles) {
+            if (!projectile.drawPriority() && !projectile.drawAfterProjectiles())
+                projectile.render(g, target);
+        }
+
+        for (Projectile projectile : projectiles) {
+            if (projectile.drawAfterProjectiles())
                 projectile.render(g, target);
         }
 
@@ -429,6 +439,10 @@ public class BattleScreen implements Screen {
 
         for (Particle particle : particles) {
             particle.render(g, this, target);
+        }
+
+        for (Projectile projectile : projectiles) {
+            projectile.lateRender(g, target);
         }
 
         stage.preRenderUI(g, target);
@@ -468,6 +482,10 @@ public class BattleScreen implements Screen {
     public void zoomInEffect() {
         SoundEngine.playSound("shatter");
         slowDownTime = 20;
+    }
+
+    public AABB getStageBounds() {
+        return stage.getSafeBlastZone();
     }
 
     public Projectile addProjectile(Projectile projectile) {

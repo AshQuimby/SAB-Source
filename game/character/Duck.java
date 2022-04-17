@@ -69,7 +69,7 @@ public class Duck extends Character {
    public void downAttack(Player player) {
       if (player.heldItem == null) {
          SoundEngine.playSound("quack");
-         switch (new Random().nextInt(10)) {
+         switch (new Random().nextInt(9)) {
             case 0 : player.heldItem = new Flamethrower(player.hitbox.getPosition(), player);
             break;
             
@@ -94,10 +94,7 @@ public class Duck extends Character {
             case 7 : player.heldItem = new Revolver(player.hitbox.getPosition(), player);
             break;
             
-            case 8 : player.heldItem = new Glasses(player.hitbox.getPosition(), player);
-            break;
-            
-            case 9 : player.heldItem = new DuckBomb(player.hitbox.getPosition(), player);
+            case 8 : player.heldItem = new DuckBomb(player.hitbox.getPosition(), player);
             break;
          }
       } else {
@@ -105,6 +102,11 @@ public class Duck extends Character {
       }
       player.frame = 5;
       player.endLag = 10;
+   }
+
+   @Override
+   public void finalAss(Player player) {
+      player.heldItem = new Bell(player.hitbox.getPosition(), player);
    }
 
    @Override

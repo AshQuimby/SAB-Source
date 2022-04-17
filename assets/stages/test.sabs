@@ -1,8 +1,0 @@
-@name Last Location [From File]
-@background background.png
-@soft_bounds 0 0 1152 704
-@max_zoom 1
-@music last_location
-@music_credit [PLACEHOLDER] Last Location Incomplete - Beat Thorn
-@hard_bounds -128 -128 1408 960
-@platform 320 512 512 56 false last_location.png

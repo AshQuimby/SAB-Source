@@ -91,6 +91,13 @@ public abstract class Projectile extends GameObject {
    public void onHitPlayer(Player player) {
    }
 
+   public boolean drawAfterProjectiles() {
+      return false;
+   }
+
+   public void preRender(Graphics g, ImageObserver target) {
+   }
+
    protected boolean overrideHitPlayer() {
       return false;
    }
@@ -108,7 +115,9 @@ public abstract class Projectile extends GameObject {
    }
 
    public void postRender(Graphics g, ImageObserver target) {
+   }
 
+   public void lateRender(Graphics g, ImageObserver target) {
    }
 
    public Vector center() {

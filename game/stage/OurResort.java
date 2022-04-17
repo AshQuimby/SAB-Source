@@ -6,6 +6,7 @@ import java.awt.image.ImageObserver;
 
 import java.util.ArrayList;
 import game.physics.Ledge;
+import game.SoundEngine;
 import game.particle.AgedParticle;
 import game.physics.AABB;
 
@@ -44,6 +45,7 @@ public class OurResort extends Stage {
             platforms.add(0, whiteRing);
             platforms.add(0, new Platform(576 - 132 / 2, 512, 132, 24, false, "our_sports_platform_blue_ring.png"));
             stormyMode = true;
+            SoundEngine.playSound("crash");
             flashTime = 30;
         }
         if (stormyMode) {

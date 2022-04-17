@@ -4,6 +4,7 @@ import game.Player;
 import game.physics.Vector;
 import game.SoundEngine;
 import game.projectile.*;
+import game.projectile.final_asses.Explosion;
 import game.stage.Block;
 
 public class Stephane extends Character {
@@ -23,6 +24,7 @@ public class Stephane extends Character {
       chargingParticle = "smoke.png";
       walkFrameTimer = 3;
       blocks = 8.0;
+      creeperTime = 0;
       overrideAttackAnimation = true;
       characterName = "Stephane";
       description = new String[] { "BLOCK MAN,",
@@ -36,6 +38,7 @@ public class Stephane extends Character {
    }
 
    double blocks;
+   private int creeperTime;
 
    @Override
    public void neutralAttack(Player player) {
@@ -85,11 +88,40 @@ public class Stephane extends Character {
    }
 
    @Override
+    public void finalAss(Player player) {
+        creeperTime = 300;
+        SoundEngine.playSound("spirit_charge");
+    }
+
+   @Override
    public void chargeAttack(Player player, int charge) {
    }
 
    @Override
    public void uniqueUpdatePreEverything(Player player) {
+      if (creeperTime == 1) {
+         player.battleScreen.addProjectileAtCenter(new Explosion(player.center().x, player.center().y, player));
+      }
+
+      if (--creeperTime >= 0) {
+         if (player.readableKeysJustPressed[Player.ATTACK] == 1 && creeperTime < 290) {
+            creeperTime = 0;
+            player.readableKeys[Player.ATTACK] = false;
+            player.battleScreen.addProjectileAtCenter(new Explosion(player.center().x, player.center().y, player));
+         }
+      }
+      
+      if (creeperTime > 0) {
+         speed = 2.5;
+         jumpHeight = 48;
+         player.readableKeysJustPressed[Player.ATTACK] = 0;
+         fileName = "creeper.png";
+      } else {
+         speed = 1.7;
+         jumpHeight = 40.5;
+         fileName = "stephane.png";
+      }
+
       if (player.justDied) {
          blocks = 16.0;
       }

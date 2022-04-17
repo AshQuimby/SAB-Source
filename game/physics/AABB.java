@@ -162,6 +162,11 @@ public class AABB implements Serializable {
       if (anchorBottom)
          x -= height + oldHeight;
    }
+
+   public void translate(Vector vector) {
+      x += vector.x;
+      y += vector.y;
+   }
    
    public Vector nearestPointTo(Vector point) {
       if (point.x < x)

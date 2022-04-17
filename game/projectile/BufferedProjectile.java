@@ -1,7 +1,7 @@
 package game.projectile;
 
 public abstract class BufferedProjectile extends Projectile {
-   int bufferTicks;
+   protected int bufferTicks;
 
    @Override
    public void update() {

@@ -20,8 +20,13 @@ public abstract class HomingProjectile extends Projectile {
          }
       }
       distance = bestDistance;
-      updateAfterTargeting();
+      if (targetPlayer != null)
+         updateAfterTargeting();
+      forceUpdateAfterTargeting();
    }
 
    public abstract void updateAfterTargeting();
+
+   public void forceUpdateAfterTargeting() {
+   }
 }

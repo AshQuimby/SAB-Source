@@ -20,7 +20,6 @@ public class SaxSolo extends Projectile {
         pos = hitbox.getPosition();
     }
 
-    boolean hitPlayer = false;
     double rotation;
 
     @Override
@@ -47,6 +46,7 @@ public class SaxSolo extends Projectile {
 
     @Override
     public void kill() {
+        SoundEngine.stopMusic();
         SoundEngine.playMusic(battleScreen.getStage().getMusic());
     }
 }

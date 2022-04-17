@@ -4,6 +4,7 @@ import game.Player;
 import game.physics.Vector;
 import game.SoundEngine;
 import game.projectile.*;
+import game.projectile.final_asses.FallingBananaSpawner;
 
 public class EmperorEvil extends Character {
    public EmperorEvil() {
@@ -71,6 +72,11 @@ public class EmperorEvil extends Character {
    public void downAttack(Player player) {
       player.frame = 4;
       player.charging = true;
+   }
+
+   @Override
+   public void finalAss(Player player) {
+      player.battleScreen.addProjectile(new FallingBananaSpawner(player));
    }
 
    @Override

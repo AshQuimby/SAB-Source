@@ -4,6 +4,8 @@ import game.Player;
 import game.physics.Vector;
 import game.SoundEngine;
 import game.projectile.*;
+import game.projectile.final_asses.GodSeagullLeg;
+import game.projectile.final_asses.TrueGod;
 
 public class BigSeagull extends Character {
     public BigSeagull() {
@@ -91,24 +93,11 @@ public class BigSeagull extends Character {
 
     @Override
     public void chargeAttack(Player player, int charge) {
-        player.charge = 0;
-        if (player.touchingStage) {
-            player.velocity.y = -20;
-        }
-        if (charge > 60)
-            charge = 60;
-        if (player.direction == -1)
-            player.battleScreen
-                    .addProjectile(
-                            new Frostball(player.hitbox.x + 10, player.hitbox.y - 10, 16 * player.direction, -2,
-                                    charge / 2,
-                                    charge, Math.toRadians(200), player.keyLayout, player));
-        else
-            player.battleScreen
-                    .addProjectile(
-                            new Frostball(player.hitbox.x + 10, player.hitbox.y - 10, 16 * player.direction, -2,
-                                    charge / 2,
-                                    charge, Math.toRadians(340), player.keyLayout, player));
+    }
+
+    @Override
+    public void finalAss(Player player) {
+        player.battleScreen.addProjectile(new TrueGod(player));
     }
 
     @Override

@@ -65,6 +65,12 @@ public class Bomb extends BufferedProjectile {
       if (player.frozen > 0) {
          player.frozen = 1;
       }
+      alive = false;
+   }
+
+   @Override
+   public void kill() {
+      alive = true;
       SoundEngine.playSound("explosion");
       for (int i = 0; i < 4; i++) {
          battleScreen
@@ -82,10 +88,5 @@ public class Bomb extends BufferedProjectile {
       pos.y -= 40;
       hittingPlayer();
       alive = false;
-   }
-
-   @Override
-   public void kill() {
-
    }
 }

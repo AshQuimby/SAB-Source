@@ -3,6 +3,7 @@ package game.character;
 import game.Player;
 import game.physics.*;
 import game.projectile.*;
+import game.projectile.final_asses.DashSlash;
 
 public class Matthew extends Character {
    public Matthew() {
@@ -63,7 +64,7 @@ public class Matthew extends Character {
       }
       usedRecovery = true;
    }
-
+   
    @Override
    public void downAttack(Player player) {
       player.battleScreen.addProjectile(new SwordSpike(player.hitbox.x, -10000, 0, 0,
@@ -74,6 +75,11 @@ public class Matthew extends Character {
       }
       player.frame = 9;
       player.endLag = 10;
+   }
+
+   @Override
+   public void finalAss(Player player) {
+      player.battleScreen.addProjectile(new DashSlash(player));
    }
 
    @Override

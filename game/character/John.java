@@ -4,6 +4,8 @@ import game.Images;
 import game.Player;
 import game.physics.Vector;
 import game.projectile.*;
+import game.projectile.final_asses.JohnBall;
+
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 
@@ -72,6 +74,11 @@ public class John extends Character {
             player.keyLayout, player.direction, player));
       player.endLag = 6;
       player.velocity.y *= 0.5;
+   }
+
+   @Override
+   public void finalAss(Player player) {
+      player.battleScreen.addProjectile(new JohnBall(player));
    }
 
    @Override
