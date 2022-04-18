@@ -43,8 +43,8 @@ public class AssBall extends GameObject {
       battleScreen.changeAssBallTimer(1);
       velocity.add(new Vector(0.1, 0)
             .rotateBy(Vector.sub(battleScreen.getStage().getSafeBlastZone().getCenter(), pos).rotationOf()));
-      if (++frameTimer >= 8) {
-         if (++frame >= 3) {
+      if (++frameTimer >= 2) {
+         if (++frame >= 14) {
             frame = 0;
          }
          frameTimer = 0;
