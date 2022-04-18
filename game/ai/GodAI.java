@@ -48,6 +48,11 @@ public class GodAI extends AI {
             nextTargetProjectileFrame.setPosition(Vector.add(targetProjectile.pos, targetProjectile.velocity));
          }
       }
+
+      if (nearestAssBall(player.battleScreen.getAssBalls()) != null) {
+         targetPos = nearestAssBall(player.battleScreen.getAssBalls()).pos;
+      }
+
       if (target != null && targetPos != null) {
          release(Player.DOWN);
          release(Player.ATTACK);
@@ -70,7 +75,7 @@ public class GodAI extends AI {
             }
             
             if (player.falling && nearestPlatformBelow != null) {
-               targetPos = new Vector(nearestPlatformBelow.getHitbox().getCenterX(), nearestPlatformBelow.getHitbox().y);
+               targetPos = new Vector(nearestPlatformBelow.getHitbox().getRandomPoint().x, nearestPlatformBelow.getHitbox().y);
             }
             
             if (target.hitbox.y > player.battleScreen.getStage().getSafeBlastZone().getY2() - 128) {
@@ -108,10 +113,14 @@ public class GodAI extends AI {
             }
          }
          if (distance < 32) {
-            if (Math.random() > 0.6) {
+            if (Math.random() > 0.6 || player.finalAss) {
                release(Player.LEFT);
                release(Player.RIGHT);
             }
+            tap(Player.ATTACK);
+         } else if (distance < 64 && player.finalAss) {
+            release(Player.LEFT);
+            release(Player.RIGHT);
             tap(Player.ATTACK);
          } else if (distance < 320) {
             if (Math.random() > 0.9) {

@@ -3,8 +3,7 @@ package game;
 import java.io.File;
 
 import java.awt.Font;
-import java.io.IOException;
-import java.awt.FontFormatException;
+import java.io.InputStream;
 
 public class Fonts {
     private static Font SAB_FONT;
@@ -17,12 +16,14 @@ public class Fonts {
         try {
             File fontFile = new File("assets/fonts/SAB_font.ttf");
             SAB_FONT = Font.createFont(0, fontFile);
-        } catch (FontFormatException e) {
+        } catch (Exception e) {
+        }
+
+        try {
+            InputStream in = Fonts.class.getClass().getResourceAsStream("/assets/fonts/SAB_font.ttf");
+            SAB_FONT = Font.createFont(0, in);
+        } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
         }
     }
 }

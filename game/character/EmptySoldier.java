@@ -44,6 +44,7 @@ public class EmptySoldier extends Character {
         offset = new Vector(12, 0);
         overrideAttackAnimation = true;
         fileName = "empty_soldier.png";
+        altCount = 0;
         chargingParticle = "smoke.png";
         walkFrameTimer = 2;
         characterName = "Empty Soldier";

@@ -8,6 +8,7 @@ import game.projectile.Frostball;
 import java.util.Random;
 
 import game.Player;
+import game.PsuedoPlayer;
 
 public class Wobbler extends UpdatingPlatform {
 
@@ -47,10 +48,10 @@ public class Wobbler extends UpdatingPlatform {
         if (Math.random() > 0.9) {
             stage.battleScreen.addProjectileAtCenter(
                     new Fireball(Math.random() * stage.safeBlastZone.width + stage.safeBlastZone.x, -800, -12,
-                            32, 12, Math.toRadians(110), -1, null));
+                            32, 12, Math.toRadians(110), -1, new PsuedoPlayer(stage.battleScreen)));
             stage.battleScreen.addProjectileAtCenter(
                     new Frostball(Math.random() * stage.safeBlastZone.width + stage.safeBlastZone.x, -800, -12,
-                            32, 12, Math.toRadians(110), 30, -1, null));
+                            32, 12, Math.toRadians(110), 30, -1, new PsuedoPlayer(stage.battleScreen)));
         }
         originPoint.add(velocity);
         hitbox.setCenter(originPoint);

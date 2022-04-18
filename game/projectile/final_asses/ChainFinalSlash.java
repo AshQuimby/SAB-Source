@@ -12,11 +12,12 @@ public class ChainFinalSlash extends Projectile {
         width = 256;
         this.direction = direction;
         height = 256;
-        life = 80;
+        life = 120;
         alive = true;
         knockbackStrength = 56;
         this.owner = owner;
         this.ownerPlayer = ownerPlayer;
+        playerHit = null;
         dir = kbDir;
         fileName = "chain_final_slash.png";
         pos = new Vector(x, y);
@@ -28,6 +29,7 @@ public class ChainFinalSlash extends Projectile {
     }
 
     int speed;
+    Player playerHit;
 
     @Override
     public void update() {
@@ -40,7 +42,7 @@ public class ChainFinalSlash extends Projectile {
         if (frame > 12) {
             frame = 0;
         }
-        if (--life == 0) {
+        if (--life <= 0 && frame == 12) {
             alive = false;
         }
         if (ownerPlayer.readableKeysJustPressed[Player.ATTACK] == 1) {
@@ -68,17 +70,18 @@ public class ChainFinalSlash extends Projectile {
     @Override
     public void onHitPlayer(Player player) {
         hitPlayer = 1;
-        player.hitbox.x = ((player.hitbox.x - player.hitbox.width / 2) * 3 + center().x) / 4;
-        player.hitbox.y = ((player.hitbox.y - player.hitbox.height / 2) * 3 + center().y) / 4;
+        playerHit = player;
+        player.hitbox.setCenter(
+                Vector.add(player.center().mul(4), new Vector(center().x + 48 * direction, center().y - 32)).div(5));
         if (player.stunned < 20)
             player.stunned = 20;
-        if (life <= 8 && player.stunned > 4) {
-            player.stunned = 4;
-        }
         SoundEngine.playSound("chomp");
     }
 
     @Override
     public void kill() {
-    } // Unused
+        if (playerHit != null) {
+            playerHit.stunned = 0;
+        }
+    }
 }

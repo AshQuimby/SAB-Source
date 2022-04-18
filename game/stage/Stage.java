@@ -222,7 +222,7 @@ public class Stage implements Serializable {
       try {
          return (Stage) this.getClass().getConstructors()[0].newInstance((Object[]) null);
       } catch (Exception e) {
-         System.out.println("YOUR STAGE SHOULD NOT HAVE CONSTRUCTORS");
+         System.out.println("YOUR STAGE SHOULD NOT HAVE INPUTS FOR ITS CONSTRUCTOR");
          System.exit(69);
       }
       return null;

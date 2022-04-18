@@ -1,6 +1,8 @@
 package game.ai;
 
 import java.io.Serializable;
+
+import game.AssBall;
 import game.Player;
 import java.util.List;
 
@@ -54,6 +56,19 @@ public class AI implements Serializable {
          double dist = Vector.distanceBetween(platform.getHitbox().getCenter(), owner.hitbox.getCenter());
          if (dist < bestDist) {
             bestTarget = platform;
+            bestDist = dist;
+         }
+      }
+      return bestTarget;
+   }
+
+   public AssBall nearestAssBall(List<AssBall> assBalls) {
+      double bestDist = 25600;
+      AssBall bestTarget = null;
+      for (AssBall assBall : assBalls) {
+         double dist = Vector.distanceBetween(assBall.pos, owner.hitbox.getCenter());
+         if (dist < bestDist) {
+            bestTarget = assBall;
             bestDist = dist;
          }
       }

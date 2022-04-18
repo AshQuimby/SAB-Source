@@ -18,9 +18,12 @@ public class Window extends JPanel implements ActionListener, KeyListener {
     private Timer timer;
 
     public Window(int width, int height, Screen screen) {
-        Images.load();
-        SoundEngine.load();
-        ModReader.load();
+        try {
+            Images.load();
+            SoundEngine.load();
+            ModReader.load();
+        } catch (Exception e) {
+        }
         StageSelectScreen.load();
         Stages.load();
         CharacterSelectScreen.loadModCharacters();

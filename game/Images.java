@@ -3,6 +3,7 @@ package game;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -61,10 +62,21 @@ public class Images {
     }
 
     public static BufferedImage getImage(String filePath) {
-        if (!images.containsKey(filePath)) {
-            System.out.println(String.format("WARNING: Invalid image requested: %s", filePath));
+        if (images.containsKey(filePath)) {
+            return images.get(filePath);
         }
 
-        return images.get(filePath);
+        BufferedImage image = null;
+        try {
+            InputStream in = Images.class.getClass().getResourceAsStream("/assets/images/" + filePath);
+
+            image = ImageIO.read(in);
+            images.put(filePath, image);
+        } catch (IOException e) {
+            System.out.println(String.format("WARNING: Invalid image requested: %s", filePath));
+            e.printStackTrace();
+        }
+
+        return image;
     }
 }
