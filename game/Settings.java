@@ -17,9 +17,10 @@ public final class Settings {
   private static int livesSetting;
   private static boolean aiPlayer1Setting;
   private static boolean aiPlayer2Setting;
+  private static boolean testingModeSetting;
 
   public static void setSettings(boolean music, boolean soundEffects, boolean fixedCamera, float volume, int lives,
-      boolean aiPlayer1, boolean aiPlayer2) {
+      boolean aiPlayer1, boolean aiPlayer2, boolean testingMode) {
     musicSetting = music;
     soundEffectsSetting = soundEffects;
     fixedCameraSetting = fixedCamera;
@@ -27,6 +28,7 @@ public final class Settings {
     livesSetting = lives;
     aiPlayer1Setting = aiPlayer1;
     aiPlayer2Setting = aiPlayer2;
+    testingModeSetting = testingMode;
   }
 
   private static String[] properties = new String[] {
@@ -36,11 +38,12 @@ public final class Settings {
       "volume",
       "lives",
       "ai_player_1",
-      "ai_player_2"
+      "ai_player_2",
+      "testing_mode"
   };
 
   private static void defaultSettings() {
-    setSettings(true, true, false, 0.5f, 3, false, true);
+    setSettings(true, true, false, 0.5f, 3, false, true, false);
   }
 
   public static void writeToFile() {
@@ -62,6 +65,7 @@ public final class Settings {
       optionWriter.write("@lives " + livesSetting + "\n");
       optionWriter.write("@ai_player_1 " + aiPlayer1Setting + "\n");
       optionWriter.write("@ai_player_2 " + aiPlayer2Setting + "\n");
+      optionWriter.write("@testing_mode " + testingModeSetting + "\n");
 
       optionWriter.close();
     } catch (IOException e) {
@@ -107,16 +111,12 @@ public final class Settings {
         livesSetting = Integer.parseInt(settings.get("lives"));
         aiPlayer1Setting = Boolean.parseBoolean(settings.get("ai_player_1"));
         aiPlayer2Setting = Boolean.parseBoolean(settings.get("ai_player_2"));
+        testingModeSetting = Boolean.parseBoolean(settings.get("testing_mode"));
       } catch (NullPointerException e) {
         System.out.println("WARNING: Illegal settings file. One or more values are null. Resetting to default...");
         defaultSettings();
         writeToFile();
       }
-
-      // for (Object setting : settings.values().toArray()) {
-      // String settingString = (String) setting;
-      // System.out.println(settingString);
-      // }
 
       scanner.close();
 
@@ -164,6 +164,10 @@ public final class Settings {
     return aiPlayer2Setting;
   }
 
+  public static boolean testingMode() {
+    return testingModeSetting;
+  }
+
   public static void setMusic(boolean setTo) {
     musicSetting = setTo;
   }
@@ -190,5 +194,9 @@ public final class Settings {
 
   public static void setAIPlayer2(boolean setTo) {
     aiPlayer2Setting = setTo;
+  }
+
+  public static void setTestingMode(boolean setTo) {
+    testingModeSetting = setTo;
   }
 }

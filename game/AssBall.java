@@ -25,14 +25,17 @@ public class AssBall extends GameObject {
       frame = 0;
       alive = true;
       velocity = new Vector(0, 0);
-      fakePlayer = new PsuedoPlayer(battleScreen);
+      fakePlayer = new PsuedoPlayer(battleScreen, true);
       tempVelocity = new Vector(0, 0);
       this.battleScreen = battleScreen;
       pos = battleScreen.getStage().getUnsafeBlastZone().getRandomPoint();
    }
 
    public void update() {
+      if (fakePlayer.knockBack.len() > 0)
+         hit(fakePlayer.lastHitBy);
       fakePlayer.hitbox.setCenter(center());
+      fakePlayer.parryTimer = -10;
       fakePlayer.pos = pos;
       tempVelocity = tempVelocity.mul(0.9);
       pos.add(velocity);
@@ -63,11 +66,12 @@ public class AssBall extends GameObject {
       battleScreen.renderObject(g, image, pos, 40, 40, frame, true, target);
    }
 
-   public void hit(int damage, double knockback, double knocbackDirection, Player player) {
-      this.damage += damage;
+   public void hit(Player player) {
+      damage += fakePlayer.damage;
       SoundEngine.playSound("ass_ball_hit");
-      if (this.damage > 50) {
+      if (damage > 50) {
          SoundEngine.playSound("ass_ball_shatter");
+         fakePlayer.removeFromBattlescreen();
          alive = false;
          for (int i = 0; i < 16; i++) {
             battleScreen.addParticle(new Particle(pos.x + 36, pos.y + 36, (Math.random() - 0.5) * 16,
@@ -75,6 +79,8 @@ public class AssBall extends GameObject {
          }
          player.finalAss = true;
       }
-      tempVelocity.add(new Vector(knockback, 0).rotateBy(knocbackDirection));
+      fakePlayer.damage = 0;
+      tempVelocity.add(fakePlayer.knockBack.div(4));
+      fakePlayer.knockBack = new Vector(0, 0);
    }
 }

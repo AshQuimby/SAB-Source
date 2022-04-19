@@ -12,5 +12,5 @@
 
 
 
-  These are two things I want to fix, but I can't seem to find a way to do it, but these are the struggles of using only base Java8
+  These are two main things I want to fix, yet I can't seem to find a way to do it, but these are the struggles of using only base Java8
   in a self-made game engine

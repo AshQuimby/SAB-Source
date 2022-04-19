@@ -31,6 +31,7 @@ public class GodAI extends AI {
       Projectile targetProjectile = nearestEnemyProjectile(player.battleScreen.getProjectiles());
       double distance = Vector.distanceBetween(target.center(), player.center());
       Vector nearestPlatformPoint = targetPlatform.getHitbox().nearestPointTo(player.hitbox.getCenter());
+      double platformDistance = Vector.distanceBetween(nearestPlatformPoint, player.center());
       Vector platformDistances = new Vector(Math.abs(nearestPlatformPoint.x - player.center().x), Math.abs(nearestPlatformPoint.y - player.center().y));
       double projectileDistance = 25600;
       
@@ -48,11 +49,6 @@ public class GodAI extends AI {
             nextTargetProjectileFrame.setPosition(Vector.add(targetProjectile.pos, targetProjectile.velocity));
          }
       }
-
-      if (nearestAssBall(player.battleScreen.getAssBalls()) != null) {
-         targetPos = nearestAssBall(player.battleScreen.getAssBalls()).pos;
-      }
-
       if (target != null && targetPos != null) {
          release(Player.DOWN);
          release(Player.ATTACK);
@@ -75,7 +71,7 @@ public class GodAI extends AI {
             }
             
             if (player.falling && nearestPlatformBelow != null) {
-               targetPos = new Vector(nearestPlatformBelow.getHitbox().getRandomPoint().x, nearestPlatformBelow.getHitbox().y);
+               targetPos = new Vector(nearestPlatformBelow.getHitbox().getCenterX(), nearestPlatformBelow.getHitbox().y);
             }
             
             if (target.hitbox.y > player.battleScreen.getStage().getSafeBlastZone().getY2() - 128) {
@@ -113,14 +109,10 @@ public class GodAI extends AI {
             }
          }
          if (distance < 32) {
-            if (Math.random() > 0.6 || player.finalAss) {
+            if (Math.random() > 0.6) {
                release(Player.LEFT);
                release(Player.RIGHT);
             }
-            tap(Player.ATTACK);
-         } else if (distance < 64 && player.finalAss) {
-            release(Player.LEFT);
-            release(Player.RIGHT);
             tap(Player.ATTACK);
          } else if (distance < 320) {
             if (Math.random() > 0.9) {

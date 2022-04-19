@@ -63,17 +63,6 @@ public abstract class Projectile extends GameObject {
             }
          }
       }
-      for (AssBall assBall : battleScreen.getAssBalls()) {
-         AABB assHitbox = new AABB(assBall.pos.x, assBall.pos.y, 40, 40);
-         if (hitbox.overlaps(assHitbox)) {
-            if (hitPlayer < 1) {
-               if (!overrideHitPlayer()) {
-                  onHitPlayer(assBall.fakePlayer);
-                  assBall.hit(damage, knockbackStrength, dir, ownerPlayer);
-               }
-            }
-         }
-      }
       if (hittingPlayers.size() > 0) {
          return hittingPlayers;
       }

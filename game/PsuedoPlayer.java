@@ -10,10 +10,17 @@ import game.screen.BattleScreen;
 // player to run a method
 
 public class PsuedoPlayer extends Player {
-   public PsuedoPlayer(BattleScreen battleScreen) {
+   public PsuedoPlayer(BattleScreen battleScreen, boolean onPlayerList) {
       super(-1, new game.character.Marvin(), battleScreen, 1, 0);
+      if (onPlayerList) { 
+         battleScreen.getPlayerList().add(this);
+      }
    }
-
+   
+   public void removeFromBattlescreen() {
+      battleScreen.getPlayerList().remove(this);
+   }
+   
    @Override
    public void render(Graphics g, ImageObserver target) {
    }

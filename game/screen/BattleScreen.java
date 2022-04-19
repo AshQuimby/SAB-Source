@@ -42,6 +42,7 @@ public class BattleScreen implements Screen {
     private int parryTime;
     private int slowDownTime;
     private int assBallTimer;
+    private int gameTick;
 
     private Player winner;
 
@@ -51,6 +52,8 @@ public class BattleScreen implements Screen {
         winner = null;
 
         cameraShake = 0;
+        
+        gameTick = 0;
 
         // Gives player 1 and 2 AIs that do nothing
         AI player1AI = new AI();
@@ -207,8 +210,22 @@ public class BattleScreen implements Screen {
 
     @Override
     public Screen keyPressed(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_H) { // triggers hitboxes
+        if (event.getKeyCode() == KeyEvent.VK_H && Settings.testingMode()) { // triggers hitboxes
             triggerHitboxes();
+        }
+
+        if (event.getKeyCode() == KeyEvent.VK_V && Settings.testingMode()) { // cheating
+            assBalls.add(new AssBall(this));
+        }
+
+        if (event.getKeyCode() == KeyEvent.VK_L && Settings.testingMode()) { // even more cheating
+            player1.lives = 999;
+            player2.lives = 999;
+        }
+
+        if (event.getKeyCode() == KeyEvent.VK_K && Settings.testingMode()) { // murder
+            player1.kill();
+            player2.kill();
         }
 
         if (!gameEnded) {
@@ -231,6 +248,7 @@ public class BattleScreen implements Screen {
 
     @Override
     public Screen update() {
+        gameTick++;
         updateCamera();
         if (parryTime % 2 == 0 && toCharacterSelectScreenTimer % 2 == 0 && slowDownTime % 8 == 0) {
             List<Particle> deadParticles = new ArrayList<>();
@@ -247,7 +265,7 @@ public class BattleScreen implements Screen {
                     player.kill();
                     deadPlayers.add(player);
                 }
-                if (player.lives > 0 && gameEnded && winner == null) {
+                if (player.lives > 0 && gameEnded && winner == null && player.keyLayout == 0 || player.keyLayout == 1) {
                     winner = player.lightClone();
                 }
             }
@@ -521,6 +539,10 @@ public class BattleScreen implements Screen {
 
     public void addParticle(Particle particle) {
         particles.add(particle);
+    }
+
+    public int getGameTick() {
+        return gameTick;
     }
 
     public Player getPlayers(int index) {

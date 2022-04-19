@@ -32,6 +32,7 @@ public class StageSelectScreen implements Screen {
         stages.add(new ThumbabaLair());
         stages.add(new Desert());
         stages.add(new OurResort());
+        stages.add(new COBS());
         stages.addAll(ModReader.getmodStages());
         hell = new Hell();
         god = new God();

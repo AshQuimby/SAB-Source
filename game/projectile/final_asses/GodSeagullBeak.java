@@ -7,6 +7,7 @@ import game.projectile.Projectile;
 
 public class GodSeagullBeak extends Projectile {
     private boolean pecking;
+    private AABB tip;
 
     public GodSeagullBeak(int owner, Player ownerPlayer) {
         width = 124;
@@ -26,6 +27,7 @@ public class GodSeagullBeak extends Projectile {
         pos = new Vector(ownerPlayer.center().x, ownerPlayer.battleScreen.getStage().getSafeBlastZone().y - height);
         velocity = new Vector(0, 0);
         hitbox = new AABB(pos.x, pos.y, width, height);
+        tip = new AABB(pos.x, pos.y + height - 32, width, 32);
 
         pecking = false;
     }
@@ -45,7 +47,10 @@ public class GodSeagullBeak extends Projectile {
 
             if (pecking) {
                 velocity.y += 5;
+                AABB originalHitbox = hitbox;
+                hitbox = tip;
                 hittingPlayer();
+                hitbox = originalHitbox;
                 boolean justHitGround = move(velocity, true);
 
                 if (justHitGround) {
@@ -88,6 +93,7 @@ public class GodSeagullBeak extends Projectile {
             velocity.x *= 0.96;
 
             hitbox.setPosition(pos);
+            tip.setPosition(Vector.add(pos, new Vector(0, height - 32)));
 
             float xAccel = 0;
             if (ownerPlayer.readableKeys[Player.LEFT])

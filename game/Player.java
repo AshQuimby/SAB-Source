@@ -64,6 +64,7 @@ public class Player extends GameObject {
    public int stuck;
    public boolean finalAss;
    public AI ai;
+   public Player lastHitBy;
 
    public Item heldItem;
 
@@ -80,6 +81,7 @@ public class Player extends GameObject {
          int costume) {
       ai = new AI();
       frameTimer = 0;
+      lastHitBy = null;
       stunned = 0;
       stuck = 0;
       heldItem = null;
@@ -597,6 +599,7 @@ public class Player extends GameObject {
    }
 
    public void hitPlayer(int damage, double kbStr, double kbDir, double kbDamageMult, Projectile projectile) {
+      lastHitBy = projectile.ownerPlayer;
       MutableBoolean overrideDamage = new MutableBoolean(false);
       selectedChar.uniqueOnHit(this, overrideDamage, projectile.ownerPlayer, damage, kbStr);
       selectedChar.uniqueOnHit(this, overrideDamage, projectile.ownerPlayer);
@@ -618,6 +621,7 @@ public class Player extends GameObject {
    }
 
    public void hitPlayerByItem(int damage, double kbStr, double kbDir, double kbDamageMult, Item item) {
+      lastHitBy = item.holder;
       MutableBoolean overrideDamage = new MutableBoolean(false);
       selectedChar.uniqueOnHit(this, overrideDamage, item.holder, damage, kbStr);
       selectedChar.uniqueOnHit(this, overrideDamage, item.holder);

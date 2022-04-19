@@ -4,7 +4,6 @@ import game.Player;
 import game.particle.Particle;
 import game.physics.*;
 import game.projectile.HomingProjectile;
-import game.projectile.Projectile;
 
 public class GodEye extends HomingProjectile {
     public GodEye(double x, double y, double velX, double velY, double kb, double kbDir, int owner,
