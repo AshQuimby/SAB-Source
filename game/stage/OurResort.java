@@ -20,8 +20,8 @@ public class OurResort extends Stage {
     public OurResort() {
         stormyMode = false;
         name = "Our Sports Resort";
-        musicFile = "last_location";
-        musicCredit = "[Placeholder] Last Location -Beat Thorn";
+        musicFile = "our_sports";
+        musicCredit = "Our Sports Resort -Beat Thorn";
         backgroundImage = "our_sports_resort_background.png";
         safeBlastZone = new AABB(0, 0, 1152, 704);
         unsafeBlastZone = new AABB(-128, -128, 1152 + 256, 704 + 256);

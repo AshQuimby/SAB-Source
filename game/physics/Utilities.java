@@ -30,4 +30,14 @@ public final class Utilities {
     public static boolean charactersMatch(Character target, Character type) {
         return target.getClass() == type.getClass();
     }
+
+    public static int overflow(int input, int upperOverflow, int lowerOverflow) {
+        if (input > upperOverflow) {
+            return lowerOverflow;
+        }
+        if (input < lowerOverflow) {
+            return upperOverflow;
+        } 
+        return input;
+    }
 }

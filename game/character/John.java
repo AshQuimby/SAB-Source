@@ -30,11 +30,11 @@ public class John extends Character {
       overrideAttackAnimation = true;
       copiedCharacter = null;
       description = new String[] { "American attorney John Joseph, was cursed.",
-            "He was deformed into a pink sphere that became so\n",
-            "obsessed with working out his upper body, his feet\n",
-            "became non-functional.\n",
-            "\n",
-            "\nDebut: John Joseph's Dream World" };
+            "He was deformed into a pink sphere that became so",
+            "obsessed with working out his upper body, his feet",
+            "became non-functional.",
+            "",
+            "Debut: John Joseph's Dream World" };
    }
 
    public Character copiedCharacter;

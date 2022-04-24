@@ -43,10 +43,29 @@ public class BattleScreen implements Screen {
     private int slowDownTime;
     private int assBallTimer;
     private int gameTick;
+    private boolean paused;
 
     private Player winner;
 
     private boolean gameEnded;
+
+    private AI getAI(int aiType) {
+        AI ai;
+
+        switch (aiType) {
+            case 1:
+                ai = new GodAI();
+                break;
+            case 2:
+                ai = new TrueGodAI();
+                break;
+            default:
+                ai = new AI();
+                break;
+        }
+
+        return ai;
+    }
 
     public BattleScreen(Character character1, Character character2, Stage stage, int costume1, int costume2) {
         winner = null;
@@ -55,15 +74,8 @@ public class BattleScreen implements Screen {
         
         gameTick = 0;
 
-        // Gives player 1 and 2 AIs that do nothing
-        AI player1AI = new AI();
-        AI player2AI = new AI();
-
-        // Unless the settings otherwise specify
-        if (Settings.aiPlayer1())
-            player1AI = new GodAI();
-        if (Settings.aiPlayer2())
-            player2AI = new GodAI();
+        AI player1AI = getAI(Settings.aiPlayer1());
+        AI player2AI = getAI(Settings.aiPlayer2());
 
         player1 = new Player(0, character1, this, numberLives, costume1, player1AI);
         player2 = new Player(1, character2, this, numberLives, costume2, player2AI);
@@ -78,6 +90,7 @@ public class BattleScreen implements Screen {
         projectiles = Collections.synchronizedList(new ArrayList<>());
         particles = Collections.synchronizedList(new ArrayList<>());
         assBalls = Collections.synchronizedList(new ArrayList<>());
+        paused = false;
 
         newProjectiles = new ArrayList<>();
         showHitboxes = false;
@@ -227,6 +240,10 @@ public class BattleScreen implements Screen {
             player1.kill();
             player2.kill();
         }
+        
+        if (event.getKeyCode() == KeyEvent.VK_SHIFT) {
+            paused = !paused;
+        }
 
         if (!gameEnded) {
             player1.keyPressed(event);
@@ -248,9 +265,17 @@ public class BattleScreen implements Screen {
 
     @Override
     public Screen update() {
-        gameTick++;
-        updateCamera();
-        if (parryTime % 2 == 0 && toCharacterSelectScreenTimer % 2 == 0 && slowDownTime % 8 == 0) {
+        if (!paused) {
+            updateCamera();
+        }
+        if (gameEnded) {
+                if (toCharacterSelectScreenTimer == 90)
+                    SoundEngine.playSound("final_death");
+            }
+            if (toCharacterSelectScreenTimer <= 0)
+                return new EndScreen(winner);
+        if (parryTime % 2 == 0 && toCharacterSelectScreenTimer % 2 == 0 && slowDownTime % 8 == 0 && !paused) {
+            gameTick++;
             List<Particle> deadParticles = new ArrayList<>();
             List<Projectile> deadProjectiles = new ArrayList<>();
             List<Player> deadPlayers = new ArrayList<>();
@@ -264,8 +289,7 @@ public class BattleScreen implements Screen {
                         gameEnded = true;
                     player.kill();
                     deadPlayers.add(player);
-                }
-                if (player.lives > 0 && gameEnded && winner == null && player.keyLayout == 0 || player.keyLayout == 1) {
+                } else if (player.lives > 0 && gameEnded && winner == null && (player.keyLayout == 0 || player.keyLayout == 1)) {
                     winner = player.lightClone();
                 }
             }
@@ -275,13 +299,12 @@ public class BattleScreen implements Screen {
                 if (!assBall.alive)
                     deadAssBalls.add(assBall);
             }
-
-            if (gameEnded) {
-                if (toCharacterSelectScreenTimer == 90)
-                    SoundEngine.playSound("final_death");
-            }
-            if (toCharacterSelectScreenTimer <= 0)
-                return new EndScreen(winner);
+            
+            stage.update();
+            
+            
+                        
+            
 
             for (Particle particle : particles) {
                 particle.update();
@@ -313,29 +336,29 @@ public class BattleScreen implements Screen {
             } else {
                 cameraShake = 0;
             }
+            if (assBallTimer < 0) {
+               assBalls.add(new AssBall(this));
+               assBallTimer = 2000;
+            } else {
+               assBallTimer--;
+            }
         }
 
-        if (assBallTimer < 0) {
-            assBalls.add(new AssBall(this));
-            assBallTimer = 2000;
-        } else {
-            assBallTimer--;
-        }
-
-        if (parryTime > 0) {
-            parryTime--;
-        } else {
-            parryTime = 0;
-        }
-        if (slowDownTime > 0) {
-            slowDownTime--;
-        } else {
-            slowDownTime = 0;
+        if (!paused) {
+           if (parryTime > 0) {
+               parryTime--;
+           } else {
+               parryTime = 0;
+           }
+           if (slowDownTime > 0) {
+               slowDownTime--;
+           } else {
+               slowDownTime = 0;
+           }
         }
         if (gameEnded) {
-            toCharacterSelectScreenTimer--;
-        }
-        stage.update();
+               toCharacterSelectScreenTimer--;
+           }
         return this;
     }
 
@@ -502,6 +525,13 @@ public class BattleScreen implements Screen {
         }
         if (showHitboxes)
             drawHitboxes(g);
+        
+        if (paused) {
+            g.setColor(new Color(0, 0, 0, 100));
+            g.fillRect((int) getStageBounds().x, (int) getStageBounds().y, (int) getStageBounds().width, (int) getStageBounds().height);
+            drawText(new Vector(1152 / 2, 128), 20, "Paused", new Color(255, 255, 255), g, true);
+            g.drawImage(Images.getImage("p1_pause_UI.png"), 1152 - 192, 0, 1152, 192, 0, 0, 192, 192, target);
+        }
     }
 
     public Stage getStage() {

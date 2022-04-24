@@ -86,6 +86,10 @@ public abstract class Projectile extends GameObject {
 
    public void preRender(Graphics g, ImageObserver target) {
    }
+   
+   public boolean fixCollideWithMovingPlatforms() {
+      return false;
+   }
 
    protected boolean overrideHitPlayer() {
       return false;
@@ -115,7 +119,17 @@ public abstract class Projectile extends GameObject {
 
    public boolean move(Vector step, boolean collideWithStage) {
       boolean collided = false;
+      
+      pos.y += step.y;
+      hitbox.y = pos.y + hitboxOffset.y;
 
+      if (collideWithStage) {
+         List<AABB> collisions = battleScreen.getStage().getCollisions(hitbox);
+         if (collisions.size() > 0)
+            collided = true;
+         hitbox.resolveY(step.y, collisions);
+      }
+      
       pos.x += step.x;
       hitbox.x = pos.x + hitboxOffset.x;
 
@@ -125,16 +139,6 @@ public abstract class Projectile extends GameObject {
             collided = true;
 
          hitbox.resolveX(step.x, collisions);
-      }
-
-      pos.y += step.y;
-      hitbox.y = pos.y + hitboxOffset.y;
-
-      if (collideWithStage) {
-         List<AABB> collisions = battleScreen.getStage().getCollisions(hitbox);
-         if (collisions.size() > 0)
-            collided = true;
-         hitbox.resolveY(step.y, collisions);
       }
 
       pos.x = hitbox.x - hitboxOffset.x;

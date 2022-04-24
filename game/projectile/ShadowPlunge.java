@@ -1,6 +1,7 @@
 package game.projectile;
 
 import game.Player;
+import game.particle.AnimatedParticle;
 import game.physics.*;
 
 public class ShadowPlunge extends Projectile {
@@ -25,6 +26,21 @@ public class ShadowPlunge extends Projectile {
         hitbox = new AABB(pos.x, pos.y, width / 2, height);
     }
 
+    private void spawnShadowlingParticle() {
+        battleScreen.addParticle(new AnimatedParticle(
+            center().x,
+            center().y + 32,
+            (Math.random() - .5) * 8 * (alive ? 1 : 2),
+            -Math.random() * 2 - 4,
+            1,
+            32,
+            32,
+            Math.random() > 0.5 ? "shadowling_particle.png" : "shadowling_particle_flipped.png",
+            6, 
+            7
+            ));
+    }
+
     @Override
     public void update() {
         dir = Math.toRadians(90);
@@ -41,19 +57,25 @@ public class ShadowPlunge extends Projectile {
         if (ownerPlayer.touchingStage && alive) {
             battleScreen.cameraShake(12);
             hitPlayer = 0;
-            knockbackStrength = 48;
-            damage = 27;
-            hitbox.transformDimensions(width * 2, height);
+            knockbackStrength = 36;
+            damage = 24;
+            hitbox.transformDimensions(width * 2, height / 2);
             hittingPlayer();
+
             alive = false;
+            for (int i = 0; i < 10; i++) {
+                spawnShadowlingParticle();
+            }
         } else {
             knockbackStrength = 8;
             hittingPlayer();
         }
 
-        if (ownerPlayer.grabbingLedge) {
+        if (ownerPlayer.grabbingLedge || ownerPlayer.tookDamage || ownerPlayer.frozen > 0) {
             alive = false;
         }
+
+        spawnShadowlingParticle();
     }
 
     @Override

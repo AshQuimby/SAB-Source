@@ -28,11 +28,11 @@ public class Duck extends Character {
       overrideAttackAnimation = true;
       characterName = "Unnamed Duck";
       description = new String[] { "Nobody for sure knows Unnamed Duck's real name,",
-            "\nbut a 2020 paper came to the conclusion that",
-            "\nits real name is [redacted]. This duck",
-            "\nloves causing chaos at every turn.",
-            "\n",
-            "\nDebut: No Name Duck Game" };
+            "but a 2020 paper came to the conclusion that",
+            "its real name is [redacted]. This duck",
+            "loves causing chaos at every turn.",
+            "",
+            "Debut: No Name Duck Game" };
    }
 
    @Override

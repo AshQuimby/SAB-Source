@@ -28,13 +28,13 @@ public class Stephane extends Character {
       overrideAttackAnimation = true;
       characterName = "Stephane";
       description = new String[] { "BLOCK MAN,",
-            "\n",
-            "\n",
-            "\n",
-            "\n",
-            "\nBOTTOM TEXT.",
-            "\n",
-            "\nDebut: Blockbreak" };
+            "",
+            "",
+            "",
+            "",
+            "BOTTOM TEXT.",
+            "",
+            "Debut: Blockbreak" };
    }
 
    double blocks;

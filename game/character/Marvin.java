@@ -24,11 +24,11 @@ public class Marvin extends Character {
       walkFrameTimer = 2;
       characterName = "Marvin";
       description = new String[] { "Retired Albany plumber now princess saving daydreamer,",
-            "\nMarvin is a troubled man who is always distracted",
-            "\nby his dreams about the things he could be. He can't",
-            "\nseem escape from his brother's sucess as a musician.",
-            "\n",
-            "\nDebut: Super Marvin Plumber" };
+            "Marvin is a troubled man who is always distracted",
+            "by his dreams about the things he could be. He can't",
+            "seem escape from his brother's sucess as a musician.",
+            "",
+            "Debut: Super Marvin Plumber" };
    }
 
    @Override

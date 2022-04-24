@@ -4,7 +4,6 @@ import game.Player;
 import game.physics.Vector;
 import game.SoundEngine;
 import game.projectile.*;
-import game.projectile.final_asses.GodSeagullLeg;
 import game.projectile.final_asses.TrueGod;
 
 public class BigSeagull extends Character {
@@ -26,11 +25,11 @@ public class BigSeagull extends Character {
         overrideWalkAnimation = true;
         altCount = 2;
         description = new String[] { "Big Seagull is an ancient god of hunger and destruction.",
-                "\nBig Seagull watches all from high above, only descending to",
-                "\ncollect offerings given by the mortals below the clouds.",
-                "\nBig Seagull is one of the only True Gods.",
-                "\n",
-                "\nDebut: Real Life" };
+                "Big Seagull watches all from high above, only descending to",
+                "collect offerings given by the mortals below the clouds.",
+                "Big Seagull is one of the only True Gods.",
+                "",
+                "Debut: Real Life" };
     }
 
     boolean uniqueAttackAnimation = false;

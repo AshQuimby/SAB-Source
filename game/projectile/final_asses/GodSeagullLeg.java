@@ -8,6 +8,7 @@ import game.stage.Platform;
 
 public class GodSeagullLeg extends Projectile {
     private boolean hitGround;
+    private Platform toStandOn;
 
     public GodSeagullLeg(int owner, int direction, Player ownerPlayer) {
         width = 392;
@@ -30,6 +31,7 @@ public class GodSeagullLeg extends Projectile {
             for (Platform platform : ownerPlayer.battleScreen.getStage().getPlatforms()) {
                 if (leftmostPlatform == null || platform.getHitbox().getCenterX() < leftmostPlatform.getHitbox().getCenterX()) {
                     leftmostPlatform = platform;
+                    toStandOn = platform;
                 }
             }
 
@@ -40,6 +42,7 @@ public class GodSeagullLeg extends Projectile {
             for (Platform platform : ownerPlayer.battleScreen.getStage().getPlatforms()) {
                 if (rightmostPlatform == null || platform.getHitbox().getCenterX() > rightmostPlatform.getHitbox().getCenterX()) {
                     rightmostPlatform = platform;
+                    toStandOn = platform;
                 }
             }
 
@@ -71,6 +74,8 @@ public class GodSeagullLeg extends Projectile {
             }
 
             if (hitGround) {
+                hitbox.setY2(toStandOn.getHitbox().y);
+                pos.y = hitbox.y + 12;
                 velocity.y = 0;
             }
         } else {

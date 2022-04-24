@@ -169,14 +169,15 @@ public class AABB implements Serializable {
    }
    
    public Vector nearestPointTo(Vector point) {
-      if (point.x < x)
-         point.x = x;
-      if (point.x > getX2())
-         point.x = getX2();
-      if (point.y < y)
-         point.y = y;
-      if (point.y > getY2())
+      Vector newPoint = point.clone();
+      if (newPoint.x < x)
+         newPoint.x = x;
+      if (newPoint.x > getX2())
+         newPoint.x = getX2();
+      if (newPoint.y < y)
+         newPoint.y = y;
+      if (newPoint.y > getY2())
          point.y = getY2();
-      return point;
+      return newPoint;
    }
 }
