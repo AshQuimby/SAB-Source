@@ -43,7 +43,11 @@ public class Stage implements Serializable {
       return unsafeBlastZone;
    }
 
+   public void preUpdate() {
+   }
+
    public final void update() {
+      preUpdate();
       for (Platform platform : platforms) {
          if (platform.updates()) {
             UpdatingPlatform updatingPlatform = (UpdatingPlatform) platform;
@@ -161,25 +165,29 @@ public class Stage implements Serializable {
       return hitboxes;
    }
 
-   public boolean collideWithPlatforms(Player player, Vector velocity) {
+   public boolean collideWithPlatformsY(Player player, double dy) {
       boolean grounded = false;
       boolean movingUp = false;
       for (Platform platform : platforms) {
          if (player.hitbox.overlaps(platform.getHitbox())) {
-            if (velocity.y < 0 || player.hitbox.getY2() > platform.getHitbox().getY2()
+            if (dy < 0 || player.hitbox.getY2() > platform.getHitbox().getY2()
                   || player.noPassablePlatformsFor > 0 && platform.canJumpThrough()) {
                movingUp = true;
-            } else if (velocity.y > 0) {
+            } else if (dy > 0) {
                grounded = true;
             }
          }
-         AABB hitbox = player.hitbox;
-         if (velocity.x != 0 && !platform.canJumpThrough())
-            hitbox.resolveX(velocity.x, platform.getHitbox());
-         if (velocity.y != 0 && !movingUp || velocity.y != 0 && !platform.canJumpThrough())
-            hitbox.resolveY(velocity.y, platform.getHitbox());
+         if (!movingUp)
+            player.hitbox.resolveY(dy, platform.getHitbox());
       }
       return grounded;
+   }
+   
+   public void collideWithPlatformsX(Player player, double dx) {
+      for (Platform platform : platforms) {
+         if (!platform.canJumpThrough())
+            player.hitbox.resolveX(dx, platform.getHitbox());
+      }
    }
 
    public boolean colliding(AABB other) {

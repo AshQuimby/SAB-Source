@@ -1,26 +1,25 @@
 package game;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.HashMap;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+
+import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 
 public class SoundEngine {
-    private static final Map<String, File> sounds = new HashMap<>();
-    private static final ArrayList<Clip> currentMusicTrack = new ArrayList<>();
+    private static final Map<String, AudioClip> sounds = new HashMap<>();
+    private static final ArrayList<AudioClip> currentMusicTrack = new ArrayList<>();
 
     public static void load() {
         File assets = new File("assets/sounds");
         String[] fileNames = assets.list();
 
         for (String fileName : fileNames) {
-            if (fileName.endsWith(".wav")) {
-                sounds.put(fileName, new File("assets/sounds/" + fileName));
+            if (fileName.endsWith(".wav") || fileName.endsWith(".mp3")) {
+                sounds.put(fileName.substring(0, fileName.length() - 4), new AudioClip(Paths.get("assets/sounds/" + fileName).toUri().toString()));
             }
         }
         readModSounds(new File("mods"));
@@ -28,7 +27,7 @@ public class SoundEngine {
 
     public static void stopMusic() {
         try {
-            currentMusicTrack.get(0).close();
+            currentMusicTrack.get(0).stop();
             currentMusicTrack.remove(0);
         } catch (IndexOutOfBoundsException e) {
         }
@@ -36,21 +35,13 @@ public class SoundEngine {
 
     public static synchronized void playMusic(String fileName) {
         if (Settings.music()) {
-            String fileFullName = fileName + ".wav";
             stopMusic();
 
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        Clip clip = AudioSystem.getClip();
-                        File audioFile = sounds.get(fileFullName);
-                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-                        clip.open(audioStream);
-                        clip.start();
-                        ((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN))
-                                .setValue(Settings.volume() * 80f - 80f);
-                        clip.loop(-1);
-                        currentMusicTrack.add(clip);
+                        sounds.get(fileName).play(Settings.volume());
+                        currentMusicTrack.add(sounds.get(fileName));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -61,19 +52,12 @@ public class SoundEngine {
 
     public static synchronized void playMusicOnce(String fileName) {
         if (Settings.music()) {
-            String fileFullName = fileName + ".wav";
             stopMusic();
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        Clip clip = AudioSystem.getClip();
-                        File audioFile = sounds.get(fileFullName);
-                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-                        clip.open(audioStream);
-                        clip.start();
-                        ((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN))
-                                .setValue(Settings.volume() * 80f - 80f);
-                        currentMusicTrack.add(clip);
+                        sounds.get(fileName).play(Settings.volume());
+                        currentMusicTrack.add(sounds.get(fileName));
                     } catch (Exception e) {
                         System.out.println("WARNING: Error loading sound \"" + fileName + "\"");
                     }
@@ -84,17 +68,10 @@ public class SoundEngine {
 
     public static synchronized void playSound(String fileName) {
         if (Settings.soundEffects()) {
-            String fileFullName = fileName + ".wav";
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        Clip clip = AudioSystem.getClip();
-                        File audioFile = sounds.get(fileFullName);
-                        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-                        clip.open(audioStream);
-                        ((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN))
-                                .setValue(Settings.volume() * 80f - 80f);
-                        clip.start();
+                        sounds.get(fileName).play(Settings.volume());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -108,7 +85,7 @@ public class SoundEngine {
 
         for (File file : listOfFiles) {
             if (file.isFile() && file.getName().endsWith(".wav")) {
-                sounds.put(file.getName(), file);
+                new AudioClip(Paths.get(file.getPath()).toUri().toString());
             } else if (file.isDirectory()) {
                 readModSounds(file);
             }

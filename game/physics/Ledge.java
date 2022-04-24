@@ -8,7 +8,6 @@ public class Ledge extends GameObject {
 
    public Ledge(int x, int y, int width, int height, int direction) {
       hitbox = new AABB(x, y, width, height);
-      pos = hitbox.getPosition();
       this.direction = direction;
    }
 
@@ -17,7 +16,7 @@ public class Ledge extends GameObject {
    }
 
    public Vector getPos() {
-      return pos.clone();
+      return hitbox.getPosition();
    }
 
    public Ledge grabbing(AABB hitbox) {

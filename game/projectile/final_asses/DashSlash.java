@@ -3,13 +3,14 @@ package game.projectile.final_asses;
 import game.Images;
 import game.Player;
 import game.physics.*;
-import game.projectile.Projectile;
+import game.projectile.*;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 
 public class DashSlash extends Projectile {
+    Vector backToPos;
     public DashSlash(Player ownerPlayer) {
         damage = 32;
         width = 128;
@@ -17,12 +18,16 @@ public class DashSlash extends Projectile {
         height = 128;
         life = 15;
         alive = true;
-        knockbackStrength = 46;
+        knockbackStrength = 58;
         this.owner = ownerPlayer.keyLayout;
         this.ownerPlayer = ownerPlayer;
         dir = 0;
-        fileName = "dash_slash.png";
+        if (ownerPlayer.costume > 0)
+            fileName = "dash_slash_alt_" + ownerPlayer.costume + ".png";
+        else
+            fileName = "dash_slash.png";
         pos = new Vector(ownerPlayer.hitbox.x, ownerPlayer.hitbox.y);
+        backToPos = pos.clone();
         velocity = new Vector(0.2 * direction, 0);
         unreflectable = true;
         unParryable = true;
@@ -63,6 +68,10 @@ public class DashSlash extends Projectile {
                 frame++;
             }
             if (life < -10) {
+                ownerPlayer.hitbox.setPosition(backToPos);
+                battleScreen.addProjectile(new Teleport(ownerPlayer.hitbox.x, -10000, 0, 0,
+                  Math.toRadians(200) + ((ownerPlayer.direction + 1) / 2) * Math.toRadians(140),
+                  ownerPlayer.keyLayout, ownerPlayer.direction, ownerPlayer));
                 alive = false;
             }
         }

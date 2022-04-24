@@ -26,12 +26,15 @@ public class AssBall extends GameObject {
       alive = true;
       velocity = new Vector(0, 0);
       fakePlayer = new PsuedoPlayer(battleScreen, true);
+      fakePlayer.selectedChar.hitboxWidth = 40;
+      fakePlayer.selectedChar.hitboxHeight = 40;
       tempVelocity = new Vector(0, 0);
       this.battleScreen = battleScreen;
       pos = battleScreen.getStage().getUnsafeBlastZone().getRandomPoint();
    }
 
    public void update() {
+      fakePlayer.invincible = false;
       if (fakePlayer.knockBack.len() > 0)
          hit(fakePlayer.lastHitBy);
       fakePlayer.hitbox.setCenter(center());
@@ -77,7 +80,8 @@ public class AssBall extends GameObject {
             battleScreen.addParticle(new Particle(pos.x + 36, pos.y + 36, (Math.random() - 0.5) * 16,
                   (Math.random() - 0.5) * 16, 2, 6, 6, "twinkle.png"));
          }
-         player.finalAss = true;
+         if (player != null)
+            player.finalAss = true;
       }
       fakePlayer.damage = 0;
       tempVelocity.add(fakePlayer.knockBack.div(4));

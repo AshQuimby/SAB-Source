@@ -42,6 +42,7 @@ public class GodEye extends HomingProjectile {
             }
         }
         velocity = velocity.mul(0.9);
+        dir = velocity.rotationOf();
         move(velocity, false);
         hitbox.setPosition(pos);
         hittingPlayer();

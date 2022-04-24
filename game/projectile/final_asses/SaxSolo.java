@@ -46,7 +46,6 @@ public class SaxSolo extends Projectile {
 
     @Override
     public void kill() {
-        SoundEngine.stopMusic();
         SoundEngine.playMusic(battleScreen.getStage().getMusic());
     }
 }

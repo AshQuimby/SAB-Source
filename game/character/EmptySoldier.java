@@ -4,6 +4,7 @@ import game.Images;
 import game.Player;
 import game.SoundEngine;
 import game.animation.Animation;
+import game.particle.AnimatedParticle;
 import game.physics.*;
 import game.projectile.*;
 import java.awt.Graphics;
@@ -48,10 +49,12 @@ public class EmptySoldier extends Character {
         chargingParticle = "smoke.png";
         walkFrameTimer = 2;
         characterName = "Empty Soldier";
-        description = new String[] { "I don't know what to put here yet.",
-                "-\n",
-                "-\n",
-                "\nDebut: Empty Soldier" };
+        description = new String[] { "Hailing from the burrows of an ancient underground kingdom,",
+                "Empty Soldier's only purpose is to purge the land of the infestation that killed its people.",
+                "Don't let its small stature fool you however, as its sharp screw and deadly soul blasts",
+                "can make quick work of any challenger.",
+                "",
+                "Debut: Empty Soldier" };
 
         idle = new Animation(1, true);
         idle.addFrames(0);
@@ -142,6 +145,20 @@ public class EmptySoldier extends Character {
         superCharged = true;
         superChargeTime = 300;
         SoundEngine.playSound("spirit_charge");
+
+        for (int i = 0; i < 100; i++) {
+            player.battleScreen.addParticle(new AnimatedParticle(
+                    player.center().x,
+                    player.center().y,
+                    (Math.random() - .5) * 16,
+                    (Math.random() - .5) * 16,
+                    1,
+                    32,
+                    32,
+                    Math.random() > 0.5 ? "shadowling_particle.png" : "shadowling_particle_flipped.png",
+                    6,
+                    7));
+        }
     }
 
     @Override

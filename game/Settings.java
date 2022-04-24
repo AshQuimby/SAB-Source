@@ -15,12 +15,12 @@ public final class Settings {
   private static boolean fixedCameraSetting;
   private static float volumeSetting;
   private static int livesSetting;
-  private static boolean aiPlayer1Setting;
-  private static boolean aiPlayer2Setting;
+  private static int aiPlayer1Setting;
+  private static int aiPlayer2Setting;
   private static boolean testingModeSetting;
 
   public static void setSettings(boolean music, boolean soundEffects, boolean fixedCamera, float volume, int lives,
-      boolean aiPlayer1, boolean aiPlayer2, boolean testingMode) {
+      int aiPlayer1, int aiPlayer2, boolean testingMode) {
     musicSetting = music;
     soundEffectsSetting = soundEffects;
     fixedCameraSetting = fixedCamera;
@@ -43,7 +43,7 @@ public final class Settings {
   };
 
   private static void defaultSettings() {
-    setSettings(true, true, false, 0.5f, 3, false, true, false);
+    setSettings(true, true, false, 0.5f, 3, 0, 1, false);
   }
 
   public static void writeToFile() {
@@ -109,11 +109,11 @@ public final class Settings {
         fixedCameraSetting = Boolean.parseBoolean(settings.get("fixed_camera"));
         volumeSetting = Float.parseFloat(settings.get("volume"));
         livesSetting = Integer.parseInt(settings.get("lives"));
-        aiPlayer1Setting = Boolean.parseBoolean(settings.get("ai_player_1"));
-        aiPlayer2Setting = Boolean.parseBoolean(settings.get("ai_player_2"));
+        aiPlayer1Setting = Integer.parseInt(settings.get("ai_player_1"));
+        aiPlayer2Setting = Integer.parseInt(settings.get("ai_player_2"));
         testingModeSetting = Boolean.parseBoolean(settings.get("testing_mode"));
-      } catch (NullPointerException e) {
-        System.out.println("WARNING: Illegal settings file. One or more values are null. Resetting to default...");
+      } catch (Exception e) {
+        System.out.println("WARNING: Illegal settings file. One or more values are null or wrong data type. Resetting to default...");
         defaultSettings();
         writeToFile();
       }
@@ -156,11 +156,11 @@ public final class Settings {
     return livesSetting;
   }
 
-  public static boolean aiPlayer1() {
+  public static int aiPlayer1() {
     return aiPlayer1Setting;
   }
 
-  public static boolean aiPlayer2() {
+  public static int aiPlayer2() {
     return aiPlayer2Setting;
   }
 
@@ -188,11 +188,11 @@ public final class Settings {
     livesSetting = setTo;
   }
 
-  public static void setAIPlayer1(boolean setTo) {
+  public static void setAIPlayer1(int setTo) {
     aiPlayer1Setting = setTo;
   }
 
-  public static void setAIPlayer2(boolean setTo) {
+  public static void setAIPlayer2(int setTo) {
     aiPlayer2Setting = setTo;
   }
 

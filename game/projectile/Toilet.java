@@ -39,8 +39,8 @@ public class Toilet extends Projectile {
          }
       }
       frame = 0;
-      boolean colliding = move(velocity, true);
       velocity.y += 0.1;
+      boolean colliding = move(velocity, true);
       hitbox.setPosition(pos);
       if (colliding) {
       } else if (life < 10 && pos.y < 560) {

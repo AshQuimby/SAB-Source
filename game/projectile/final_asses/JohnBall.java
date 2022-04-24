@@ -51,7 +51,15 @@ public class JohnBall extends Projectile {
         ownerPlayer.render = false;
 
         ownerPlayer.stuck = 1;
-
+        if (!new AABB(hitbox.getCenterX(), hitbox.getCenterY(), 1, 1).overlaps(battleScreen.getStageBounds())) {
+            if (hitbox.y < battleScreen.getStageBounds().y && velocity.y < 0 || hitbox.getY2() > battleScreen.getStageBounds().getY2() && velocity.y > 0) {
+               velocity.y *= -1;
+            }
+            if (hitbox.x < battleScreen.getStageBounds().x && velocity.x < 0 || hitbox.getX2() > battleScreen.getStageBounds().getX2() && velocity.x > 0) {
+               velocity.x *= -1;
+               direction *= -1;
+            }
+        }
         if (ownerPlayer.readableKeys[Player.RIGHT]) {
             direction = 1;
             velocity.x += 1;
@@ -70,7 +78,7 @@ public class JohnBall extends Projectile {
 
         if (onGround) {
             velocity.x *= 0.9;
-            velocity.y = -32;
+            velocity.y = 32 * -(velocity.y / Math.abs(velocity.y));
             battleScreen.cameraShake(20);
             SoundEngine.playSound("crash");
         } else {

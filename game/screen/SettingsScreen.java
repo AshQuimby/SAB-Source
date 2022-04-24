@@ -2,6 +2,7 @@ package game.screen;
 
 import game.SoundEngine;
 import game.Images;
+import game.physics.Utilities;
 import game.physics.Vector;
 import game.Fonts;
 import game.Settings;
@@ -114,9 +115,9 @@ public class SettingsScreen implements Screen {
                 if (Settings.lives() < 5)
                     Settings.setLives(Settings.lives() + 1);
             } else if (settingIndex == 5) {
-                Settings.setAIPlayer1(true);
+                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() + 1, 2, 0));
             } else if (settingIndex == 6) {
-                Settings.setAIPlayer2(true);
+                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() + 1, 2, 0));
             }
         } else {
             if (settingIndex == 0) {
@@ -133,9 +134,9 @@ public class SettingsScreen implements Screen {
                 if (Settings.lives() > 1)
                     Settings.setLives(Settings.lives() - 1);
             } else if (settingIndex == 5) {
-                Settings.setAIPlayer1(false);
+                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() - 1, 2, 0));
             } else if (settingIndex == 6) {
-                Settings.setAIPlayer2(false);
+                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() - 1, 2, 0));
             }
         }
     }
@@ -160,10 +161,10 @@ public class SettingsScreen implements Screen {
         drawText(new Vector(576 - 256, 256 + 32 * 4), 16, "Lives: " + Settings.lives(), new Color(255, 255, 255), g,
                 false);
         drawText(new Vector(576 - 256, 256 + 32 * 5), 16,
-                "Player 1 Controlled by AI: " + (Settings.aiPlayer1() ? "Yes" : "No"), new Color(255, 255, 255), g,
+                "Player 1 Controlled by AI: " + (Settings.aiPlayer1() == 0 ? "Human" : Settings.aiPlayer1() == 1 ? "Good AI" : "Best AI"), new Color(255, 255, 255), g,
                 false);
         drawText(new Vector(576 - 256, 256 + 32 * 6), 16,
-                "Player 2 Controlled by AI: " + (Settings.aiPlayer2() ? "Yes" : "No"), new Color(255, 255, 255), g,
+                "Player 2 Controlled by AI: " + (Settings.aiPlayer2() == 0 ? "Human" : Settings.aiPlayer2() == 1 ? "Good AI" : "Best AI"), new Color(255, 255, 255), g,
                 false);
     }
 }

@@ -56,7 +56,8 @@ public class BasterSpam extends HomingProjectile {
 
    @Override
    public void postRender(Graphics g, ImageObserver target) {
-      battleScreen.renderObject(g, Images.getImage("soul.png"), Vector.sub(targetPlayer.center(), new Vector(16, 16)),
+      if (battleScreen != null && targetPlayer != null)
+         battleScreen.renderObject(g, Images.getImage("soul.png"), Vector.sub(targetPlayer.center(), new Vector(16, 16)),
             32, 32, false, target);
    }
 

@@ -65,6 +65,7 @@ public class Player extends GameObject {
    public boolean finalAss;
    public AI ai;
    public Player lastHitBy;
+   public boolean dontLateUpdatePos;
 
    public Item heldItem;
 
@@ -80,6 +81,7 @@ public class Player extends GameObject {
    protected void constructorBase(int keyLayout, Character character, BattleScreen battleScreen, int lives,
          int costume) {
       ai = new AI();
+      dontLateUpdatePos = false;
       frameTimer = 0;
       lastHitBy = null;
       stunned = 0;
@@ -155,7 +157,7 @@ public class Player extends GameObject {
          knockBack(Vector.sub(step, tempStep));
       }
    }
-
+   
    public void step(Vector step) {
       if (step.len() >= 1) {
          Vector tempStep = Vector.normalize(velocity);
@@ -168,9 +170,10 @@ public class Player extends GameObject {
    }
 
    public void update() {
-      pos = Vector.sub(new Vector(hitbox.x, hitbox.x), selectedChar.offset);
+      dontLateUpdatePos = false;
       hitbox = selectedChar.getHitbox(this);
       selectedChar.uniqueUpdatePreEverything(this);
+      pos = Vector.sub(hitbox.getPosition(), selectedChar.offset);
       if (heldItem != null) {
          heldItem.preUpdate();
       }
@@ -191,6 +194,7 @@ public class Player extends GameObject {
          }
          pos = Vector.sub(new Vector(hitbox.x, hitbox.y), selectedChar.offset);
          pos.add(new Vector(16 * (Math.random() - 0.5), 16 * (Math.random() - 0.5)));
+         dontLateUpdatePos = true;
          return; // don't let stunned players move
       }
 
@@ -582,9 +586,9 @@ public class Player extends GameObject {
 
    public void move(Vector step, boolean updateTouchGround) {
       hitbox.y += step.y;
-      touchingStage = battleScreen.getStage().collideWithPlatforms(this, new Vector(0, step.y));
+      touchingStage = battleScreen.getStage().collideWithPlatformsY(this, step.y);
       hitbox.x += step.x;
-      battleScreen.getStage().collideWithPlatforms(this, new Vector(step.x, 0));
+      battleScreen.getStage().collideWithPlatformsX(this, step.x);
    }
 
    public void friction(boolean force) {

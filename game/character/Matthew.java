@@ -24,9 +24,9 @@ public class Matthew extends Character {
       walkFrameTimer = 2;
       characterName = "Matthew";
       description = new String[] { "God is dead.",
-            "Matthew killed him\n",
-            "\n",
-            "\nDebut: Our Sports" };
+            "Matthew killed him",
+            "",
+            "Debut: Our Sports" };
    }
 
    private int attackLag = 0;

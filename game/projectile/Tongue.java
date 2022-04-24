@@ -57,7 +57,12 @@ public class Tongue extends Projectile {
       hitbox.setPosition(pos);
       hittingPlayer();
    }
-
+   
+   @Override
+   public boolean fixCollideWithMovingPlatforms() {
+      return true;
+   }
+   
    @Override
    public void onHitPlayer(Player player) {
       hitPlayer = 1;

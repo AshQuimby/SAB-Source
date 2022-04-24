@@ -31,7 +31,6 @@ public class GodAI extends AI {
       Projectile targetProjectile = nearestEnemyProjectile(player.battleScreen.getProjectiles());
       double distance = Vector.distanceBetween(target.center(), player.center());
       Vector nearestPlatformPoint = targetPlatform.getHitbox().nearestPointTo(player.hitbox.getCenter());
-      double platformDistance = Vector.distanceBetween(nearestPlatformPoint, player.center());
       Vector platformDistances = new Vector(Math.abs(nearestPlatformPoint.x - player.center().x), Math.abs(nearestPlatformPoint.y - player.center().y));
       double projectileDistance = 25600;
       
@@ -165,6 +164,8 @@ public class GodAI extends AI {
       }
    }
 }
+
+// Attempted pathfinding (bad & laggy)
 
 // package game.ai;
 // 

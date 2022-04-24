@@ -21,16 +21,16 @@ public class Snas extends Character {
       jumpHeight = 40.5;
       offset = new Vector(8, 20);
       fileName = "snas.png";
-      chargingParticle = "smoke.png";
+      chargingParticle = "snas_fire.png";
       walkFrameTimer = 2;
       overrideAttackAnimation = true;
       characterName = "Snas";
       description = new String[] { "This laid back skeleton wizard,",
-            "\ndoesn't always look the magical part,",
-            "\nbut be wary, his boneomancy can pack quite a punch.",
-            "\nAnd he has a bone to pick with you.",
-            "\n",
-            "\nDebut: Belowstory" };
+            "doesn't always look the magical part,",
+            "but be wary, his boneomancy can pack quite a punch.",
+            "And he has a bone to pick with you.",
+            "",
+            "Debut: Belowstory" };
    }
 
    public Vector basterFacingDireciton;
