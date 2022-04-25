@@ -7,7 +7,7 @@ import game.physics.*;
 public class Screw extends Projectile {
     public Screw(double x, double y, double velX, double velY, double kb, double kbDir, int owner, int direction,
             Player ownerPlayer) {
-        damage = 8;
+        damage = 16;
         width = 86;
         this.direction = direction;
         height = 32;
