@@ -41,9 +41,9 @@ public class SoundEngine {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
                         currentMusicTrack.add(sounds.get(fileName));
                         currentMusicTrack.get(0).setCycleCount(-1);
+                        sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
