@@ -18,7 +18,7 @@
 
   Navigate the menus using the arrow keys or WASD. Press ESCAPE or SHIFT to go back to the previous menu. Press ENTER to confirm your selection.
   
-  Player 1 uses WASD to move and select a character, F to attack, and Z to parry. Player 2 uses the arrow keys to move and sele, M to attack, and B to parry.
+  Player 1 uses WASD to move and select a character, F to attack, and Z to parry. Player 2 uses the arrow keys to move and select a character, M to attack, and B to parry.
   
   
   
