@@ -38,7 +38,7 @@ public class Duck extends Character {
    @Override
    public void neutralAttack(Player player) {
       player.battleScreen.addProjectile(
-            new Grab(player.center().x, player.center().y, 0, 0, 0, 0, player.keyLayout, player.direction, player));
+            new Grab(player.center().x, player.center().y, 0, 0, 0, 0, player.playerId, player.direction, player));
       player.frame = 5;
       player.endLag = 9;
    }
@@ -47,7 +47,7 @@ public class Duck extends Character {
    public void sideAttack(Player player) {
       player.battleScreen.addProjectile(new Quack(player.hitbox.x, -10000, player.direction, 0, 10,
             Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
       SoundEngine.playSound("quack");
       player.frame = 5;
       player.endLag = 11;
@@ -56,7 +56,7 @@ public class Duck extends Character {
    @Override
    public void upAttack(Player player) {
       player.battleScreen.addProjectileAtCenter(
-            new NoDuckSign(player.center().x, player.center().y - 24, 0, 10, 10, Math.toRadians(90), player.keyLayout,
+            new NoDuckSign(player.center().x, player.center().y - 24, 0, 10, 10, Math.toRadians(90), player.playerId,
                   player.direction, player));
       player.frame = 4;
       player.velocity.y = -52;

@@ -6,7 +6,6 @@ import game.physics.Utilities;
 import game.physics.Vector;
 import game.Fonts;
 import game.Settings;
-import game.Window;
 
 import java.awt.Graphics;
 import java.awt.*;
@@ -62,9 +61,9 @@ public class SettingsScreen implements Screen {
         if (keyCode == KeyEvent.VK_ENTER) {
             SoundEngine.playSound("blip");
             Settings.writeToFile();
-            CharacterSelectScreen toScreen = (CharacterSelectScreen) Window.preferredSelectScreen;
-            toScreen.init();
-            return toScreen;
+            SoundEngine.playMusic("lobby_music");
+
+            return new TitleScreen();
         }
         if (keyCode == KeyEvent.VK_LEFT) {
             updateSettings(false);
@@ -76,14 +75,14 @@ public class SettingsScreen implements Screen {
         }
         if (keyCode == KeyEvent.VK_DOWN) {
             SoundEngine.playSound("blip");
-            if (settingIndex++ > 5) {
+            if (settingIndex++ > 7) {
                 settingIndex = 0;
             }
         }
         if (keyCode == KeyEvent.VK_UP) {
             SoundEngine.playSound("blip");
             if (settingIndex-- < 1) {
-                settingIndex = 6;
+                settingIndex = 8;
             }
         }
         return this;
@@ -109,15 +108,19 @@ public class SettingsScreen implements Screen {
             } else if (settingIndex == 2) {
                 Settings.setFixedCamera(true);
             } else if (settingIndex == 3) {
-                if (Settings.volume() < 1f)
+                if (Settings.volume() < 0.99f)
                     Settings.setVolume(Settings.volume() + 0.05f);
             } else if (settingIndex == 4) {
                 if (Settings.lives() < 5)
                     Settings.setLives(Settings.lives() + 1);
             } else if (settingIndex == 5) {
-                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() + 1, 2, 0));
+                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() + 1, 3, 0));
             } else if (settingIndex == 6) {
-                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() + 1, 2, 0));
+                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() + 1, 3, 0));
+            } else if (settingIndex == 7) {
+                Settings.setAssBalls(true);
+            } else if (settingIndex == 8) {
+                Settings.setStageHazards(true);
             }
         } else {
             if (settingIndex == 0) {
@@ -128,15 +131,19 @@ public class SettingsScreen implements Screen {
             } else if (settingIndex == 2) {
                 Settings.setFixedCamera(false);
             } else if (settingIndex == 3) {
-                if (Settings.volume() > 0f)
+                if (Settings.volume() > 0.01f)
                     Settings.setVolume(Settings.volume() - 0.05f);
             } else if (settingIndex == 4) {
                 if (Settings.lives() > 1)
                     Settings.setLives(Settings.lives() - 1);
             } else if (settingIndex == 5) {
-                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() - 1, 2, 0));
+                Settings.setAIPlayer1(Utilities.overflow(Settings.aiPlayer1() - 1, 3, 0));
             } else if (settingIndex == 6) {
-                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() - 1, 2, 0));
+                Settings.setAIPlayer2(Utilities.overflow(Settings.aiPlayer2() - 1, 3, 0));
+            } else if (settingIndex == 7) {
+                Settings.setAssBalls(false);
+            } else if (settingIndex == 8) {
+                Settings.setStageHazards(false);
             }
         }
     }
@@ -161,10 +168,18 @@ public class SettingsScreen implements Screen {
         drawText(new Vector(576 - 256, 256 + 32 * 4), 16, "Lives: " + Settings.lives(), new Color(255, 255, 255), g,
                 false);
         drawText(new Vector(576 - 256, 256 + 32 * 5), 16,
-                "Player 1 Controlled by AI: " + (Settings.aiPlayer1() == 0 ? "Human" : Settings.aiPlayer1() == 1 ? "Good AI" : "Best AI"), new Color(255, 255, 255), g,
+                "Player 1: "
+                        + (Settings.aiPlayer1() == 0 ? "Human" : Settings.aiPlayer1() == 1 ? "Easy AI" : Settings.aiPlayer1() == 2 ? "Good AI" : "Best AI"),
+                new Color(255, 255, 255), g,
                 false);
         drawText(new Vector(576 - 256, 256 + 32 * 6), 16,
-                "Player 2 Controlled by AI: " + (Settings.aiPlayer2() == 0 ? "Human" : Settings.aiPlayer2() == 1 ? "Good AI" : "Best AI"), new Color(255, 255, 255), g,
+                "Player 2: "
+                        + (Settings.aiPlayer2() == 0 ? "Human" : Settings.aiPlayer2() == 1 ? "Easy AI" : Settings.aiPlayer2() == 2 ? "Good AI" : "Best AI"),
+                new Color(255, 255, 255), g,
                 false);
+        drawText(new Vector(576 - 256, 256 + 32 * 7), 16, "Spawn Ass Balls: " + (Settings.assBalls() ? "On" : "Off"),
+                new Color(255, 255, 255), g, false);
+        drawText(new Vector(576 - 256, 256 + 32 * 8), 16, "Stage Hazards: " + (Settings.stageHazards() ? "On" : "Off"),
+                new Color(255, 255, 255), g, false);
     }
 }

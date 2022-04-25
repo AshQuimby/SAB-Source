@@ -23,7 +23,7 @@ public class Flamethrower extends Item {
         holder.battleScreen
                 .addProjectileAtCenter(
                         new Flame(hitbox.getCenterX() + 64 * holder.direction, hitbox.getCenterY() + 12, 0, 0,
-                                4, holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.keyLayout,
+                                4, holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.playerId,
                                 holder));
         SoundEngine.playSound("fire");
         uses--;

@@ -15,7 +15,7 @@ public class BasterSpam extends HomingProjectile {
       height = 0;
       this.direction = 1;
       alive = true;
-      this.owner = ownerPlayer.keyLayout;
+      this.owner = ownerPlayer.playerId;
       this.ownerPlayer = ownerPlayer;
       unreflectable = true;
       unParryable = true;

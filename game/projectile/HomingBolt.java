@@ -3,10 +3,8 @@ package game.projectile;
 import game.Player;
 import game.particle.Particle;
 import game.physics.*;
-import game.projectile.HomingProjectile;
 
 public class HomingBolt extends Projectile {
-
     Player target;
 
     public HomingBolt(double x, double y, double velX, double velY, Player ownerPlayer, Player target) {
@@ -18,7 +16,7 @@ public class HomingBolt extends Projectile {
         this.target = target;
         knockbackStrength = 8;
         this.ownerPlayer = ownerPlayer;
-        owner = ownerPlayer.keyLayout;
+        owner = ownerPlayer.playerId;
         unreflectable = true;
         unParryable = false;
         dir = 0;

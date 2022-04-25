@@ -44,7 +44,7 @@ public class John extends Character {
    public void neutralAttack(Player player) {
       if (copiedCharacter == null) {
          player.battleScreen.addProjectile(
-               new JohnSuck(player.center().x, player.center().y, player.direction, player.keyLayout, player));
+               new JohnSuck(player.center().x, player.center().y, player.direction, player.playerId, player));
       } else {
          copiedCharacter.neutralAttack(player);
       }
@@ -54,7 +54,7 @@ public class John extends Character {
    public void sideAttack(Player player) {
       player.battleScreen.addProjectile(new Fist(player.hitbox.x, -1000, 10,
             Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
       player.frame = 4;
       attackLag = 16;
       player.endLag = 16;
@@ -64,14 +64,14 @@ public class John extends Character {
    public void upAttack(Player player) {
       player.falling = true;
       player.battleScreen.addProjectileAtCenter(
-            new Slam(player.center().x, player.center().y, 22, Math.toRadians(270), player.keyLayout, player.direction,
+            new Slam(player.center().x, player.center().y, 22, Math.toRadians(270), player.playerId, player.direction,
                   player));
    }
 
    @Override
    public void downAttack(Player player) {
       player.battleScreen.addProjectileAtCenter(new DownPunch(player.center().x, player.center().y, Math.toRadians(90),
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
       player.endLag = 6;
       player.velocity.y *= 0.5;
    }

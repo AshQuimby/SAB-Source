@@ -14,7 +14,7 @@ public class JohnBall extends Projectile {
         life = 240;
         alive = true;
         knockbackStrength = 46;
-        this.owner = ownerPlayer.keyLayout;
+        this.owner = ownerPlayer.playerId;
         this.ownerPlayer = ownerPlayer;
         dir = 0;
         fileName = "john_ball.png";

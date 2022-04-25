@@ -1,8 +1,10 @@
 package game.screen;
 
+import java.io.Serializable;
+
 import game.physics.Vector;
 
-public class BitEffect {
+public class BitEffect implements Serializable {
 
     Vector position;
     Vector velocity;

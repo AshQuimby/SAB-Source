@@ -47,7 +47,7 @@ public class Note extends Projectile {
       for (int i = 0; i < 4; i++) {
          Vector vel = new Vector((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
          battleScreen.addProjectile(new SmallNote(pos.x + width / 2, pos.y + height / 2, vel.x, vel.y, 1.2,
-               vel.rotationOf(), ownerPlayer.keyLayout, ownerPlayer));
+               vel.rotationOf(), ownerPlayer.playerId, ownerPlayer));
       }
    }
 }

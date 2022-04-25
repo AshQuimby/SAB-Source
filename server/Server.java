@@ -1,5 +1,6 @@
 package server;
 
+import game.Settings;
 import game.Window;
 import game.screen.Screen;
 import game.screen.CharacterSelectScreen;
@@ -142,8 +143,7 @@ public class Server {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ImageIcon icon = new ImageIcon("assets/images/server_icon.png");
         frame.setIconImage(icon.getImage());
-        // Create the window and attach it to the frame.
-        // Board board = new Board();
+
         Window window = new Window(1152, 704, new CharacterSelectScreen());
         frame.add(window);
 
@@ -164,12 +164,6 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        // Scanner consoleInput = new Scanner(System.in);
-
-        // System.out.print("Server port: ");
-        // int port = consoleInput.nextInt();
-        int port = 25565;
-
-        Server server = new Server(port);
+        new Server(Settings.port());
     }
 }

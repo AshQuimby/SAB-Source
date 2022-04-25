@@ -45,7 +45,7 @@ public class Stephane extends Character {
       blocks += 1.0;
       player.battleScreen
             .addProjectileAtCenter(new Baguette(player.center().x, player.center().y, 0, 0, 12,
-                  Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.keyLayout,
+                  Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.playerId,
                   player.direction, player));
       player.endLag = 10;
       SoundEngine.playSound("swish");
@@ -55,7 +55,7 @@ public class Stephane extends Character {
    public void sideAttack(Player player) {
       player.battleScreen
             .addProjectileAtCenter(new Arrow(player.center().x, player.center().y, 14 * player.direction, -4, 14,
-                  Math.toRadians(190) + ((player.direction + 1) / 2) * Math.toRadians(160), player.keyLayout, player));
+                  Math.toRadians(190) + ((player.direction + 1) / 2) * Math.toRadians(160), player.playerId, player));
       player.endLag = 12;
    }
 
@@ -65,7 +65,7 @@ public class Stephane extends Character {
          if (blocks >= 1.0) {
             player.battleScreen.addProjectileAtCenter(
                   new BlockSmash(player.hitbox.getCenter().x, player.hitbox.getCenter().y, 0, 0, 24,
-                        Math.toRadians(270), player.keyLayout, player));
+                        Math.toRadians(270), player.playerId, player));
             player.move(new Vector(0, -32), true);
          }
          downAttack(player);

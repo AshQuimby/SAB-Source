@@ -34,11 +34,11 @@ public class Chain extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Slash(player.hitbox.x - 1000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(220),
-                     player.keyLayout, -1, player));
+                     player.playerId, -1, player));
       } else {
          player.battleScreen
                .addProjectile(new Slash(player.hitbox.x - 1000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(320),
-                     player.keyLayout, 1, player));
+                     player.playerId, 1, player));
       }
       player.frame = 4;
       player.endLag = 7;
@@ -51,11 +51,11 @@ public class Chain extends Character {
          if (player.direction == -1) {
             player.battleScreen
                   .addProjectile(new Knife(player.hitbox.x + 10, player.hitbox.y + 20, -20, -1, 10, Math.toRadians(235),
-                        player.keyLayout, -1, player));
+                        player.playerId, -1, player));
          } else {
             player.battleScreen
                   .addProjectile(new Knife(player.hitbox.x + 10, player.hitbox.y + 20, 20, -1, 10, Math.toRadians(305),
-                        player.keyLayout, 1, player));
+                        player.playerId, 1, player));
          }
          player.frame = 4;
          player.endLag = 12;
@@ -64,11 +64,11 @@ public class Chain extends Character {
          if (player.direction == -1) {
             player.battleScreen
                   .addProjectile(new Slash(player.hitbox.x - 1000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(220),
-                        player.keyLayout, -1, player));
+                        player.playerId, -1, player));
          } else {
             player.battleScreen
                   .addProjectile(new Slash(player.hitbox.x - 1000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(320),
-                        player.keyLayout, 1, player));
+                        player.playerId, 1, player));
          }
          player.frame = 4;
          player.endLag = 7;
@@ -82,7 +82,7 @@ public class Chain extends Character {
       player.falling = true;
       player.battleScreen
             .addProjectile(new AirSlash(player.hitbox.x - 30, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(270),
-                  player.keyLayout, 1, player));
+                  player.playerId, 1, player));
    }
 
    @Override
@@ -91,13 +91,13 @@ public class Chain extends Character {
       player.endLag = 12;
       player.battleScreen
             .addProjectile(new KnifeMine(player.hitbox.x + 20 + (35 * player.direction), player.hitbox.y - 5, 0, 0, 10,
-                  Math.toRadians(270), player.keyLayout, player.direction, player));
+                  Math.toRadians(270), player.playerId, player.direction, player));
    }
 
    @Override
    public void finalAss(Player player) {
       player.battleScreen.addProjectileAtCenter(new ChainFinalSlash(player.center().x, player.center().y, 0, 0, 0,
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
    }
 
    @Override

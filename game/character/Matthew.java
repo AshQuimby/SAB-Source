@@ -45,7 +45,7 @@ public class Matthew extends Character {
    public void sideAttack(Player player) {
       player.battleScreen.addProjectile(new MattSlash(player.hitbox.x, -10000, 0, 0,
             Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
       player.frame = 4;
       player.endLag = 4;
       attackLag = 4;
@@ -58,7 +58,7 @@ public class Matthew extends Character {
       if (!usedRecovery) {
          player.battleScreen.addProjectile(new UpwardsSlash(player.hitbox.x, -10000, 0, 0,
                Math.toRadians(270),
-               player.keyLayout, player.direction, player));
+               player.playerId, player.direction, player));
          player.touchingStage = false;
          player.velocity.y = 0;
       }
@@ -69,7 +69,7 @@ public class Matthew extends Character {
    public void downAttack(Player player) {
       player.battleScreen.addProjectile(new SwordSpike(player.hitbox.x, -10000, 0, 0,
             Math.toRadians(90),
-            player.keyLayout, player.direction, player));
+            player.playerId, player.direction, player));
       if (!player.touchingStage && player.velocity.y < 16) {
          player.velocity.y = 16;
       }
@@ -112,13 +112,13 @@ public class Matthew extends Character {
          // player.battleScreen.addProjectile(new MegaSlash(player.hitbox.x, -10000, 0,
          // 0,
          // Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-         // player.keyLayout, player.direction, player, projectile.damage));
+         // player.playerId, player.direction, player, projectile.damage));
          // player.battleScreen.addProjectile(new Teleport(player.hitbox.x, -10000, 0, 0,
          // Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-         // player.keyLayout, player.direction, player));
+         // player.playerId, player.direction, player));
          // player.endLag = 24;
          // attackLag = 24;
-         // projectile.owner = player.keyLayout;
+         // projectile.owner = player.playerId;
          // projectile.ownerPlayer = player;
          // projectile.alive = false;
          // }
@@ -141,10 +141,10 @@ public class Matthew extends Character {
                   Math.abs(playerSource.hitbox.getCenter().x - player.hitbox.getCenter().x));
             player.battleScreen.addProjectile(new MegaSlash(player.hitbox.x, -10000, 0, 0,
                   Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-                  player.keyLayout, player.direction, player, damage));
+                  player.playerId, player.direction, player, damage));
             player.battleScreen.addProjectile(new Teleport(player.hitbox.x, -10000, 0, 0,
                   Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-                  player.keyLayout, player.direction, player));
+                  player.playerId, player.direction, player));
             player.endLag = 24;
             attackLag = 24;
          }

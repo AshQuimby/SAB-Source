@@ -18,9 +18,12 @@ public final class Settings {
   private static int aiPlayer1Setting;
   private static int aiPlayer2Setting;
   private static boolean testingModeSetting;
+  private static int portSetting;
+  private static boolean assBallSetting;
+  private static boolean stageHazardSetting;
 
   public static void setSettings(boolean music, boolean soundEffects, boolean fixedCamera, float volume, int lives,
-      int aiPlayer1, int aiPlayer2, boolean testingMode) {
+      int aiPlayer1, int aiPlayer2, boolean testingMode, int port, boolean assBall, boolean stageHazard) {
     musicSetting = music;
     soundEffectsSetting = soundEffects;
     fixedCameraSetting = fixedCamera;
@@ -29,6 +32,9 @@ public final class Settings {
     aiPlayer1Setting = aiPlayer1;
     aiPlayer2Setting = aiPlayer2;
     testingModeSetting = testingMode;
+    portSetting = port;
+    assBallSetting = assBall;
+    stageHazardSetting = stageHazard;
   }
 
   private static String[] properties = new String[] {
@@ -39,11 +45,14 @@ public final class Settings {
       "lives",
       "ai_player_1",
       "ai_player_2",
-      "testing_mode"
+      "ass_balls",
+      "stage_hazards",
+      "testing_mode",
+      "port"
   };
 
   private static void defaultSettings() {
-    setSettings(true, true, false, 0.5f, 3, 0, 1, false);
+    setSettings(true, true, false, 0.5f, 3, 0, 1, false, 19128, true, true);
   }
 
   public static void writeToFile() {
@@ -65,7 +74,10 @@ public final class Settings {
       optionWriter.write("@lives " + livesSetting + "\n");
       optionWriter.write("@ai_player_1 " + aiPlayer1Setting + "\n");
       optionWriter.write("@ai_player_2 " + aiPlayer2Setting + "\n");
+      optionWriter.write("@ass_balls " + assBallSetting + "\n");
+      optionWriter.write("@stage_hazards " + stageHazardSetting + "\n");
       optionWriter.write("@testing_mode " + testingModeSetting + "\n");
+      optionWriter.write("@port " + portSetting + "\n");
 
       optionWriter.close();
     } catch (IOException e) {
@@ -111,7 +123,11 @@ public final class Settings {
         livesSetting = Integer.parseInt(settings.get("lives"));
         aiPlayer1Setting = Integer.parseInt(settings.get("ai_player_1"));
         aiPlayer2Setting = Integer.parseInt(settings.get("ai_player_2"));
+        assBallSetting = Boolean.parseBoolean(settings.get("ass_balls"));
+        stageHazardSetting = Boolean.parseBoolean(settings.get("stage_hazards"));
         testingModeSetting = Boolean.parseBoolean(settings.get("testing_mode"));
+        portSetting = Integer.parseInt(settings.get("port"));
+
       } catch (Exception e) {
         System.out.println("WARNING: Illegal settings file. One or more values are null or wrong data type. Resetting to default...");
         defaultSettings();
@@ -168,6 +184,18 @@ public final class Settings {
     return testingModeSetting;
   }
 
+  public static int port() {
+    return portSetting;
+  }
+
+  public static boolean assBalls() {
+    return assBallSetting;
+  }
+
+  public static boolean stageHazards() {
+    return stageHazardSetting;
+  }
+
   public static void setMusic(boolean setTo) {
     musicSetting = setTo;
   }
@@ -198,5 +226,17 @@ public final class Settings {
 
   public static void setTestingMode(boolean setTo) {
     testingModeSetting = setTo;
+  }
+
+  public static void setPort(int setTo) {
+    portSetting = setTo;
+  }
+
+  public static void setAssBalls(boolean setTo) {
+    assBallSetting = setTo;
+  }
+
+  public static void setStageHazards(boolean setTo) {
+    stageHazardSetting = setTo;
   }
 }

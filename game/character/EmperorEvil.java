@@ -37,10 +37,10 @@ public class EmperorEvil extends Character {
          player.battleScreen.addProjectile(
                new Cannonball(player.hitbox.x + 24, player.hitbox.y + 10, 20 * player.direction, 0, 10,
                      Math.toRadians(200),
-                     player.keyLayout, player));
+                     player.playerId, player));
       } else {
          player.battleScreen.addProjectile(new Cannonball(player.hitbox.x + 24, player.hitbox.y + 10,
-               20 * player.direction, 0, 10, Math.toRadians(340), player.keyLayout, player));
+               20 * player.direction, 0, 10, Math.toRadians(340), player.playerId, player));
       }
       player.frame = 9;
       player.endLag = 0;
@@ -51,11 +51,11 @@ public class EmperorEvil extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Bite(player.hitbox.x - 2000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(220),
-                     player.keyLayout, -1, player));
+                     player.playerId, -1, player));
       } else {
          player.battleScreen
                .addProjectile(new Bite(player.hitbox.x - 2000, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(320),
-                     player.keyLayout, 1, player));
+                     player.playerId, 1, player));
       }
       player.frame = 4;
       player.endLag = 8;
@@ -64,7 +64,7 @@ public class EmperorEvil extends Character {
    @Override
    public void upAttack(Player player) {
       player.battleScreen.addProjectile(
-            new Barrel(player.keyLayout, player));
+            new Barrel(player.playerId, player));
       player.falling = true;
    }
 
@@ -87,7 +87,7 @@ public class EmperorEvil extends Character {
       charge *= 2;
       player.battleScreen
             .addProjectileAtCenter(
-                  new Banana(player.center().x, player.center().y, charge, charge, player.keyLayout,
+                  new Banana(player.center().x, player.center().y, charge, charge, player.playerId,
                         player));
       player.charge = 0;
       SoundEngine.playSound("banana_throw");

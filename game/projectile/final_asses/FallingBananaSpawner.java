@@ -13,7 +13,7 @@ public class FallingBananaSpawner extends Projectile {
     public FallingBananaSpawner(Player ownerPlayer) {
         life = 400;
         alive = true;
-        this.owner = ownerPlayer.keyLayout;
+        this.owner = ownerPlayer.playerId;
         this.ownerPlayer = ownerPlayer;
         fileName = "none.png";
         unreflectable = true;

@@ -17,7 +17,7 @@ public class LightsOut extends HomingProjectile {
         hitbox = new AABB(0, 0, 0, 0);
         draw = false;
         this.ownerPlayer = ownerPlayer;
-        this.owner = ownerPlayer.keyLayout;
+        this.owner = ownerPlayer.playerId;
         fileName = "none.png";
         alive = true;
         damage = 0;

@@ -69,7 +69,7 @@ public class PoopyMan extends ModCharacter {
       // addProjectileAtCenter adds the projectile so that its center is at the
       // coordinates
       player.battleScreen.addProjectileAtCenter(new PoopBall(player.center().x, player.center().y - 24,
-            12 * player.direction, -4, Math.toRadians(270), player.direction, player.keyLayout, player));
+            12 * player.direction, -4, Math.toRadians(270), player.direction, player.playerId, player));
       // sets the player's frame when using the attack to allow them to animate
       player.frame = 4;
       // the number of frames after attacking the player can't move, additionally, the
@@ -89,7 +89,7 @@ public class PoopyMan extends ModCharacter {
    public void upAttack(Player player) {
       player.falling = true;
       player.battleScreen.addProjectileAtCenter(
-            new Poopling(player.center().x, player.center().y, Math.toRadians(270), 1, player.keyLayout, player));
+            new Poopling(player.center().x, player.center().y, Math.toRadians(270), 1, player.playerId, player));
    }
 
    // example repeated attack
@@ -100,7 +100,7 @@ public class PoopyMan extends ModCharacter {
       if (repeatedAttackTimer % 4 == 0) {
          SoundEngine.playSound("fart");
          player.battleScreen.addProjectileAtCenter(
-               new Gas(player.center().x, player.center().y, Math.toRadians(270), 1, player.keyLayout, player));
+               new Gas(player.center().x, player.center().y, Math.toRadians(270), 1, player.playerId, player));
       }
       player.frame = 4;
       player.velocity.x *= 0;
@@ -124,7 +124,7 @@ public class PoopyMan extends ModCharacter {
       charge /= 2;
       player.battleScreen
             .addProjectileAtCenter(new PoopBomb(player.center().x, player.center().y - 24, 12 * player.direction, -4,
-                  charge, Math.toRadians(270), player.direction, (int) (charge * 1.2), player.keyLayout, player,
+                  charge, Math.toRadians(270), player.direction, (int) (charge * 1.2), player.playerId, player,
                   charge));
       player.endLag = 16;
       player.charge = 0;

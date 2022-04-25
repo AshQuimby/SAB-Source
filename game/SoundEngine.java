@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class SoundEngine {
     private static final Map<String, AudioClip> sounds = new HashMap<>();
     private static final ArrayList<AudioClip> currentMusicTrack = new ArrayList<>();
+    public static float playbackSpeed = 1;
 
     public static void load() {
         File assets = new File("assets/sounds");
@@ -40,8 +41,9 @@ public class SoundEngine {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        sounds.get(fileName).play(Settings.volume());
+                        sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
                         currentMusicTrack.add(sounds.get(fileName));
+                        currentMusicTrack.get(0).setCycleCount(-1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -56,7 +58,7 @@ public class SoundEngine {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        sounds.get(fileName).play(Settings.volume());
+                        sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
                         currentMusicTrack.add(sounds.get(fileName));
                     } catch (Exception e) {
                         System.out.println("WARNING: Error loading sound \"" + fileName + "\"");
@@ -71,7 +73,7 @@ public class SoundEngine {
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        sounds.get(fileName).play(Settings.volume());
+                        sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

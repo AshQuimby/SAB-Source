@@ -55,7 +55,7 @@ public class Suck extends PersistingProjectile {
          hitbox.setPosition(pos);
          if (hittingPlayer() != null)
             for (Player player : hittingPlayer()) {
-               if (player.keyLayout != owner) {
+               if (player.playerId != owner) {
                   player.velocity.x = 0;
                   player.velocity.y = 0;
                   player.hitbox.x = 0;

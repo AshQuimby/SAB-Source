@@ -36,11 +36,11 @@ public class Marvin extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Fireball(player.hitbox.x + 10, player.hitbox.y + 20, 12 * player.direction, 0, 10,
-                     Math.toRadians(200), player.keyLayout, player));
+                     Math.toRadians(200), player.playerId, player));
       } else {
          player.battleScreen
                .addProjectile(new Fireball(player.hitbox.x + 10, player.hitbox.y + 20, 12 * player.direction, 0, 10,
-                     Math.toRadians(340), player.keyLayout, player));
+                     Math.toRadians(340), player.playerId, player));
       }
       player.frame = 4;
       player.endLag = 10;
@@ -53,11 +53,11 @@ public class Marvin extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Wrench(player.hitbox.x - 30, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(220),
-                     player.keyLayout, -1, player));
+                     player.playerId, -1, player));
       } else {
          player.battleScreen
                .addProjectile(new Wrench(player.hitbox.x + 30, player.hitbox.y + 20, 0, 0, 10, Math.toRadians(320),
-                     player.keyLayout, 1, player));
+                     player.playerId, 1, player));
       }
       player.frame = 4;
       player.endLag = 7;
@@ -68,7 +68,7 @@ public class Marvin extends Character {
       SoundEngine.playSound("toilet_flush");
       player.falling = true;
       player.battleScreen.addProjectileAtCenter(
-            new Toilet(player.center().x, player.hitbox.y - 16, 0, 0, 10, Math.toRadians(270), player.keyLayout, 1,
+            new Toilet(player.center().x, player.hitbox.y - 16, 0, 0, 10, Math.toRadians(270), player.playerId, 1,
                   player));
    }
 
@@ -81,7 +81,7 @@ public class Marvin extends Character {
    @Override
    public void finalAss(Player player) {
       player.battleScreen
-            .addProjectile(new Pipes(player.pos.x, player.pos.y, 0, player.keyLayout, player.direction, player));
+            .addProjectile(new Pipes(player.pos.x, player.pos.y, 0, player.playerId, player.direction, player));
    }
 
    @Override
@@ -96,12 +96,12 @@ public class Marvin extends Character {
          player.battleScreen
                .addProjectile(
                      new Frostball(player.hitbox.x + 10, player.hitbox.y - 10, 16 * player.direction, -2, charge / 2,
-                           charge, Math.toRadians(200), player.keyLayout, player));
+                           charge, Math.toRadians(200), player.playerId, player));
       else
          player.battleScreen
                .addProjectile(
                      new Frostball(player.hitbox.x + 10, player.hitbox.y - 10, 16 * player.direction, -2, charge / 2,
-                           charge, Math.toRadians(340), player.keyLayout, player));
+                           charge, Math.toRadians(340), player.playerId, player));
    }
 
    @Override

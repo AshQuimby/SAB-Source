@@ -17,7 +17,7 @@ public class Plane extends Item {
         holder.battleScreen
                 .addProjectileAtCenter(
                         new ThrownPlane(hitbox.getCenterX(), hitbox.getCenterY() - 16, 12 * holder.direction, 0,
-                                holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.keyLayout,
+                                holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.playerId,
                                 holder.direction, holder));
         holder.endLag = 4;
         remove();

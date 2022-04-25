@@ -1,6 +1,7 @@
 package game.screen;
 
 import game.Images;
+import game.SoundEngine;
 import game.physics.Vector;
 import game.Fonts;
 
@@ -16,6 +17,10 @@ public class LoadingScreen implements Screen {
 
     List<BitEffect> bits = new ArrayList<>();
     List<BitEffect> deadBits = new ArrayList<>();
+
+    public LoadingScreen() {
+        SoundEngine.playMusic("loading");
+    }
 
     private void drawText(Vector pos, float size, String text, Color color, Graphics g, boolean lockedCenter) {
         Graphics2D g2d = (Graphics2D) g;

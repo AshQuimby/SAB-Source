@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 
 import game.particle.*;
 import game.Player;
+import game.PsuedoPlayer;
 import game.stage.*;
 import game.AssBall;
 import modloader.ModReader;
@@ -44,6 +45,9 @@ public class BattleScreen implements Screen {
     private int assBallTimer;
     private int gameTick;
     private boolean paused;
+    private boolean hidePauseUI;
+    private boolean warpSpeed;
+    private int pauseMenuIndex;
 
     private Player winner;
 
@@ -54,9 +58,12 @@ public class BattleScreen implements Screen {
 
         switch (aiType) {
             case 1:
-                ai = new GodAI();
+                ai = new BadAI();
                 break;
             case 2:
+                ai = new GodAI();
+                break;
+            case 3:
                 ai = new TrueGodAI();
                 break;
             default:
@@ -68,10 +75,12 @@ public class BattleScreen implements Screen {
     }
 
     public BattleScreen(Character character1, Character character2, Stage stage, int costume1, int costume2) {
+        pauseMenuIndex = 0;
+        warpSpeed = false;
         winner = null;
 
         cameraShake = 0;
-        
+
         gameTick = 0;
 
         AI player1AI = getAI(Settings.aiPlayer1());
@@ -158,7 +167,7 @@ public class BattleScreen implements Screen {
             x = rect.x - rect.width / 2;
             y = rect.y + rect.height / 2;
         } else {
-            x = rect.x - (text.length() - 2) * 24;
+            x = rect.x - rect.width + 48;
             y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
         }
         g2d.drawString(text, x, y);
@@ -166,9 +175,9 @@ public class BattleScreen implements Screen {
 
     private void drawLives(Graphics g, Player player, ImageObserver target) {
         for (int i = 0; i < player.lives; i++) {
-            if (player.keyLayout != -1)
-                g.drawImage(Images.getImage("life_p" + (player.keyLayout + 1) + ".png"),
-                        576 - 48 + 24 * i + (128 * (player.keyLayout * 2 - 1)), 600, target);
+            if (player.playerId != -1)
+                g.drawImage(Images.getImage("life_p" + (player.playerId + 1) + ".png"),
+                        576 - 48 + 24 * i + (128 * (player.playerId * 2 - 1)), 600, target);
         }
     }
 
@@ -223,26 +232,58 @@ public class BattleScreen implements Screen {
 
     @Override
     public Screen keyPressed(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.VK_H && Settings.testingMode()) { // triggers hitboxes
-            triggerHitboxes();
+        if (Settings.testingMode()) {
+            if (event.getKeyCode() == KeyEvent.VK_H) { // triggers hitboxes
+                triggerHitboxes();
+            }
+
+            if (event.getKeyCode() == KeyEvent.VK_V) { // cheating
+                assBalls.add(new AssBall(this));
+            }
+
+            if (event.getKeyCode() == KeyEvent.VK_L) { // even more cheating
+                player1.lives = 999;
+                player2.lives = 999;
+            }
+
+            if (event.getKeyCode() == KeyEvent.VK_K) { // murder
+                player1.kill();
+                player2.kill();
+            }
+
+            if (event.getKeyCode() == KeyEvent.VK_U) { // warp speed
+                warpSpeed = true;
+                SoundEngine.playbackSpeed = 2f;
+            }
         }
 
-        if (event.getKeyCode() == KeyEvent.VK_V && Settings.testingMode()) { // cheating
-            assBalls.add(new AssBall(this));
-        }
-
-        if (event.getKeyCode() == KeyEvent.VK_L && Settings.testingMode()) { // even more cheating
-            player1.lives = 999;
-            player2.lives = 999;
-        }
-
-        if (event.getKeyCode() == KeyEvent.VK_K && Settings.testingMode()) { // murder
-            player1.kill();
-            player2.kill();
-        }
-        
         if (event.getKeyCode() == KeyEvent.VK_SHIFT) {
             paused = !paused;
+        }
+
+        if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            paused = !paused;
+        }
+
+        if (paused) {
+            if (event.getKeyCode() == KeyEvent.VK_UP || event.getKeyCode() == KeyEvent.VK_W && !hidePauseUI) {
+                pauseMenuIndex = Utilities.overflow(pauseMenuIndex - 1, 2, 0);
+            }
+            if (event.getKeyCode() == KeyEvent.VK_DOWN || event.getKeyCode() == KeyEvent.VK_S && !hidePauseUI) {
+                pauseMenuIndex = Utilities.overflow(pauseMenuIndex + 1, 2, 0);
+            }
+
+            if (event.getKeyCode() == KeyEvent.VK_ENTER || event.getKeyCode() == KeyEvent.VK_TAB) {
+                if (pauseMenuIndex == 0) {
+                    paused = false;
+                } else if (pauseMenuIndex == 1) {
+                    hidePauseUI = !hidePauseUI;
+                } else if (pauseMenuIndex == 2) {
+                    PsuedoPlayer tie = new PsuedoPlayer(this, false);
+                    tie.selectedChar.fileName = "tie.png";
+                    return new EndScreen(tie);
+                }
+            }
         }
 
         if (!gameEnded) {
@@ -260,20 +301,29 @@ public class BattleScreen implements Screen {
             player2.keyReleased(event);
         }
 
+        if (event.getKeyCode() == KeyEvent.VK_U)
+            warpSpeed = false;
+            SoundEngine.playbackSpeed = 1;
+
         return this;
     }
 
-    @Override
-    public Screen update() {
+    public Screen bigBoyUpdate() {
         if (!paused) {
             updateCamera();
         }
         if (gameEnded) {
-                if (toCharacterSelectScreenTimer == 90)
-                    SoundEngine.playSound("final_death");
+            SoundEngine.playbackSpeed = 1;
+            if (toCharacterSelectScreenTimer == 90)
+                SoundEngine.playSound("final_death");
+        }
+        if (toCharacterSelectScreenTimer <= 0) {
+            if (winner == null) {
+                winner = new PsuedoPlayer(this, false);
+                winner.selectedChar.fileName = "tie.png";
             }
-            if (toCharacterSelectScreenTimer <= 0)
-                return new EndScreen(winner);
+            return new EndScreen(winner);
+        }
         if (parryTime % 2 == 0 && toCharacterSelectScreenTimer % 2 == 0 && slowDownTime % 8 == 0 && !paused) {
             gameTick++;
             List<Particle> deadParticles = new ArrayList<>();
@@ -285,11 +335,12 @@ public class BattleScreen implements Screen {
                 player.update();
                 player.uniqueAnimations();
                 if (player.lives <= 0) {
-                    if (player.keyLayout == 0 || player.keyLayout == 1)
+                    if (player.playerId == 0 || player.playerId == 1)
                         gameEnded = true;
                     player.kill();
                     deadPlayers.add(player);
-                } else if (player.lives > 0 && gameEnded && winner == null && (player.keyLayout == 0 || player.keyLayout == 1)) {
+                } else if (player.lives > 0 && gameEnded && winner == null
+                        && (player.playerId == 0 || player.playerId == 1)) {
                     winner = player.lightClone();
                 }
             }
@@ -299,12 +350,8 @@ public class BattleScreen implements Screen {
                 if (!assBall.alive)
                     deadAssBalls.add(assBall);
             }
-            
+
             stage.update();
-            
-            
-                        
-            
 
             for (Particle particle : particles) {
                 particle.update();
@@ -336,30 +383,39 @@ public class BattleScreen implements Screen {
             } else {
                 cameraShake = 0;
             }
-            if (assBallTimer < 0) {
-               assBalls.add(new AssBall(this));
-               assBallTimer = 2000;
+            if (assBallTimer < 0 && Settings.assBalls()) {
+                assBalls.add(new AssBall(this));
+                assBallTimer = 2000;
             } else {
-               assBallTimer--;
+                assBallTimer--;
             }
         }
 
         if (!paused) {
-           if (parryTime > 0) {
-               parryTime--;
-           } else {
-               parryTime = 0;
-           }
-           if (slowDownTime > 0) {
-               slowDownTime--;
-           } else {
-               slowDownTime = 0;
-           }
+            if (parryTime > 0) {
+                parryTime--;
+            } else {
+                parryTime = 0;
+            }
+            if (slowDownTime > 0) {
+                slowDownTime--;
+            } else {
+                slowDownTime = 0;
+            }
         }
         if (gameEnded) {
-               toCharacterSelectScreenTimer--;
-           }
+            toCharacterSelectScreenTimer--;
+        }
         return this;
+    }
+    
+    @Override
+    public Screen update() {
+        Screen toReturn = bigBoyUpdate();
+        if (warpSpeed) {
+            return bigBoyUpdate();
+        }
+        return toReturn;
     }
 
     public Vector stageCenter() {
@@ -525,12 +581,21 @@ public class BattleScreen implements Screen {
         }
         if (showHitboxes)
             drawHitboxes(g);
-        
-        if (paused) {
+
+        if (paused && !hidePauseUI) {
             g.setColor(new Color(0, 0, 0, 100));
-            g.fillRect((int) getStageBounds().x, (int) getStageBounds().y, (int) getStageBounds().width, (int) getStageBounds().height);
-            drawText(new Vector(1152 / 2, 128), 20, "Paused", new Color(255, 255, 255), g, true);
-            g.drawImage(Images.getImage("p1_pause_UI.png"), 1152 - 192, 0, 1152, 192, 0, 0, 192, 192, target);
+            g.fillRect((int) getStageBounds().x, (int) getStageBounds().y, (int) getStageBounds().width,
+                    (int) getStageBounds().height);
+            drawText(new Vector(1152 / 2, 64), 24, "Paused", new Color(255, 255, 255), g, true);
+            g.drawImage(Images.getImage("p1_pause_UI.png"), 1152 - 192, 128, 1152, 128 + 192, 0,
+                    0 + (pauseMenuIndex == 0 ? 192 : 0), 192, 192 + (pauseMenuIndex == 0 ? 192 : 0), target);
+            g.drawImage(Images.getImage("p1_pause_UI.png"), 1152 - 192, 256, 1152, 256 + 192, 0,
+                    0 + (pauseMenuIndex == 1 ? 192 : 0), 192, 192 + (pauseMenuIndex == 1 ? 192 : 0), target);
+            g.drawImage(Images.getImage("p1_pause_UI.png"), 1152 - 192, 384, 1152, 384 + 192, 0,
+                    0 + (pauseMenuIndex == 2 ? 192 : 0), 192, 192 + (pauseMenuIndex == 2 ? 192 : 0), target);
+            drawText(new Vector(1152 - 64, 128 + 80), 16, "Resume", new Color(255, 255, 255), g, false);
+            drawText(new Vector(1152 - 64, 256 + 80), 16, "Hide Display", new Color(255, 255, 255), g, false);
+            drawText(new Vector(1152 - 64, 384 + 80), 16, "Quit", new Color(255, 255, 255), g, false);
         }
     }
 

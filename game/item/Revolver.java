@@ -24,7 +24,7 @@ public class Revolver extends Item {
         holder.battleScreen
                 .addProjectileAtCenter(
                         new RevolverRound(hitbox.getCenterX() + 14 * holder.direction, hitbox.getCenterY() + 12, 10 * holder.direction, 0,
-                                8, holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.keyLayout,
+                                8, holder.direction == 1 ? Math.toRadians(0) : Math.toRadians(180), holder.playerId,
                                 holder));
         SoundEngine.playSound("gunshot");
         uses--;

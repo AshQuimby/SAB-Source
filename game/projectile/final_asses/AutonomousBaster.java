@@ -18,8 +18,8 @@ public class AutonomousBaster extends Projectile {
       this.owner = owner;
       this.ownerPlayer = ownerPlayer;
       unreflectable = true;
-      fired = 0;
       unParryable = true;
+      fired = 0;
       fileName = "glaster_baster.png";
       pos = new Vector(x, y);
       hitbox = new AABB(pos.x, pos.y, width, height);
@@ -47,7 +47,7 @@ public class AutonomousBaster extends Projectile {
       if (fired == 1) {
          SoundEngine.playSound("glaster_baster");
          battleScreen.addProjectileAtCenter(
-               new GlasterBeam(center().x, center().y, ownerPlayer.keyLayout, ownerPlayer.direction,
+               new GlasterBeam(center().x, center().y, ownerPlayer.playerId, ownerPlayer.direction,
                      basterFacingDireciton, 40, ownerPlayer));
       }
       if (facingDirection == 0) {

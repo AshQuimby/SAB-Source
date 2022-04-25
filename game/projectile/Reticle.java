@@ -12,7 +12,7 @@ public class Reticle extends HomingProjectile {
       hitbox = new AABB(0, -1000, 40, 40);
       pos = hitbox.getPosition();
       this.ownerPlayer = ownerPlayer;
-      owner = ownerPlayer.keyLayout;
+      owner = ownerPlayer.playerId;
       velocity = new Vector(0, 0);
       width = 40;
       height = 40;

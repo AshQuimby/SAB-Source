@@ -22,7 +22,6 @@ public class FallingBanana extends Projectile {
         dir = kbDir;
         fileName = "falling_banana.png";
         pos = new Vector(x, y);
-        unreflectable = false;
         velocity = new Vector(velX, velY);
         hitbox = new AABB(pos.x, pos.y, width, height);
     }

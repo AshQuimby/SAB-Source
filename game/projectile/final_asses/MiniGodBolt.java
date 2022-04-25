@@ -16,12 +16,11 @@ public class MiniGodBolt extends Projectile {
         knockbackStrength = kb;
         this.ownerPlayer = ownerPlayer;
         this.owner = owner;
-        unreflectable = true;
-        unParryable = true;
         dir = kbDir;
         fileName = "mini_bolt.png";
         pos = new Vector(x, y);
-        unreflectable = false;
+        unreflectable = true;
+        unParryable = false;
         velocity = new Vector(velX, velY);
         hitbox = new AABB(pos.x, pos.y, width, height);
     }

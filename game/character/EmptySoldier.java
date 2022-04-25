@@ -45,16 +45,18 @@ public class EmptySoldier extends Character {
         offset = new Vector(12, 0);
         overrideAttackAnimation = true;
         fileName = "empty_soldier.png";
-        altCount = 0;
+        altCount = 1;
         chargingParticle = "smoke.png";
         walkFrameTimer = 2;
         characterName = "Empty Soldier";
         description = new String[] { "Hailing from the burrows of an ancient underground kingdom,",
-                "Empty Soldier's only purpose is to purge the land of the infestation that killed its people.",
-                "Don't let its small stature fool you however, as its sharp screw and deadly soul blasts",
+                "Empty Soldier's only purpose is to purge the land",
+                "of the infestation that killed its people.",
+                "Don't let its small stature fool you however,",
+                "as its sharp screw and deadly soul blasts",
                 "can make quick work of any challenger.",
                 "",
-                "Debut: Empty Soldier" };
+                "Debut: Container" };
 
         idle = new Animation(1, true);
         idle.addFrames(0);
@@ -86,7 +88,7 @@ public class EmptySoldier extends Character {
         player.battleScreen
                 .addProjectileAtCenter(new Screw(player.center().x, player.center().y, 0, 0,
                         1, player.direction == 1 ? -Math.toRadians(20) : -Math.toRadians(160),
-                        player.keyLayout, player.direction, player));
+                        player.playerId, player.direction, player));
     }
 
     @Override
@@ -97,7 +99,7 @@ public class EmptySoldier extends Character {
             player.battleScreen
                     .addProjectileAtCenter(new AngrySoul(player.center().x, player.center().y, player.direction * 23, 0,
                             Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-                            player.keyLayout, player.direction, player));
+                            player.playerId, player.direction, player));
             player.frame = 4;
             player.endLag = 14;
             player.velocity.y = 0;
@@ -120,7 +122,7 @@ public class EmptySoldier extends Character {
                 player.battleScreen
                         .addProjectileAtCenter(new ViceroyWings(player.center().x, player.center().y, 0, -30,
                                 Math.toRadians(270),
-                                player.keyLayout, player.direction, player));
+                                player.playerId, player.direction, player));
                 player.touchingStage = false;
                 player.velocity.y = -jumpHeight;
             }, 30);
@@ -133,7 +135,7 @@ public class EmptySoldier extends Character {
 
         runMethodWithSpiritCost(() -> {
             player.battleScreen.addProjectileAtCenter(
-                    new ShadowPlunge(player.center().x, player.center().y, 38, 0, player.keyLayout,
+                    new ShadowPlunge(player.center().x, player.center().y, 38, 0, player.playerId,
                             player.direction,
                             player));
             player.endLag = 23;
@@ -181,13 +183,7 @@ public class EmptySoldier extends Character {
         } else {
             jumpHeight = 33;
             speed = 1.3;
-            fileName = "empty_soldier";
-
-            if (player.costume > 0) {
-                fileName += "_alt_" + player.costume;
-            }
-
-            fileName += ".png";
+            fileName = "empty_soldier.png";
         }
 
         if (++spiritCharger >= 4 && spirit < 100) {
@@ -274,12 +270,12 @@ public class EmptySoldier extends Character {
 
     @Override
     public void renderUIElements(Player player, Graphics g, ImageObserver target) {
-        g.drawImage(Images.getImage("spirit_bar_back.png"), 512 + (128 * player.keyLayout * 2), 600,
+        g.drawImage(Images.getImage("spirit_bar_back.png"), 512 + (128 * player.playerId * 2), 600,
                 target);
         g.drawImage(Images.getImage(superCharged ? "spirit_bar_charged.png" : "spirit_bar.png"),
-                512 + (128 * player.keyLayout * 2) + 8,
+                512 + (128 * player.playerId * 2) + 8,
                 (int) (600 + 56 * ((100.0 - spirit) / 100)) + 8,
-                512 + (128 * player.keyLayout * 2 + 56) + 8, 600 + 56 + 8, 0,
+                512 + (128 * player.playerId * 2 + 56) + 8, 600 + 56 + 8, 0,
                 (int) (0 + 56 * ((100.0 - spirit) / 100)),
                 56, 56, target);
     }

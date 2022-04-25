@@ -38,7 +38,7 @@ public class BigSeagull extends Character {
     public void neutralAttack(Player player) {
         player.battleScreen.addProjectileAtCenter(
                 new WindBlast(player.center().x, player.center().y - 28, player.direction,
-                        Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.keyLayout,
+                        Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.playerId,
                         player));
         SoundEngine.playSound("gust");
         player.frame = 4;
@@ -51,7 +51,7 @@ public class BigSeagull extends Character {
     public void sideAttack(Player player) {
         player.battleScreen.addProjectile(new Peck(player.hitbox.x, -1000, player.direction, 0, 10,
                 Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140),
-                player.keyLayout, player.direction, player));
+                player.playerId, player.direction, player));
 
         player.frame = 4;
         player.endLag = 8;
@@ -61,7 +61,7 @@ public class BigSeagull extends Character {
     @Override
     public void upAttack(Player player) {
         player.battleScreen.addProjectile(
-                new Glide(player.hitbox.x, player.hitbox.y, player.keyLayout, player));
+                new Glide(player.hitbox.x, player.hitbox.y, player.playerId, player));
         SoundEngine.playSound("gust");
         player.frame = 4;
         player.velocity.y = -28;
@@ -73,15 +73,15 @@ public class BigSeagull extends Character {
     public void downAttack(Player player) {
         player.battleScreen.addProjectileAtCenter(
                 new FeatherDart(player.center().x, player.center().y, 14 * player.direction, -4, player.direction,
-                        Math.toRadians(220) + ((player.direction + 1) / 2) * Math.toRadians(120), player.keyLayout,
+                        Math.toRadians(220) + ((player.direction + 1) / 2) * Math.toRadians(120), player.playerId,
                         player));
         player.battleScreen.addProjectileAtCenter(
                 new FeatherDart(player.center().x, player.center().y, 14 * player.direction, 4, player.direction,
-                        Math.toRadians(140) + ((player.direction + 1) / 2) * Math.toRadians(240), player.keyLayout,
+                        Math.toRadians(140) + ((player.direction + 1) / 2) * Math.toRadians(240), player.playerId,
                         player));
         player.battleScreen.addProjectileAtCenter(
                 new FeatherDart(player.center().x, player.center().y, 18 * player.direction, 0, player.direction,
-                        Math.toRadians(180) + ((player.direction + 1) / 2) * Math.toRadians(180), player.keyLayout,
+                        Math.toRadians(180) + ((player.direction + 1) / 2) * Math.toRadians(180), player.playerId,
                         player));
         SoundEngine.playSound("gust");
         player.frame = 4;

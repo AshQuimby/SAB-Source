@@ -88,7 +88,7 @@ public class AirSlash extends Projectile {
       List<Player> hitPlayers = hittingPlayer();
       if (hitPlayers != null) {
          for (Player player : hitPlayers) {
-            if (player.keyLayout != owner) {
+            if (player.playerId != owner) {
                for (int i = 0; i < 4; i++) {
                   battleScreen.addParticle(new Particle(player.pos.x + player.width / 2,
                         player.pos.y + player.height / 2, (Math.random() - 0.5) * 3,

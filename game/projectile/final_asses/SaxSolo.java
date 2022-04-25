@@ -7,7 +7,7 @@ import game.projectile.Projectile;
 
 public class SaxSolo extends Projectile {
     public SaxSolo(double x, double y, int owner, Player ownerPlayer) {
-        life = 390;
+        life = 480;
         alive = true;
         this.owner = owner;
         this.ownerPlayer = ownerPlayer;
@@ -34,7 +34,7 @@ public class SaxSolo extends Projectile {
                 battleScreen.addProjectileAtCenter(
                         new SaxSoloNote(ownerPlayer.center().x, ownerPlayer.center().y, vel.x, vel.y, 10,
                                 vel.rotationOf(),
-                                ownerPlayer.keyLayout, ownerPlayer));
+                                ownerPlayer.playerId, ownerPlayer));
                 rotation += Math.toRadians(90);
             }
         }

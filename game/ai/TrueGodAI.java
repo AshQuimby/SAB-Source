@@ -5,6 +5,7 @@ import game.Player;
 import game.physics.Ledge;
 import game.physics.Vector;
 import game.projectile.Projectile;
+import game.stage.Platform;
 import game.physics.AABB;
 
 public class TrueGodAI extends AI {
@@ -37,6 +38,7 @@ public class TrueGodAI extends AI {
     @Override
     public void update(Player player) {
         Player target = targetPlayer(player.battleScreen.getPlayerList());
+        boolean doNotAttack = false;
 
         AssBall ball = nearestAssBall(player.battleScreen.getAssBalls());
         if (ball != null) {
@@ -46,10 +48,12 @@ public class TrueGodAI extends AI {
         if (target == null)
             return;
 
+        Platform nearestPlatformBelow = nearestPlatformBelow(player.battleScreen.getStage().getPlatforms());
         Projectile targetProjectile = nearestEnemyProjectile(player.battleScreen.getProjectiles());
         boolean hasTargetProjectile = targetProjectile != null;
 
-        Vector targetPos = target.hitbox.getCenter();
+        Vector targetPos = Vector.add(target.hitbox.getCenter(), target.velocity);
+        
         Vector targetProjectilePos = null;
         if (hasTargetProjectile) {
             targetProjectilePos = targetProjectile.hitbox.getCenter();
@@ -93,7 +97,11 @@ public class TrueGodAI extends AI {
                 }
             }
         }
-
+        
+        if (player.falling && nearestPlatformBelow != null) {
+            targetPos = new Vector(nearestPlatformBelow.getHitbox().getRandomPoint().x, nearestPlatformBelow.getHitbox().y);
+        }
+        
         if (player.battleScreen.getStage().colliding(
                 new AABB(player.hitbox.x + player.velocity.x * 20, player.hitbox.getY2(), player.hitbox.width, 1024))) {
             if (playerPos.x < targetPos.x - (player.hitbox.width + target.hitbox.width) / 2) {
@@ -101,6 +109,7 @@ public class TrueGodAI extends AI {
             } else if (playerPos.x > targetPos.x + (player.hitbox.width + target.hitbox.width) / 2) {
                 press(Player.LEFT);
             } else {
+                doNotAttack = true;
                 if (player.direction == -1) {
                     press(Player.LEFT);
                 } else {
@@ -173,6 +182,8 @@ public class TrueGodAI extends AI {
             toBePressed[Player.ATTACK] = false;
         }
 
+        if (doNotAttack) toBePressed[Player.ATTACK] = false;
+        
         for (int i = 0; i < player.readableKeys.length; i++) {
             if (toBePressed[i])
                 player.simulateKeyPress(i);

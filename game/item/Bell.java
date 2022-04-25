@@ -39,7 +39,7 @@ public class Bell extends Item {
             SoundEngine.playSound("bell");
             holder.battleScreen
                 .addProjectileAtCenter(
-                        new Bong(hitbox.getCenterX(), hitbox.getCenterY(), 0, holder.keyLayout, holder.direction, holder));
+                        new Bong(hitbox.getCenterX(), hitbox.getCenterY(), 0, holder.playerId, holder.direction, holder));
             holder.endLag = 8;
         }
         if (swung > 0 && swung % 2 == 0)

@@ -14,14 +14,15 @@ public class Explosion extends Projectile {
       life = 45;
       alive = true;
       knockbackStrength = 69;
-      this.owner = ownerPlayer.keyLayout;
+      this.owner = ownerPlayer.playerId;
       this.ownerPlayer = ownerPlayer;
       dir = 0;
       fileName = "none.png";
       pos = new Vector(x, y);
       velocity = new Vector(0, 0);
       draw = false;
-      unreflectable = false;
+      unreflectable = true;
+      unParryable = true;
       hitbox = new AABB(pos.x, pos.y, width, height);
    }
 

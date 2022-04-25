@@ -29,7 +29,7 @@ public class TrueGod extends HomingProjectile implements Deity {
     public TrueGod(Player ownerPlayer) {
         life = 800;
         alive = true;
-        this.owner = ownerPlayer.keyLayout;
+        this.owner = ownerPlayer.playerId;
         this.ownerPlayer = ownerPlayer;
         fileName = "none.png";
         unreflectable = true;
@@ -95,14 +95,14 @@ public class TrueGod extends HomingProjectile implements Deity {
 
         legSpawnDelay++;
         if (legSpawnDelay == 50) {
-            battleScreen.addProjectile(new GodSeagullLeg(ownerPlayer.keyLayout, firstLegToSpawn ? 1 : -1, ownerPlayer));
+            battleScreen.addProjectile(new GodSeagullLeg(ownerPlayer.playerId, firstLegToSpawn ? 1 : -1, ownerPlayer));
         }
         if (legSpawnDelay == 70) {
-            battleScreen.addProjectile(new GodSeagullLeg(ownerPlayer.keyLayout, firstLegToSpawn ? -1 : 1, ownerPlayer));
+            battleScreen.addProjectile(new GodSeagullLeg(ownerPlayer.playerId, firstLegToSpawn ? -1 : 1, ownerPlayer));
         }
 
         if (legSpawnDelay == 80) {
-            battleScreen.addProjectile(new GodSeagullBeak(ownerPlayer.keyLayout, ownerPlayer));
+            battleScreen.addProjectile(new GodSeagullBeak(ownerPlayer.playerId, ownerPlayer));
         }
 
         if (++heartFrame >= 666 / 111) {

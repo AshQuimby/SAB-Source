@@ -39,7 +39,7 @@ public class Snas extends Character {
    public void neutralAttack(Player player) {
       player.battleScreen
             .addProjectileAtCenter(new Bone(player.center().x, player.center().y - 56, 56 * player.direction, 0,
-                  player.keyLayout, player.direction, player, false));
+                  player.playerId, player.direction, player, false));
       player.endLag = 10;
       SoundEngine.playSound("snas");
    }
@@ -48,7 +48,7 @@ public class Snas extends Character {
    public void sideAttack(Player player) {
       player.battleScreen
             .addProjectileAtCenter(new BoneSpin(player.center().x, player.center().y, 0, 0, 14,
-                  Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.keyLayout,
+                  Math.toRadians(200) + ((player.direction + 1) / 2) * Math.toRadians(140), player.playerId,
                   player.direction, player));
       player.endLag = 8;
       SoundEngine.playSound("snas");
@@ -78,7 +78,7 @@ public class Snas extends Character {
    public void downAttack(Player player) {
       SoundEngine.playSound("snas");
       player.battleScreen.addProjectileAtCenter(
-            new GlasterBaster(player.center().x + 128 * player.direction, player.center().y, player.keyLayout,
+            new GlasterBaster(player.center().x + 128 * player.direction, player.center().y, player.playerId,
                   player.direction, player));
       player.charging = true;
       player.charge = 1;
@@ -97,7 +97,7 @@ public class Snas extends Character {
       SoundEngine.playSound("glaster_baster");
       player.battleScreen.addProjectile(
             new GlasterBeam(player.center().x + 90 * player.direction - 76 / 4, player.center().y - 76 / 4,
-                  player.keyLayout,
+                  player.playerId,
                   player.direction,
                   basterFacingDireciton, charge, player));
       player.endLag = 14;

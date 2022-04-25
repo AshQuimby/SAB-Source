@@ -64,7 +64,7 @@ public class Wrench extends Projectile {
       List<Player> hitPlayers = hittingPlayer();
       if (hitPlayers != null) {
          for (Player player : hitPlayers) {
-            if (player.keyLayout != owner) {
+            if (player.playerId != owner) {
                player.hitPlayer(damage, 0, 0, 0, this);
                player.velocity = player.velocity.mul(-3);
                player.direction -= 1;

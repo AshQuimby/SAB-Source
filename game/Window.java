@@ -29,7 +29,7 @@ public class Window extends JPanel implements ActionListener, KeyListener {
         CharacterSelectScreen.loadModCharacters();
         Settings.load("../options.sabo");
         setPreferredSize(new Dimension(width, height));
-        preferredSelectScreen = screen;
+        preferredSelectScreen = new CharacterSelectScreen();
         this.screen = screen;
 
         timer = new Timer(TICK_LENGTH_MILLISECONDS, this);

@@ -37,11 +37,11 @@ public class Walouis extends Character {
       if (player.direction == -1) {
          player.battleScreen.addProjectile(
                new SmallNote(player.hitbox.x + 24, player.hitbox.y + 50, 16 * player.direction * (Math.random() + 0.5),
-                     (Math.random() - 0.5) * 4, 10, Math.toRadians(200), player.keyLayout, player));
+                     (Math.random() - 0.5) * 4, 10, Math.toRadians(200), player.playerId, player));
       } else {
          player.battleScreen.addProjectile(new SmallNote(player.hitbox.x + 24, player.hitbox.y + 50,
                16 * player.direction * (Math.random() + 0.5), (Math.random() - 0.5) * 4, 10,
-               Math.toRadians(340), player.keyLayout, player));
+               Math.toRadians(340), player.playerId, player));
       }
       SoundEngine.playSound("wagh");
       player.readableKeysJustPressed[5] = 0;
@@ -55,11 +55,11 @@ public class Walouis extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Racket(player.hitbox.x - 68 + (-12 * player.direction), player.hitbox.y - 28,
-                     0, 0, 10, Math.toRadians(220), player.keyLayout, -1, player));
+                     0, 0, 10, Math.toRadians(220), player.playerId, -1, player));
       } else {
          player.battleScreen
                .addProjectile(new Racket(player.hitbox.x - 68 + (-12 * player.direction), player.hitbox.y, 0, 0,
-                     10, Math.toRadians(320), player.keyLayout, 1, player));
+                     10, Math.toRadians(320), player.playerId, 1, player));
       }
       player.frame = 9;
    }
@@ -69,13 +69,13 @@ public class Walouis extends Character {
       SoundEngine.playSound("wagh");
       player.velocity.y = -52;
       player.battleScreen.addProjectile(
-            new Note(player.hitbox.x + 14, player.hitbox.y + 20, -4, 10, 10, Math.toRadians(75), player.keyLayout,
+            new Note(player.hitbox.x + 14, player.hitbox.y + 20, -4, 10, 10, Math.toRadians(75), player.playerId,
                   player));
       player.battleScreen.addProjectile(
-            new Note(player.hitbox.x + 14, player.hitbox.y + 20, 0, 10, 10, Math.toRadians(90), player.keyLayout,
+            new Note(player.hitbox.x + 14, player.hitbox.y + 20, 0, 10, 10, Math.toRadians(90), player.playerId,
                   player));
       player.battleScreen.addProjectile(
-            new Note(player.hitbox.x + 14, player.hitbox.y + 20, 4, 10, 10, Math.toRadians(115), player.keyLayout,
+            new Note(player.hitbox.x + 14, player.hitbox.y + 20, 4, 10, 10, Math.toRadians(115), player.playerId,
                   player));
       player.falling = true;
    }
@@ -88,11 +88,11 @@ public class Walouis extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Bomb(player.hitbox.x + 16, player.hitbox.y + 20, (10 + bonusVel) * player.direction,
-                     -5 + (bonusVel - 4), 10, Math.toRadians(230), player.keyLayout, player));
+                     -5 + (bonusVel - 4), 10, Math.toRadians(230), player.playerId, player));
       } else {
          player.battleScreen
                .addProjectile(new Bomb(player.hitbox.x + 16, player.hitbox.y + 20, (10 + bonusVel) * player.direction,
-                     -5 + (bonusVel - 4), 10, Math.toRadians(310), player.keyLayout, player));
+                     -5 + (bonusVel - 4), 10, Math.toRadians(310), player.playerId, player));
       }
       player.frame = 3;
       player.endLag = 18;
@@ -102,7 +102,7 @@ public class Walouis extends Character {
 
    @Override
    public void finalAss(Player player) {
-      player.battleScreen.addProjectile(new SaxSolo(0, 0, player.keyLayout, player));
+      player.battleScreen.addProjectile(new SaxSolo(0, 0, player.playerId, player));
       SoundEngine.playMusicOnce("walouis_sax_solo");
    }
 

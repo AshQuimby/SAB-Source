@@ -16,7 +16,7 @@ public class DuckBomb extends Item {
         holder.battleScreen
                 .addProjectileAtCenter(
                         new ThrownDuckBomb(hitbox.getCenterX(), hitbox.getCenterY() - 16, 12 * holder.direction, -5,
-                                18, 14, holder.direction == 1 ? Math.toRadians(340) : Math.toRadians(200), holder.keyLayout, holder));
+                                18, 14, holder.direction == 1 ? Math.toRadians(340) : Math.toRadians(200), holder.playerId, holder));
         holder.endLag = 16;
         remove();
     }

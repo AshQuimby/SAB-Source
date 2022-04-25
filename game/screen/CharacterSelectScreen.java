@@ -206,9 +206,9 @@ public class CharacterSelectScreen implements Screen {
                     player1CostumeIndex, player2CostumeIndex);
         }
 
-        if (keyCode == KeyEvent.VK_SHIFT) {
-            SoundEngine.playSound("blip");
-            return new SettingsScreen();
+        if (keyCode == KeyEvent.VK_SHIFT || keyCode == KeyEvent.VK_ESCAPE) {
+            SoundEngine.playSound("unready");
+            return new TitleScreen();
         }
 
         return this;

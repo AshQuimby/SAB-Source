@@ -77,16 +77,8 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        // Scanner consoleInput = new Scanner(System.in);
-
-        // System.out.print("Server address: ");
-        // String address = consoleInput.nextLine();
-        // String address = "97.113.138.133";
-        String address = /* "209.181.138.224" */ "localhost";
-
-        // System.out.print("Port: ");
-        // int port = consoleInput.nextInt();
-        int port = 25565;
+        String address = args[0];
+        int port = Integer.parseInt(args[1]);
 
         Client client = new Client(address, port);
 

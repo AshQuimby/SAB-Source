@@ -46,7 +46,7 @@ public class GodSeagullLeg extends Projectile {
                 }
             }
 
-            x = rightmostPlatform.getHitbox().getX2() - width + width / 2;
+            x = rightmostPlatform.getHitbox().getX2() - width / 2;
         }
 
         pos = new Vector(x, ownerPlayer.battleScreen.getStage().getSafeBlastZone().y - height);

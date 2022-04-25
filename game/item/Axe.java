@@ -16,7 +16,7 @@ public class Axe extends Item {
         holder.battleScreen
                 .addProjectileAtCenter(
                         new ThrownAxe(hitbox.getCenterX(), hitbox.getCenterY() - 16, 12 * holder.direction, -5,
-                                holder.direction == 1 ? Math.toRadians(340) : Math.toRadians(200), holder.keyLayout,
+                                holder.direction == 1 ? Math.toRadians(340) : Math.toRadians(200), holder.playerId,
                                 holder.direction, holder));
         holder.endLag = 12;
         remove();

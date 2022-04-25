@@ -38,7 +38,7 @@ public class GodAI extends AI {
       
       Vector targetPointOnPlatform = targetPlatform.getHitbox().nearestPointTo(target.center());
       
-      Vector targetPos = target.hitbox.getCenter().clone();
+      Vector targetPos = target.hitbox.getCenter();
       AABB nextTargetProjectileFrame = null;
 
       if (targetProjectile != null) {
@@ -145,7 +145,7 @@ public class GodAI extends AI {
       }
       if (player.frozen > 1) {
          for (int i = 0; i < 6; i++) {
-            if (Math.random() > 0.9)
+            if (Math.random() > 0.99)
                tap(i);
          }
       }

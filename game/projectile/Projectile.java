@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import game.GameObject;
 import game.Player;
-import game.AssBall;
 import game.physics.*;
 import game.screen.BattleScreen;
 import game.Images;

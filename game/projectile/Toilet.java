@@ -56,7 +56,7 @@ public class Toilet extends Projectile {
             battleScreen.addParticle(new Particle(pos.x + 20, pos.y + 10, (Math.random() - 0.5) * 3,
                   (Math.random() + 0.3) * -20, 2, 3, 6, "water.png"));
             battleScreen.addProjectile(
-                  new Water(pos.x, pos.y - 60, 10.0, Math.toRadians(270), ownerPlayer.keyLayout, ownerPlayer));
+                  new Water(pos.x, pos.y - 60, 10.0, Math.toRadians(270), ownerPlayer.playerId, ownerPlayer));
          }
          if (life == 15) {
             originalPlayer.velocity.y = -50;

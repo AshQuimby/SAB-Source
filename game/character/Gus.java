@@ -35,11 +35,11 @@ public class Gus extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Bullet(player.hitbox.x + 16, player.hitbox.y + 28, player.direction * 12, 0, 2,
-                     Math.toRadians(190), player.keyLayout, player));
+                     Math.toRadians(190), player.playerId, player));
       } else {
          player.battleScreen
                .addProjectile(new Bullet(player.hitbox.x + 16, player.hitbox.y + 28, player.direction * 12, 0, 2,
-                     Math.toRadians(350), player.keyLayout, player));
+                     Math.toRadians(350), player.playerId, player));
       }
       player.frame = 3;
       player.endLag = 18;
@@ -51,11 +51,11 @@ public class Gus extends Character {
       if (player.direction == -1) {
          player.battleScreen
                .addProjectile(new Tongue(player.hitbox.x - 16 + (48 * player.direction), player.hitbox.y + 20, 0,
-                     0, 10, Math.toRadians(310), player.keyLayout, -1, player));
+                     0, 10, Math.toRadians(310), player.playerId, -1, player));
       } else {
          player.battleScreen
                .addProjectile(new Tongue(player.hitbox.x - 16 + (48 * player.direction), player.hitbox.y + 20, 0,
-                     0, 10, Math.toRadians(230), player.keyLayout, 1, player));
+                     0, 10, Math.toRadians(230), player.playerId, 1, player));
       }
       player.frame = 4;
       player.endLag = 7;
@@ -65,7 +65,7 @@ public class Gus extends Character {
    public void upAttack(Player player) {
       player.falling = true;
       player.battleScreen
-            .addProjectileAtCenter(new SussyVent(player.center().x, player.center().y - 46, player.keyLayout, player));
+            .addProjectileAtCenter(new SussyVent(player.center().x, player.center().y - 46, player.playerId, player));
    }
 
    @Override
@@ -74,7 +74,7 @@ public class Gus extends Character {
       player.endLag = 12;
       player.battleScreen
             .addProjectile(new MiniGus(player.hitbox.x + 20 + (35 * player.direction), player.hitbox.y - 5, 0, 0, 10,
-                  Math.toRadians(270), player.keyLayout, player.direction, player));
+                  Math.toRadians(270), player.playerId, player.direction, player));
    }
 
    @Override

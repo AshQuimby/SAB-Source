@@ -36,7 +36,7 @@ public class Player extends GameObject {
    public int height;
    public int direction;
    public int frozen;
-   public int keyLayout;
+   public int playerId;
    public int frame;
    public int walkTimer;
    public int respawnTimer;
@@ -69,16 +69,16 @@ public class Player extends GameObject {
 
    public Item heldItem;
 
-   public Player(int keyLayout, Character character, BattleScreen battleScreen, int lives, int costume, AI ai) {
-      constructorBase(keyLayout, character, battleScreen, lives, costume);
+   public Player(int playerId, Character character, BattleScreen battleScreen, int lives, int costume, AI ai) {
+      constructorBase(playerId, character, battleScreen, lives, costume);
       this.ai = ai;
    }
 
-   public Player(int keyLayout, Character character, BattleScreen battleScreen, int lives, int costume) {
-      constructorBase(keyLayout, character, battleScreen, lives, costume);
+   public Player(int playerId, Character character, BattleScreen battleScreen, int lives, int costume) {
+      constructorBase(playerId, character, battleScreen, lives, costume);
    }
 
-   protected void constructorBase(int keyLayout, Character character, BattleScreen battleScreen, int lives,
+   protected void constructorBase(int playerId, Character character, BattleScreen battleScreen, int lives,
          int costume) {
       ai = new AI();
       dontLateUpdatePos = false;
@@ -89,7 +89,7 @@ public class Player extends GameObject {
       heldItem = null;
       modPlayers = new ArrayList<>();
       knockBack = new Vector(0, 0);
-      this.keyLayout = keyLayout;
+      this.playerId = playerId;
       walkTimer = 0;
       direction = 1;
       touchingStage = false;
@@ -112,7 +112,7 @@ public class Player extends GameObject {
       width = selectedChar.width;
       height = selectedChar.height;
       jumps = selectedChar.jumps;
-      selectedChar.id = keyLayout;
+      selectedChar.id = playerId;
       grabbedEdge = null;
       hitbox = new AABB(pos.x, pos.y, selectedChar.hitboxWidth, selectedChar.hitboxHeight);
       selectedChar.uniqueUpdateOnGameStart(this);
@@ -145,7 +145,7 @@ public class Player extends GameObject {
             battleScreen
                   .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
                         0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (keyLayout + 1) + ".png"));
+                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
             knockBackSmokeTimer = 0;
          }
          knockBackSmokeTimer++;
@@ -189,7 +189,7 @@ public class Player extends GameObject {
             battleScreen
                   .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
                         0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (keyLayout + 1) + ".png"));
+                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
 
          }
          pos = Vector.sub(new Vector(hitbox.x, hitbox.y), selectedChar.offset);
@@ -205,7 +205,7 @@ public class Player extends GameObject {
             battleScreen
                   .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
                         0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (keyLayout + 1) + ".png"));
+                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
 
          }
          pos = Vector.sub(new Vector(hitbox.x, hitbox.y), selectedChar.offset);
@@ -218,7 +218,7 @@ public class Player extends GameObject {
 
       if (--respawnTimer > 0) {
          frame = 0;
-         if (hitbox.y + hitbox.height < battleScreen.getStage().getSpawnOffset(keyLayout).y + 96)
+         if (hitbox.y + hitbox.height < battleScreen.getStage().getSpawnOffset(playerId).y + 96)
             hitbox.y += 8;
          else
             for (int i = 0; i < 5; i++) {
@@ -345,8 +345,6 @@ public class Player extends GameObject {
       }
       if (parryTimer > -10) {
          parryTimer--;
-      } else if (readableKeysJustPressed[PARRY] == 1 && parryTimer == -10) {
-         parryTimer = 3;
       }
       if (!touchingStage) {
          if (endLag > 0) {
@@ -397,6 +395,9 @@ public class Player extends GameObject {
                         (Math.random() - 0.5) * 3, 2, 4, 4, selectedChar.chargingParticle));
          pos = Vector.sub(hitbox.getPosition(), selectedChar.offset);
          return; // dont let charging players move
+      }
+      if (readableKeysJustPressed[PARRY] == 1 && parryTimer == -10) {
+         parryTimer = 3;
       }
       selectedChar.uniqueUpdatePostFreezeCases(this);
       if (readableKeys[LEFT]) {
@@ -521,6 +522,7 @@ public class Player extends GameObject {
 
    public void kill() {
       battleScreen.cameraShake(5);
+      finalAss = false;
       velocity.x = 0;
       velocity.y = 0;
       knockBack.x = 0;
@@ -538,7 +540,7 @@ public class Player extends GameObject {
                new Particle(hitbox.x, hitbox.y, twinkleVel.x, twinkleVel.y, 4, 4, 4, "twinkle.png"));
       }
       for (Projectile projectile : battleScreen.getProjectiles()) {
-         if (projectile.owner == keyLayout)
+         if (projectile.owner == playerId)
             projectile.alive = false;
       }
       if (lives > 0) {
@@ -547,11 +549,11 @@ public class Player extends GameObject {
          frozen = 0;
          endLag = 0;
          damage = 0;
-         if (keyLayout == 0) {
+         if (playerId == 0) {
             hitbox.x = 556 - 128 - hitbox.width / 2 + battleScreen.getStage().getSpawnOffset(0).x;
             hitbox.y = -90 + battleScreen.getStage().getSpawnOffset(0).y;
          }
-         if (keyLayout == 1) {
+         if (playerId == 1) {
             hitbox.x = 556 + 128 - hitbox.width / 2 + battleScreen.getStage().getSpawnOffset(1).x;
             hitbox.y = -90 + battleScreen.getStage().getSpawnOffset(1).y;
          }
@@ -665,61 +667,61 @@ public class Player extends GameObject {
    public void keyPressed(KeyEvent e) {
       int key = e.getKeyCode();
 
-      if (key == KeyEvent.VK_UP && keyLayout == 1 || key == KeyEvent.VK_W && keyLayout == 0) {
+      if (key == KeyEvent.VK_UP && playerId == 1 || key == KeyEvent.VK_W && playerId == 0) {
          readableKeys[UP] = true;
       }
-      if (key == KeyEvent.VK_RIGHT && keyLayout == 1 || key == KeyEvent.VK_D && keyLayout == 0) {
+      if (key == KeyEvent.VK_RIGHT && playerId == 1 || key == KeyEvent.VK_D && playerId == 0) {
          readableKeys[RIGHT] = true;
       }
-      if (key == KeyEvent.VK_DOWN && keyLayout == 1 || key == KeyEvent.VK_S && keyLayout == 0) {
+      if (key == KeyEvent.VK_DOWN && playerId == 1 || key == KeyEvent.VK_S && playerId == 0) {
          readableKeys[DOWN] = true;
       }
-      if (key == KeyEvent.VK_LEFT && keyLayout == 1 || key == KeyEvent.VK_A && keyLayout == 0) {
+      if (key == KeyEvent.VK_LEFT && playerId == 1 || key == KeyEvent.VK_A && playerId == 0) {
          readableKeys[LEFT] = true;
       }
-      if (key == KeyEvent.VK_N && keyLayout == 1 || key == KeyEvent.VK_C && keyLayout == 0
-            || key == KeyEvent.VK_UP && keyLayout == 1 || key == KeyEvent.VK_W && keyLayout == 0) {
+      if (key == KeyEvent.VK_N && playerId == 1 || key == KeyEvent.VK_C && playerId == 0
+            || key == KeyEvent.VK_UP && playerId == 1 || key == KeyEvent.VK_W && playerId == 0) {
          readableKeys[JUMP] = true;
       }
-      if (key == KeyEvent.VK_M && keyLayout == 1 || key == KeyEvent.VK_Q && keyLayout == 0
-            || key == KeyEvent.VK_F && keyLayout == 0) {
+      if (key == KeyEvent.VK_M && playerId == 1 || key == KeyEvent.VK_Q && playerId == 0
+            || key == KeyEvent.VK_F && playerId == 0) {
          readableKeys[ATTACK] = true;
       }
-      if (key == KeyEvent.VK_B && keyLayout == 1 || key == KeyEvent.VK_Z && keyLayout == 0) {
+      if (key == KeyEvent.VK_B && playerId == 1 || key == KeyEvent.VK_Z && playerId == 0) {
          readableKeys[PARRY] = true;
       }
    }
 
    public void keyReleased(KeyEvent e) {
       int key = e.getKeyCode();
-      if (key == KeyEvent.VK_UP && keyLayout == 1 || key == KeyEvent.VK_W && keyLayout == 0) {
+      if (key == KeyEvent.VK_UP && playerId == 1 || key == KeyEvent.VK_W && playerId == 0) {
          readableKeys[UP] = false;
          readableKeysJustPressed[0] = 0;
       }
-      if (key == KeyEvent.VK_RIGHT && keyLayout == 1 || key == KeyEvent.VK_D && keyLayout == 0) {
+      if (key == KeyEvent.VK_RIGHT && playerId == 1 || key == KeyEvent.VK_D && playerId == 0) {
          readableKeys[RIGHT] = false;
          readableKeysJustPressed[3] = 0;
       }
-      if (key == KeyEvent.VK_DOWN && keyLayout == 1 || key == KeyEvent.VK_S && keyLayout == 0) {
+      if (key == KeyEvent.VK_DOWN && playerId == 1 || key == KeyEvent.VK_S && playerId == 0) {
          readableKeys[DOWN] = false;
          readableKeysJustPressed[1] = 0;
       }
-      if (key == KeyEvent.VK_LEFT && keyLayout == 1 || key == KeyEvent.VK_A && keyLayout == 0) {
+      if (key == KeyEvent.VK_LEFT && playerId == 1 || key == KeyEvent.VK_A && playerId == 0) {
          readableKeys[LEFT] = false;
          readableKeysJustPressed[2] = 0;
       }
-      if (key == KeyEvent.VK_N && keyLayout == 1 || key == KeyEvent.VK_C && keyLayout == 0
-            || key == KeyEvent.VK_UP && keyLayout == 1 || key == KeyEvent.VK_W && keyLayout == 0) {
+      if (key == KeyEvent.VK_N && playerId == 1 || key == KeyEvent.VK_C && playerId == 0
+            || key == KeyEvent.VK_UP && playerId == 1 || key == KeyEvent.VK_W && playerId == 0) {
          canAirJump = true;
          readableKeys[JUMP] = false;
          readableKeysJustPressed[4] = 0;
       }
-      if (key == KeyEvent.VK_M && keyLayout == 1 || key == KeyEvent.VK_Q && keyLayout == 0
-            || key == KeyEvent.VK_F && keyLayout == 0) {
+      if (key == KeyEvent.VK_M && playerId == 1 || key == KeyEvent.VK_Q && playerId == 0
+            || key == KeyEvent.VK_F && playerId == 0) {
          readableKeys[ATTACK] = false;
          readableKeysJustPressed[5] = 0;
       }
-      if (key == KeyEvent.VK_B && keyLayout == 1 || key == KeyEvent.VK_Z && keyLayout == 0) {
+      if (key == KeyEvent.VK_B && playerId == 1 || key == KeyEvent.VK_Z && playerId == 0) {
          readableKeys[PARRY] = false;
          readableKeysJustPressed[6] = 0;
       }
@@ -820,12 +822,12 @@ public class Player extends GameObject {
          battleScreen.renderObject(g, ice, pos, width, height, false, target);
       }
 
-      BufferedImage playerIndicator = Images.getImage(String.format("p%sarrow.png", keyLayout + 1));
+      BufferedImage playerIndicator = Images.getImage(String.format("p%sarrow.png", playerId + 1));
       battleScreen.renderObject(g, playerIndicator, new Vector(pos.x + width / 2 - 8, pos.y - 16), 16, 8, false,
             target);
 
       if (respawnTimer > 0) {
-         BufferedImage spawnPlatform = Images.getImage(String.format("p%sspawn_platform.png", keyLayout + 1));
+         BufferedImage spawnPlatform = Images.getImage(String.format("p%sspawn_platform.png", playerId + 1));
          battleScreen.renderObject(g, spawnPlatform, new Vector(pos.x - 4, pos.y + height), width + 8, 32, false,
                target);
       }
@@ -842,6 +844,6 @@ public class Player extends GameObject {
    }
 
    public Player lightClone() {
-      return new Player(keyLayout, selectedChar, battleScreen, lives, costume);
+      return new Player(playerId, selectedChar, battleScreen, lives, costume);
    }
 }

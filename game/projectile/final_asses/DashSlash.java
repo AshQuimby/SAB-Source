@@ -19,7 +19,7 @@ public class DashSlash extends Projectile {
         life = 15;
         alive = true;
         knockbackStrength = 58;
-        this.owner = ownerPlayer.keyLayout;
+        this.owner = ownerPlayer.playerId;
         this.ownerPlayer = ownerPlayer;
         dir = 0;
         if (ownerPlayer.costume > 0)
@@ -71,7 +71,7 @@ public class DashSlash extends Projectile {
                 ownerPlayer.hitbox.setPosition(backToPos);
                 battleScreen.addProjectile(new Teleport(ownerPlayer.hitbox.x, -10000, 0, 0,
                   Math.toRadians(200) + ((ownerPlayer.direction + 1) / 2) * Math.toRadians(140),
-                  ownerPlayer.keyLayout, ownerPlayer.direction, ownerPlayer));
+                  ownerPlayer.playerId, ownerPlayer.direction, ownerPlayer));
                 alive = false;
             }
         }

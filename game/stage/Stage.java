@@ -177,7 +177,7 @@ public class Stage implements Serializable {
                grounded = true;
             }
          }
-         if (!movingUp)
+         if (!movingUp || !platform.canJumpThrough())
             player.hitbox.resolveY(dy, platform.getHitbox());
       }
       return grounded;

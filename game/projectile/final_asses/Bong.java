@@ -22,6 +22,7 @@ public class Bong extends Projectile {
       pos = new Vector(x, y);
       velocity = new Vector(0, 0);
       unreflectable = true;
+      unParryable = true;
       hitbox = new AABB(pos.x, pos.y, width, height);
    }
 

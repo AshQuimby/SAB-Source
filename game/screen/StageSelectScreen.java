@@ -2,9 +2,11 @@ package game.screen;
 
 import game.stage.*;
 import game.Images;
+import game.SoundEngine;
 import game.physics.Vector;
 import game.Fonts;
 import game.character.Character;
+import game.Window;
 
 import java.awt.Graphics;
 import java.awt.*;
@@ -105,6 +107,11 @@ public class StageSelectScreen implements Screen {
             if (!stages.contains(god)) {
                 stages.add(god);
             }
+        }
+
+        if (keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_SHIFT) {
+            SoundEngine.playSound("unready");
+            return Window.preferredSelectScreen;
         }
 
         if (keyCode == KeyEvent.VK_ENTER) {

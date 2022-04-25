@@ -23,7 +23,7 @@ public class SludgeBomb extends ModProjectile {
       life = 80;
       alive = true;
       this.direction = ownerPlayer.direction;
-      this.owner = ownerPlayer.keyLayout;
+      this.owner = ownerPlayer.playerId;
       this.ownerPlayer = ownerPlayer;
       fileName = "sludge_bomb.png";
       pos = new Vector(ownerPlayer.center().x, -300);

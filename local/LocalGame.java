@@ -1,7 +1,7 @@
 package local;
 
 import game.Window;
-import game.screen.CharacterSelectScreen;
+import game.screen.TitleScreen;
 
 import javax.swing.*;
 
@@ -16,7 +16,7 @@ class LocalGame {
 
         // Create the window and attach it to the frame.
         // Board board = new Board();
-        Window window = new Window(1152, 704, new CharacterSelectScreen());
+        Window window = new Window(1152, 704, new TitleScreen());
         frame.add(window);
 
         // Pass keyboard input to the window.

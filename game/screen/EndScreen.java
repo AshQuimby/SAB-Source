@@ -86,12 +86,11 @@ public class EndScreen implements Screen {
     @Override
     public void render(Graphics g, ImageObserver target) {
         g.drawImage(Images.getImage("game_end_background.png"), 0, 0, target);
-        if (winner.selectedChar.fileName.equals("true_god.png")){
+        if (winner.selectedChar.fileName.equals("true_god.png")) {
             g.drawImage(Images.getImage(
                     "true_god.png"),
                     576 - 800 + gameEndTimer / 2, -600 - gameEndTimer * 64, 1600 - gameEndTimer, 1600, target);
-        }
-        else if (winner.costume != 0) {
+        } else if (winner.costume != 0) {
             g.drawImage(Images.getImage(
                     winner.selectedChar.fileName.substring(0, winner.selectedChar.fileName.length() - 4)
                             + "_render_alt_" + winner.costume + ".png"),
@@ -102,7 +101,13 @@ public class EndScreen implements Screen {
                             + "_render.png"),
                     576 - 128 + gameEndTimer / 2, 300 - gameEndTimer * 64, 256 - gameEndTimer, 256, target);
         }
-        drawText(new Vector(576, 128), 36, winner.selectedChar.characterName + " WINS!", new Color(255, 255, 255), g,
-                true);
+        if (winner.selectedChar.fileName.equals("tie.png")) {
+            drawText(new Vector(576, 128), 36, "DRAW!", new Color(255, 255, 255), g,
+                    true);
+        } else {
+            drawText(new Vector(576, 128), 36, winner.selectedChar.characterName + " WINS!", new Color(255, 255, 255),
+                    g,
+                    true);
+        }
     }
 }
