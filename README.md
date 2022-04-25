@@ -29,5 +29,7 @@
 # Credits
   
   Developers: AshQuimby, a_viper
+  
   Artists: AshQuimby, a_viper
+  
   Music & Sound: AshQuimby, a_viper, Beat Thorn
