@@ -9,7 +9,7 @@ public class Hell extends Stage {
     public Hell() {
         name = "Hell";
         musicFile = "genetically_engineered_bad";
-        musicCredit = "[Hell on the ears] Genetically Engineered Bad -AshQuimby";
+        musicCredit = "/WARNING/ [Hell on the ears] Genetically Engineered Bad -AshQuimby";
         backgroundImage = "background.png";
         maxZoomOut = 0.45f;
         p1SpawnOffset = new Vector(-1028, -512);

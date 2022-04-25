@@ -1,6 +1,6 @@
 package game.stage;
 
-public class God extends ThumbabaLair {
+public class God extends COBS {
     public God() {
         super();
         name = "God";

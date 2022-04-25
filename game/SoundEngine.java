@@ -59,6 +59,7 @@ public class SoundEngine {
                 public void run() {
                     try {
                         sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
+                        currentMusicTrack.get(0).setCycleCount(1);
                         currentMusicTrack.add(sounds.get(fileName));
                     } catch (Exception e) {
                         System.out.println("WARNING: Error loading sound \"" + fileName + "\"");
