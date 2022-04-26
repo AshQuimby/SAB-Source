@@ -26,6 +26,12 @@ public class SoundEngine {
         readModSounds(new File("mods"));
     }
 
+    public static void changeMusicSpeed(float newSpeed) {
+        currentMusicTrack.get(0).stop();
+        currentMusicTrack.get(0).setRate(newSpeed);
+        currentMusicTrack.get(0).play();
+    }
+
     public static void stopMusic() {
         try {
             currentMusicTrack.get(0).stop();
@@ -59,7 +65,6 @@ public class SoundEngine {
                 public void run() {
                     try {
                         sounds.get(fileName).play(Settings.volume(), 1, playbackSpeed, 0, 1);
-                        currentMusicTrack.get(0).setCycleCount(1);
                         currentMusicTrack.add(sounds.get(fileName));
                     } catch (Exception e) {
                         System.out.println("WARNING: Error loading sound \"" + fileName + "\"");

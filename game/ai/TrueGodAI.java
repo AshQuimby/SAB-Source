@@ -53,7 +53,7 @@ public class TrueGodAI extends AI {
         boolean hasTargetProjectile = targetProjectile != null;
 
         Vector targetPos = Vector.add(target.hitbox.getCenter(), target.velocity);
-        
+
         Vector targetProjectilePos = null;
         if (hasTargetProjectile) {
             targetProjectilePos = targetProjectile.hitbox.getCenter();
@@ -97,11 +97,12 @@ public class TrueGodAI extends AI {
                 }
             }
         }
-        
+
         if (player.falling && nearestPlatformBelow != null) {
-            targetPos = new Vector(nearestPlatformBelow.getHitbox().getRandomPoint().x, nearestPlatformBelow.getHitbox().y);
+            targetPos = new Vector(nearestPlatformBelow.getHitbox().getRandomPoint().x,
+                    nearestPlatformBelow.getHitbox().y);
         }
-        
+
         if (player.battleScreen.getStage().colliding(
                 new AABB(player.hitbox.x + player.velocity.x * 20, player.hitbox.getY2(), player.hitbox.width, 1024))) {
             if (playerPos.x < targetPos.x - (player.hitbox.width + target.hitbox.width) / 2) {
@@ -138,20 +139,26 @@ public class TrueGodAI extends AI {
         if (!player.battleScreen.getStage()
                 .colliding(new AABB(player.hitbox.x, player.hitbox.getY2(), player.hitbox.width, 1024))) {
             Ledge nearestLedge = nearestLedge(player.battleScreen.getStage().ledges);
-            Vector ledgePos = nearestLedge.hitbox.getCenter();
+            if (nearestLedge != null) {
+                Vector ledgePos = nearestLedge.hitbox.getCenter();
 
-            if (playerPos.x < ledgePos.x) {
-                press(Player.RIGHT);
-            } else if (playerPos.x > ledgePos.y) {
-                press(Player.LEFT);
-            }
+                if (playerPos.x < ledgePos.x) {
+                    release(Player.ATTACK);
+                    release(Player.LEFT);
+                    press(Player.RIGHT);
+                } else if (playerPos.x > ledgePos.y) {
+                    release(Player.ATTACK);
+                    release(Player.RIGHT);
+                    press(Player.LEFT);
+                }
 
-            if (player.velocity.y >= 10) {
-                if (player.jumps > 0) {
-                    tap(Player.JUMP);
-                } else {
-                    press(Player.UP);
-                    press(Player.ATTACK);
+                if (player.velocity.y >= 10) {
+                    if (player.jumps > 0) {
+                        tap(Player.JUMP);
+                    } else {
+                        press(Player.UP);
+                        press(Player.ATTACK);
+                    }
                 }
             }
         }
@@ -182,8 +189,9 @@ public class TrueGodAI extends AI {
             toBePressed[Player.ATTACK] = false;
         }
 
-        if (doNotAttack) toBePressed[Player.ATTACK] = false;
-        
+        if (doNotAttack)
+            toBePressed[Player.ATTACK] = false;
+
         for (int i = 0; i < player.readableKeys.length; i++) {
             if (toBePressed[i])
                 player.simulateKeyPress(i);

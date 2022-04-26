@@ -252,6 +252,7 @@ public class BattleScreen implements Screen {
             }
 
             if (event.getKeyCode() == KeyEvent.VK_U) { // warp speed
+                SoundEngine.changeMusicSpeed(2f);
                 warpSpeed = true;
                 SoundEngine.playbackSpeed = 2f;
             }
@@ -314,6 +315,7 @@ public class BattleScreen implements Screen {
         }
         if (gameEnded) {
             SoundEngine.playbackSpeed = 1;
+            SoundEngine.changeMusicSpeed(1f);
             if (toCharacterSelectScreenTimer == 90)
                 SoundEngine.playSound("final_death");
         }
