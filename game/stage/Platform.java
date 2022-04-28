@@ -1,8 +1,16 @@
 package game.stage;
 
+
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
+import java.io.Serializable;
 import java.io.Serializable;
 
 import game.physics.AABB;
+import game.Images;
+import game.screen.BattleScreen;
 
 public class Platform implements Serializable {
     protected String image;
@@ -29,5 +37,10 @@ public class Platform implements Serializable {
 
     public boolean updates() {
         return false;
+    }
+    
+    public void render(BattleScreen battleScreen, Graphics g, ImageObserver target) {
+         battleScreen.renderObject(g, Images.getImage(image), hitbox.getPosition(),
+               (int) hitbox.width, (int) hitbox.height, true, target);
     }
 }

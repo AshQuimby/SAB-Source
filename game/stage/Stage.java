@@ -2,7 +2,6 @@ package game.stage;
 
 import java.util.List;
 import java.util.ArrayList;
-
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import java.io.Serializable;
@@ -72,8 +71,7 @@ public class Stage implements Serializable {
 
    public void render(Graphics g, ImageObserver target) {
       for (Platform platform : platforms) {
-         battleScreen.renderObject(g, Images.getImage(platform.getImage()), platform.getHitbox().getPosition(),
-               (int) platform.getHitbox().width, (int) platform.getHitbox().height, false, target);
+         platform.render(battleScreen, g, target);
       }
 
       for (CustomStageObject stageObject : stageObjects) {
@@ -230,7 +228,7 @@ public class Stage implements Serializable {
       try {
          return (Stage) this.getClass().getConstructors()[0].newInstance((Object[]) null);
       } catch (Exception e) {
-         System.out.println("YOUR STAGE SHOULD NOT HAVE INPUTS FOR ITS CONSTRUCTOR");
+         System.out.println("YOUR STAGE SHOULD NOT HAVE PARAMETERS FOR ITS CONSTRUCTOR");
          System.exit(69);
       }
       return null;

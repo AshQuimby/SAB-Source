@@ -1,8 +1,16 @@
 package game.stage;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
+import java.io.Serializable;
+
 import game.particle.Particle;
 import game.projectile.BlockSmash;
 import game.projectile.Projectile;
+import game.Images;
+import game.screen.BattleScreen;
 
 public class Block extends UpdatingPlatform {
 
@@ -48,5 +56,13 @@ public class Block extends UpdatingPlatform {
                                 (Math.random() - 0.5) * 3, 2, 4, 4, "smoke.png"));
             stage.deadPlatforms.add(this);
         }
+    }
+    
+    @Override
+    public void render(BattleScreen battleScreen, Graphics g, ImageObserver target) {
+         battleScreen.renderObject(g, Images.getImage(image), hitbox.getPosition(),
+               (int) hitbox.width, (int) hitbox.height, true, target);
+         battleScreen.renderObject(g, Images.getImage("block_break.png"), hitbox.getPosition(),
+               (int) hitbox.width, (int) hitbox.height, (int) (life / 40), true, target);
     }
 }
