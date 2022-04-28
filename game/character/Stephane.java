@@ -1,9 +1,14 @@
 package game.character;
 
+import game.Images;
 import game.Player;
-import game.physics.Vector;
 import game.SoundEngine;
+import game.animation.Animation;
+import game.particle.AnimatedParticle;
+import game.physics.*;
 import game.projectile.*;
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
 import game.projectile.final_asses.Explosion;
 import game.stage.Block;
 
@@ -146,4 +151,10 @@ public class Stephane extends Character {
       else if (player.endLag > 0)
          player.frame = 5;
    }
+
+   @Override
+    public void renderUIElements(Player player, Graphics g, ImageObserver target) {
+        g.drawImage(Images.getImage("stephane_ui.png"), 512 + (128 * player.playerId * 2), 600, target);
+        g.drawImage(Images.getImage("stephane_ui.png"), 512 + (128 * player.playerId * 2), 600, target);
+    }
 }
