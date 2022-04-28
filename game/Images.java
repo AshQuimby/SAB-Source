@@ -67,9 +67,8 @@ public class Images {
         for (int i = 0; i < colorImage.getWidth(); i++) {
             for (int j = 0; j < colorImage.getHeight(); j++) {
                 Color newColor = new Color(colorImage.getRGB(i, j), true);
-                if (newColor.getAlpha() > 0)
-                    newColor = new Color((newColor.getRed() + color.getRed()) / 2,
-                            (newColor.getGreen() + color.getGreen()) / 2, (newColor.getBlue() + color.getBlue()) / 2);
+                newColor = new Color((newColor.getRed() + color.getRed()) / 2,
+                        (newColor.getGreen() + color.getGreen()) / 2, (newColor.getBlue() + color.getBlue()) / 2, newColor.getAlpha());
                 colorImage.setRGB(i, j, newColor.getRGB());
             }
         }
@@ -77,6 +76,19 @@ public class Images {
     }
 
     public static BufferedImage colorEffect(BufferedImage image, Color color) {
+        BufferedImage colorImage = createCopy(image);
+        for (int i = 0; i < colorImage.getWidth(); i++) {
+            for (int j = 0; j < colorImage.getHeight(); j++) {
+                Color newColor = new Color(colorImage.getRGB(i, j), true);
+                int brightness = (newColor.getRed() + newColor.getGreen() + newColor.getBlue()) / 3;
+                newColor = new Color((int) (brightness * (color.getRed() / 255f)), (int) (brightness * (color.getGreen() / 255f)), (int) (brightness * (color.getBlue() / 255f)), newColor.getAlpha());
+                colorImage.setRGB(i, j, newColor.getRGB());
+            }
+        }
+        return colorImage;
+    }
+
+    public static BufferedImage foillColorEffect(BufferedImage image, Color color) {
         BufferedImage colorImage = createCopy(image);
         for (int i = 0; i < colorImage.getWidth(); i++) {
             for (int j = 0; j < colorImage.getHeight(); j++) {

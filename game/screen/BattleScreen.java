@@ -26,7 +26,7 @@ import game.Settings;
 public class BattleScreen implements Screen {
     private final Player player1;
     private final Player player2;
-    private final Stage stage;
+    private Stage stage;
     private Camera camera;
 
     private final List<Player> players;
@@ -48,7 +48,12 @@ public class BattleScreen implements Screen {
     private boolean hidePauseUI;
     private boolean warpSpeed;
     private int pauseMenuIndex;
-
+    private int framesInSecond = 0;
+    private long lastFPSCheck = 0;
+    private int fps = 0;
+    private int ticksInSecond = 0;
+    private long lastTPSCheck = 0;
+    private int tps = 0;
     private Player winner;
 
     private boolean gameEnded;
@@ -145,7 +150,7 @@ public class BattleScreen implements Screen {
         player2.hitbox.y = 64 + stage.getSpawnOffset(1).y;
     }
 
-    private void drawText(Vector pos, float size, String text, Color color, Graphics g, boolean lockedCenter) {
+    public void drawText(Vector pos, float size, String text, Color color, Graphics g, boolean lockedCenter) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(
                 RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -219,6 +224,18 @@ public class BattleScreen implements Screen {
         AABB viewport = camera.getViewport();
         Rectangle hitbox = getHitboxDrawRect(viewport.getPosition(), (int) viewport.width, (int) viewport.height);
         g.drawRect((int) hitbox.x, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        
+        drawText(new Vector(100, 100), 20, "FPS: " + fps, new Color(255, 255, 255), g,
+                        false);
+        drawText(new Vector(100, 200), 20, "TPS: " + tps, new Color(255, 255, 255), g,
+                        false);  
+        framesInSecond++;
+    
+        if (System.currentTimeMillis() >= lastFPSCheck + 1000) {
+            lastFPSCheck = System.currentTimeMillis();
+            fps = framesInSecond;
+            framesInSecond = 0;
+        }
     }
 
     public void triggerHitboxes() {
@@ -252,7 +269,6 @@ public class BattleScreen implements Screen {
             }
 
             if (event.getKeyCode() == KeyEvent.VK_U) { // warp speed
-                SoundEngine.changeMusicSpeed(2f);
                 warpSpeed = true;
                 SoundEngine.playbackSpeed = 2f;
             }
@@ -309,7 +325,23 @@ public class BattleScreen implements Screen {
         return this;
     }
 
-    public Screen bigBoyUpdate() {
+    public Screen bigBoyUpdate() {  
+        ticksInSecond++;
+    
+        if (System.currentTimeMillis() >= lastTPSCheck + 1000) {
+            lastTPSCheck = System.currentTimeMillis();
+            tps = ticksInSecond;
+            ticksInSecond = 0;
+        }
+        
+        if (!player1.render && player1.invincible && !player2.render && player2.invincible && stage.getClass() != Hell.class && player1.hitbox.y < 0) { // Send players to the Shadow Realm
+            stage = new Hell();
+            stage.battleScreen = this;
+            player1.kill();
+            player2.kill();
+            player1.lives++;
+            player2.lives++;
+        }
         if (!paused) {
             updateCamera();
         }

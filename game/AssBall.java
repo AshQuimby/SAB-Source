@@ -4,6 +4,7 @@ import game.screen.BattleScreen;
 import game.particle.Particle;
 import game.physics.*;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
@@ -18,22 +19,32 @@ public class AssBall extends GameObject {
    private BattleScreen battleScreen;
    public PsuedoPlayer fakePlayer;
    public boolean alive;
+   private int rgbTimer;
+   private int rgbOffset;
 
    public AssBall(BattleScreen battleScreen) {
       damage = 0;
       frameTimer = 0;
       frame = 0;
+      rgbTimer = 0;
       alive = true;
       velocity = new Vector(0, 0);
       fakePlayer = new PsuedoPlayer(battleScreen, true);
-      fakePlayer.selectedChar.hitboxWidth = 40;
-      fakePlayer.selectedChar.hitboxHeight = 40;
+      fakePlayer.hitbox.width = 40;
+      fakePlayer.hitbox.height = 40;
       tempVelocity = new Vector(0, 0);
       this.battleScreen = battleScreen;
       pos = battleScreen.getStage().getUnsafeBlastZone().getRandomPoint();
    }
 
    public void update() {
+      rgbTimer += 8;
+      if (rgbTimer > 511) {
+         rgbTimer = 0;
+         if (++rgbOffset >= 3) {
+            rgbOffset = 0;
+         }
+      }
       fakePlayer.invincible = false;
       if (fakePlayer.knockBack.len() > 0)
          hit(fakePlayer.lastHitBy);
@@ -50,7 +61,7 @@ public class AssBall extends GameObject {
       velocity.add(new Vector(0.1, 0)
             .rotateBy(Vector.sub(battleScreen.getStage().getSafeBlastZone().getCenter(), pos).rotationOf()));
       if (++frameTimer >= 2) {
-         if (++frame >= 14) {
+         if (++frame >= 18) {
             frame = 0;
          }
          frameTimer = 0;
@@ -63,9 +74,22 @@ public class AssBall extends GameObject {
 
    public void render(Graphics g, ImageObserver target) {
       BufferedImage image = Images.getImage("ball_sack.png");
+      int colorVal1 = Math.min(255, 511 - rgbTimer);
+      int colorVal2 = Math.min(255, rgbTimer);
+      image = Images.colorAverageEffect(image,
+            new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
+                  (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
+                  (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
       battleScreen.renderObject(g, image, new Vector(pos.x - 40, pos.y - 40), 120, 120, 0, true, target);
 
       image = Images.getImage("ass_ball.png");
+      image = Images.colorEffect(image,
+            new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
+                  (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
+                  (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
+      battleScreen.renderObject(g, image, pos, 40, 40, true, target);
+
+      image = Images.getImage("ass_ball_overlay.png");
       battleScreen.renderObject(g, image, pos, 40, 40, frame, true, target);
    }
 

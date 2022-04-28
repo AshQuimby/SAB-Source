@@ -800,7 +800,6 @@ public class Player extends GameObject {
       }
       if ((iFrames + 4) / 4 % 2 == 0) {
          image = Images.alphaEffect(image, 127);
-         image = Images.colorAverageEffect(image, new Color(255, 255, 255));
       }
       if (finalAss) {
          for (int i = 0; i < 4; i++) {

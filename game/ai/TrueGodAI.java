@@ -152,9 +152,10 @@ public class TrueGodAI extends AI {
                     press(Player.LEFT);
                 }
 
-                if (player.velocity.y >= 10) {
+                if (player.velocity.y >= 5) {
                     if (player.jumps > 0) {
                         tap(Player.JUMP);
+                        press(Player.UP);
                     } else {
                         press(Player.UP);
                         press(Player.ATTACK);
@@ -171,7 +172,9 @@ public class TrueGodAI extends AI {
             }
             tap(Player.ATTACK);
         }
-
+        
+        
+        
         if (player.frozen > 0)
             tap(Player.PARRY);
         if (player.grabbingLedge) {
@@ -179,7 +182,7 @@ public class TrueGodAI extends AI {
         }
 
         if (player.finalAss) {
-            if (Vector.distanceBetween(playerPos, targetPos) < 64) {
+            if (Vector.distanceBetween(playerPos, targetPos) < 128) {
                 releaseAll();
                 tap(Player.ATTACK);
             }

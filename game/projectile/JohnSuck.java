@@ -4,6 +4,7 @@ import game.Player;
 import game.physics.*;
 import game.SoundEngine;
 import game.particle.Particle;
+import java.util.List;
 
 public class JohnSuck extends PersistingProjectile {
    public JohnSuck(double x, double y, int direction, int owner, Player ownerPlayer) {
@@ -55,8 +56,9 @@ public class JohnSuck extends PersistingProjectile {
                new Vector(width / 2, height / 2));
          pos.add(new Vector(44 * ownerPlayer.direction, 0));
          hitbox.setPosition(pos);
-         if (hittingPlayer() != null)
-            for (Player player : hittingPlayer()) {
+         List<Player> hitPlayers = hittingPlayer();
+         if (hitPlayers != null)
+            for (Player player : hitPlayers) {
                if (player.playerId != owner) {
                   player.velocity.x = 0;
                   player.velocity.y = 0;
@@ -88,8 +90,8 @@ public class JohnSuck extends PersistingProjectile {
          ownerPlayer.pos.add(new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4));
          direction = ownerPlayer.direction;
          ownerPlayer.velocity.x *= 0.96;
-         trappedPlayer.endLag = 10;
-         trappedPlayer.stunned = 2;
+         trappedPlayer.endLag = 4;
+         trappedPlayer.stuck = 1;
          trappedPlayer.hitbox
                .setCenter(Vector.sub(ownerPlayer.center(), new Vector(0, 48)));
          direction = ownerPlayer.direction;
@@ -133,7 +135,6 @@ public class JohnSuck extends PersistingProjectile {
             dir = Math.toRadians(220);
          }
          ownerPlayer.frame = 12;
-         trappedPlayer.hitPlayer(6, 24, direction == -1 ? Math.toRadians(180) : Math.toRadians(0), 0.01, this);
          trappedPlayer.render = true;
          alive = false;
       }
