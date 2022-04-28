@@ -26,7 +26,6 @@ public class ThrownAxe extends Projectile {
       pos = new Vector(x, y);
       velocity = new Vector(velX, velY);
       hitbox = new AABB(pos.x, pos.y, width, height);
-      hitPlayer = 0;
       unreflectable = false;
       ownerPlayer.selectedChar.hasKnife = false;
    }
@@ -53,7 +52,7 @@ public class ThrownAxe extends Projectile {
 
       hitbox.setPosition(pos);
       hittingPlayer();
-      hitPlayer--;
+      incrementHitPlayer(-1);
    }
 
    @Override
@@ -63,7 +62,7 @@ public class ThrownAxe extends Projectile {
                player.pos.y + player.height / 2, (Math.random() - 0.5) * 3,
                (Math.random() - 0.5) * 3, 2, 4, 4, "blood.png"));
       }
-      hitPlayer = 10;
+      hitPlayer(player, 10);
    }
 
    @Override

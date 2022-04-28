@@ -43,7 +43,7 @@ public class SwordSpike extends Projectile {
     @Override
     public void onHitPlayer(Player player) {
         ownerPlayer.velocity.y = -32;
-        hitPlayer = 1;
+        hitPlayer(player, 1);
     }
 
     @Override

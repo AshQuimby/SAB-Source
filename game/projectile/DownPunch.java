@@ -40,7 +40,7 @@ public class DownPunch extends Projectile {
     @Override
     public void onHitPlayer(Player player) {
         ownerPlayer.velocity.y = -14;
-        hitPlayer = 1;
+        hitPlayer(player, 1);
     }
 
     @Override

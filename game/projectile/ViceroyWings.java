@@ -21,7 +21,6 @@ public class ViceroyWings extends Projectile {
         pos = new Vector(x, y);
         velocity = new Vector(velX, velY);
         hitbox = new AABB(pos.x, pos.y, width, height);
-        hitPlayer = 0;
         unreflectable = true;
     }
 
@@ -45,7 +44,7 @@ public class ViceroyWings extends Projectile {
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 7;
+        hitPlayer(player, 7);
     }
 
     @Override

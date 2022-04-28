@@ -45,7 +45,7 @@ public class Bong extends Projectile {
       }
       dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), center()).rotationOf())
                 .rotationOf();
-      hitPlayer = 1;
+      hitPlayer(player, 1);
    }
 
    @Override

@@ -56,7 +56,7 @@ public class LightsOut extends HomingProjectile {
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 4;
+        hitPlayer(player, 4);
         dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), center()).rotationOf())
                 .rotationOf();
         SoundEngine.playSound("crunch");

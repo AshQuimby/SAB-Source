@@ -93,12 +93,12 @@ public class JohnBall extends Projectile {
 
         dir = direction == 1 ? Math.toRadians(-30) : Math.toRadians(210);
         hittingPlayer();
-        hitPlayer--;
+        incrementHitPlayer(-1);
     }
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 12;
+        hitPlayer(player, 12);
         SoundEngine.playSound("chomp");
     }
 

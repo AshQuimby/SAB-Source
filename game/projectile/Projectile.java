@@ -2,6 +2,7 @@ package game.projectile;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import game.GameObject;
 import game.Player;
@@ -26,12 +27,13 @@ public abstract class Projectile extends GameObject {
    public int height;
    public int life;
    public int owner;
-   public int hitPlayer = 0;
+   public int hitPlayer;
    public int updatesPerTick = 1;
    public Player ownerPlayer;
    public boolean unreflectable = false;
    public boolean draw = true;
    public boolean unParryable = false;
+   public HashMap<Player, Integer> hitPlayers = new HashMap<Player, Integer>();
    public String fileName;
    public BattleScreen battleScreen;
    public Vector hitboxOffset = new Vector(0, 0);
@@ -51,7 +53,7 @@ public abstract class Projectile extends GameObject {
             if (player.parryTimer > 0) {
                alive = false;
             }
-            if (hitPlayer < 1) {
+            if (!hitPlayers.containsKey(player) || hitPlayers.get(player) < 1) {
                if (!overrideHitPlayer()) {
                   onHitPlayer(player);
                   hitPlayer(damage, knockbackStrength, dir, player);
@@ -68,11 +70,31 @@ public abstract class Projectile extends GameObject {
       return null;
    }
 
+   public void incrementHitPlayer(int value) {
+      for (Player player : hitPlayers.keySet()) {
+         hitPlayers.replace(player, hitPlayers.get(player) + value);
+      }
+   }
+
+   public void setHitPlayer(int value) {
+      for (Player player : hitPlayers.keySet()) {
+         hitPlayers.replace(player, value);
+      }
+   }
+
+   public void hitPlayer(Player player, int rehitCooldown) {
+      if (hitPlayers.containsKey(player)) {
+         hitPlayers.replace(player, rehitCooldown);
+         return;
+      }
+      hitPlayers.put(player, rehitCooldown);
+   }
+
    public boolean staticKnockback() {
       return false;
    }
 
-   public void hitPlayer(int damage, double kb, double dir, Player player) {
+   private void hitPlayer(int damage, double kb, double dir, Player player) {
       player.hitPlayer(damage, kb, dir, staticKnockback() ? 0 : 0.01, this);
    }
 

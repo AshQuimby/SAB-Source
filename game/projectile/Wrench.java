@@ -75,7 +75,7 @@ public class Wrench extends Projectile {
                }
             }
          }
-         hitPlayer = 1;
+         setHitPlayer(1);
       }
    }
 

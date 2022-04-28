@@ -21,8 +21,6 @@ public class Banana extends Projectile {
       hitbox = new AABB(pos.x, pos.y, width, height);
    }
 
-   int hitPlayer = 0;
-
    @Override
    public void update() {
       velocity.y -= 3;
@@ -35,7 +33,7 @@ public class Banana extends Projectile {
             frame = 0;
          }
       }
-      hitPlayer--;
+      incrementHitPlayer(-1);
       hittingPlayer();
       hitbox.setPosition(pos);
    }
@@ -44,7 +42,7 @@ public class Banana extends Projectile {
    public void onHitPlayer(Player player) {
       dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), center()).rotationOf())
             .rotationOf();
-      hitPlayer = 2;
+      hitPlayer(player, 2);
    }
 
    @Override

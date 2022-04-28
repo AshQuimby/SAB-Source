@@ -31,7 +31,7 @@ public class Glide extends Projectile {
          alive = false;
       }
       ownerPlayer.velocity.y -= 2;
-      hitPlayer--;
+      incrementHitPlayer(-1);
       knockbackStrength = 6;
       ownerPlayer.velocity.x *= 0.4;
       battleScreen
@@ -63,7 +63,7 @@ public class Glide extends Projectile {
       for (int j = 0; j < 4; j++) {
       battleScreen.addParticle(new Particle(player.hitbox.x + player.hitbox.width / 2, player.hitbox.y + player.hitbox.height / 2, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 3, 2, 4, 4, "blood.png"));
       }
-      hitPlayer = 2;
+      hitPlayer(player, 2);
    }
 
    @Override

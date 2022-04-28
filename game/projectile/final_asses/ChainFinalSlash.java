@@ -64,12 +64,12 @@ public class ChainFinalSlash extends Projectile {
         if (frame == 2 || frame == 6 || frame == 10)
             hittingPlayer();
         else
-            hitPlayer = 0;
+            setHitPlayer(0);
     }
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 1;
+        hitPlayer(player, 1);
         playerHit = player;
         player.hitbox.setCenter(
                 Vector.add(player.center().mul(4), new Vector(center().x + 48 * direction, center().y - 32)).div(5));

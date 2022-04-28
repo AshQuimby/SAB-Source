@@ -56,8 +56,7 @@ public class ShadowPlunge extends Projectile {
 
         if (ownerPlayer.touchingStage && alive) {
             battleScreen.cameraShake(12);
-            hitPlayer = 0;
-            knockbackStrength = 36;
+                knockbackStrength = 36;
             damage = 24;
             hitbox.transformDimensions(width * 2, height / 2);
             hittingPlayer();
@@ -81,7 +80,7 @@ public class ShadowPlunge extends Projectile {
     @Override
     public void onHitPlayer(Player player) {
         if (!ownerPlayer.touchingStage) {
-            hitPlayer = 6;
+            hitPlayer(player, 6);
             dir = Math.toRadians(90);
         }
 

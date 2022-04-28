@@ -26,7 +26,6 @@ public class Knife extends Projectile {
       pos = new Vector(x, y);
       velocity = new Vector(velX, velY);
       hitbox = new AABB(pos.x, pos.y, width, height);
-      hitPlayer = 0;
       unreflectable = false;
       ownerPlayer.selectedChar.hasKnife = false;
    }
@@ -46,7 +45,7 @@ public class Knife extends Projectile {
             dir = Math.toRadians(325);
          else if (dir == Math.toRadians(305))
             dir = Math.toRadians(215);
-         hitPlayer = 0;
+         setHitPlayer(0);
       }
       if (life <= 570) {
          velocity = Vector.normalize(Vector.sub(ownerPlayer.pos, pos)).mul(20);
@@ -59,7 +58,7 @@ public class Knife extends Projectile {
       pos.add(velocity);
       hitbox.setPosition(pos);
       hittingPlayer();
-      hitPlayer--;
+      incrementHitPlayer(-1);
    }
 
    @Override
@@ -69,7 +68,7 @@ public class Knife extends Projectile {
                player.pos.y + player.height / 2, (Math.random() - 0.5) * 3,
                (Math.random() - 0.5) * 3, 2, 4, 4, "blood.png"));
       }
-      hitPlayer = 10;
+      hitPlayer(player, 10);
    }
 
    @Override

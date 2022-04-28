@@ -63,7 +63,7 @@ public class Fist extends BufferedProjectile {
     @Override
     public void onHitPlayer(Player player) {
         battleScreen.cameraShake(10);
-        hitPlayer = 1;
+        hitPlayer(player, 1);
     }
 
     @Override

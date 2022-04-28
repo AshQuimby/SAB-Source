@@ -63,7 +63,7 @@ public class MegaSlash extends BufferedProjectile {
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 1;
+        hitPlayer(player, 1);
         SoundEngine.playSound("chomp");
     }
 

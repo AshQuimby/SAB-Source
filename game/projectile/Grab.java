@@ -50,7 +50,7 @@ public class Grab extends Projectile {
                     }
                 }
             }
-            hitPlayer = 1;
+            setHitPlayer(1);
         }
     }
 

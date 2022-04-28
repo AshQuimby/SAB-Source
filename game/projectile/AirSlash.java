@@ -54,7 +54,7 @@ public class AirSlash extends Projectile {
       pos.y = ownerPlayer.hitbox.y;
       pos.add(velocity);
       hitbox.setPosition(pos);
-      hitPlayer--;
+      incrementHitPlayer(-1);
       ownerPlayer.velocity.x *= 0.8;
       ownerPlayer.velocity.y -= 3;
       knockbackStrength = 0;
@@ -94,7 +94,7 @@ public class AirSlash extends Projectile {
                         player.pos.y + player.height / 2, (Math.random() - 0.5) * 3,
                         (Math.random() - 0.5) * 3, 2, 4, 4, "blood.png"));
                }
-               hitPlayer = 2;
+               hitPlayer(player, 2);
                player.move(new Vector(48, 0)
                      .rotateBy((Vector.sub(ownerPlayer.hitbox.getCenter(), player.hitbox.getCenter()).rotationOf())),
                      true);

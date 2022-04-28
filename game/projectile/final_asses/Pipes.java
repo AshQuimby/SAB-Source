@@ -83,14 +83,14 @@ public class Pipes extends Projectile {
             }
         }
         hittingPlayer();
-        hitPlayer--;
+        incrementHitPlayer(-1);
     }
 
     @Override
     public void onHitPlayer(Player player) {
         dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), center()).rotationOf())
                 .rotationOf();
-        hitPlayer = 2;
+        hitPlayer(player, 2);
     }
 
     @Override

@@ -9,14 +9,12 @@ public class Bell extends Item {
 
     int swung;
     int uses;
-    boolean hitPlayer;
 
     public Bell(Vector position, Player holder) {
         super(position, 32, 24, holder, "bell.png");
         swung = 0;
         uses = 25;
         offset = new Vector(0, -16);
-        hitPlayer = false;
     }
 
     @Override

@@ -36,6 +36,7 @@ public class AnimatedParticle extends Particle {
       pos.add(velocity);
    }
 
+   @Override
    public void render(Graphics g, BattleScreen battleScreen, ImageObserver target) {
       battleScreen.renderObject(g, Images.getImage(fileName), pos, (int) (width * scale),
             (int) (height * scale), frame, false, target);

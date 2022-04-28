@@ -17,8 +17,6 @@ public class Barrel extends Projectile {
       hitbox = new AABB(pos.x, pos.y, width, height);
    }
 
-   boolean hitPlayer = false;
-
    @Override
    public void update() {
       ownerPlayer.endLag = 1;

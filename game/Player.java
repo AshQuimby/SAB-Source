@@ -66,6 +66,7 @@ public class Player extends GameObject {
    public AI ai;
    public Player lastHitBy;
    public boolean dontLateUpdatePos;
+   public int iFrames;
 
    public Item heldItem;
 
@@ -81,6 +82,7 @@ public class Player extends GameObject {
    protected void constructorBase(int playerId, Character character, BattleScreen battleScreen, int lives,
          int costume) {
       ai = new AI();
+      iFrames = 0;
       dontLateUpdatePos = false;
       frameTimer = 0;
       lastHitBy = null;
@@ -141,11 +143,8 @@ public class Player extends GameObject {
 
    public void knockBack(Vector step) {
       if (step.len() > 2) {
-         if (knockBackSmokeTimer >= 24) {
-            battleScreen
-                  .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
-                        0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
+         if (knockBackSmokeTimer >= 48) {
+            battleScreen.addParticle(new Smoke(hitbox.x + width / 2 - 16, hitbox.y + height / 2 - 16, 0, 0, "p" + (playerId + 1) + "_smoke.png"));
             knockBackSmokeTimer = 0;
          }
          knockBackSmokeTimer++;
@@ -170,6 +169,10 @@ public class Player extends GameObject {
    }
 
    public void update() {
+      if (iFrames > 0) {
+         invincible = true;
+         iFrames--;
+      }
       dontLateUpdatePos = false;
       hitbox = selectedChar.getHitbox(this);
       selectedChar.uniqueUpdatePreEverything(this);
@@ -185,12 +188,8 @@ public class Player extends GameObject {
       if (stunned > 0) {
          stunned--;
          frame = 7;
-         if (knockBack.len() > 2) {
-            battleScreen
-                  .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
-                        0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
-
+         if (knockBack.len() > 2 && battleScreen.getGameTick() % 48 == 0) {
+            battleScreen.addParticle(new Smoke(hitbox.x + width / 2 - 16, hitbox.y + height / 2 - 16, 0, 0, "p" + (playerId + 1) + "_smoke.png"));
          }
          pos = Vector.sub(new Vector(hitbox.x, hitbox.y), selectedChar.offset);
          pos.add(new Vector(16 * (Math.random() - 0.5), 16 * (Math.random() - 0.5)));
@@ -201,13 +200,6 @@ public class Player extends GameObject {
       if (stuck > 0) {
          stuck--;
          frame = 0;
-         if (knockBack.len() > 2) {
-            battleScreen
-                  .addParticle(new Particle(hitbox.x + width / 2, hitbox.y + height / 2, 0,
-                        0,
-                        Math.min(Math.ceil(damage / 50.0) + 1, 2), 4, 4, "smoke_p" + (playerId + 1) + ".png"));
-
-         }
          pos = Vector.sub(new Vector(hitbox.x, hitbox.y), selectedChar.offset);
          return; // don't let stuck players move
       }
@@ -217,6 +209,7 @@ public class Player extends GameObject {
       }
 
       if (--respawnTimer > 0) {
+         iFrames = 80;
          frame = 0;
          if (hitbox.y + hitbox.height < battleScreen.getStage().getSpawnOffset(playerId).y + 96)
             hitbox.y += 8;
@@ -614,6 +607,7 @@ public class Player extends GameObject {
             hitPlayerByNonProjectile(damage, kbStr, kbDir, kbDamageMult);
          } else {
             parryTimer = 0;
+            iFrames = 20;
             battleScreen.parryEffect();
             SoundEngine.playSound("parry");
             battleScreen
@@ -803,6 +797,10 @@ public class Player extends GameObject {
       } else {
          image = Images.getImage(
                selectedChar.fileName.substring(0, selectedChar.fileName.length() - 4) + "_alt_" + costume + ".png");
+      }
+      if ((iFrames + 4) / 4 % 2 == 0) {
+         image = Images.alphaEffect(image, 127);
+         image = Images.colorAverageEffect(image, new Color(255, 255, 255));
       }
       if (finalAss) {
          for (int i = 0; i < 4; i++) {

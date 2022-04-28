@@ -43,7 +43,7 @@ public class Slam extends Projectile {
             ownerPlayer.frame = 7;
             ownerPlayer.velocity.x *= 0.;
             ownerPlayer.velocity.y -= 4;
-            hitPlayer--;
+            incrementHitPlayer(-1);
         } else {
             damage = (int) ownerPlayer.velocity.y;
             damage = Math.min(damage, 48);
@@ -79,7 +79,7 @@ public class Slam extends Projectile {
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 8;
+        hitPlayer(player, 8);
     }
 
     @Override

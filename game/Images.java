@@ -2,9 +2,11 @@ package game;
 
 import java.util.*;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.awt.image.WritableRaster;
+import java.awt.image.ColorModel;
 import javax.imageio.ImageIO;
 import java.io.File;
 
@@ -45,6 +47,50 @@ public class Images {
                 readModImages(file);
             }
         }
+    }
+
+    public static BufferedImage alphaEffect(BufferedImage image, int alpha) {
+        BufferedImage alphaImage = createCopy(image);
+        for (int i = 0; i < alphaImage.getWidth(); i++) {
+            for (int j = 0; j < alphaImage.getHeight(); j++) {
+                Color newColor = new Color(alphaImage.getRGB(i, j), true);
+                if (newColor.getAlpha() > 0)
+                    newColor = new Color(newColor.getRed(), newColor.getGreen(), newColor.getBlue(), alpha);
+                alphaImage.setRGB(i, j, newColor.getRGB());
+            }
+        }
+        return alphaImage;
+    }
+
+    public static BufferedImage colorAverageEffect(BufferedImage image, Color color) {
+        BufferedImage colorImage = createCopy(image);
+        for (int i = 0; i < colorImage.getWidth(); i++) {
+            for (int j = 0; j < colorImage.getHeight(); j++) {
+                Color newColor = new Color(colorImage.getRGB(i, j), true);
+                if (newColor.getAlpha() > 0)
+                    newColor = new Color((newColor.getRed() + color.getRed()) / 2,
+                            (newColor.getGreen() + color.getGreen()) / 2, (newColor.getBlue() + color.getBlue()) / 2);
+                colorImage.setRGB(i, j, newColor.getRGB());
+            }
+        }
+        return colorImage;
+    }
+
+    public static BufferedImage colorEffect(BufferedImage image, Color color) {
+        BufferedImage colorImage = createCopy(image);
+        for (int i = 0; i < colorImage.getWidth(); i++) {
+            for (int j = 0; j < colorImage.getHeight(); j++) {
+                colorImage.setRGB(i, j, color.getRGB());
+            }
+        }
+        return colorImage;
+    }
+
+    private static BufferedImage createCopy(BufferedImage image) {
+        ColorModel cm = image.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = image.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
 
     private static BufferedImage loadImage(String filePath) {

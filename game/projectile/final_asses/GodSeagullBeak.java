@@ -64,8 +64,7 @@ public class GodSeagullBeak extends Projectile {
                     pecking = false;
                 }
             } else {
-                hitPlayer = 0;
-                if (pos.y > battleScreen.getStageBounds().y) {
+                        if (pos.y > battleScreen.getStageBounds().y) {
                     velocity.y -= 2;
                 } else if (life < 760) {
                     velocity.y = (pos.y - battleScreen.getStageBounds().y) / 10;
@@ -109,7 +108,7 @@ public class GodSeagullBeak extends Projectile {
 
     @Override
     public void onHitPlayer(Player player) {
-        hitPlayer = 1;
+        hitPlayer(player, 1);
     }
 
     @Override

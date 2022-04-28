@@ -65,7 +65,7 @@ public class Tongue extends Projectile {
    
    @Override
    public void onHitPlayer(Player player) {
-      hitPlayer = 1;
+      hitPlayer(player, 1);
    }
 
    @Override

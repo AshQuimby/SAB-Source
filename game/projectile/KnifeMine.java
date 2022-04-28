@@ -48,7 +48,7 @@ public class KnifeMine extends Projectile {
          damage = 14;
       }
       hitbox.setPosition(pos);
-      hitPlayer--;
+      incrementHitPlayer(-1);
       for (int i = 0; i < battleScreen.getProjectiles().size(); i++) {
          if (battleScreen.getProjectiles().get(i) != this
                && battleScreen.getProjectiles().get(i).getClass() == this.getClass()
@@ -67,7 +67,7 @@ public class KnifeMine extends Projectile {
 
    @Override
    public void onHitPlayer(Player player) {
-      hitPlayer = 20;
+      hitPlayer(player, 20);
       life -= 9;
    }
 

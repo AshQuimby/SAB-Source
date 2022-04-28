@@ -40,7 +40,7 @@ public class SludgeBomb extends ModProjectile {
          velocity.y *= -0.95;
          velocity.x += (Math.random() - 0.5) * 4;
       }
-      hitPlayer--;
+      incrementHitPlayer(-1);
       // update hitbox before collision detection
       hitbox.setPosition(pos);
       hittingPlayer();
@@ -48,7 +48,7 @@ public class SludgeBomb extends ModProjectile {
 
    @Override
    public void onHitPlayer(Player player) {
-      hitPlayer = 10;
+      hitPlayer(player, 10);
       dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), new Vector(center().x, hitbox.getY2())).rotationOf())
             .rotationOf();
    }

@@ -48,7 +48,7 @@ public class Slash extends Projectile {
                player.pos.y + player.height / 2, (Math.random() - 0.5) * 3,
                (Math.random() - 0.5) * 3, 2, 4, 4, "blood.png"));
       }
-      hitPlayer = 1;
+      hitPlayer(player, 1);
    }
 
    @Override

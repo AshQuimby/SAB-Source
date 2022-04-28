@@ -70,7 +70,7 @@ public class MiniGus extends HomingProjectile {
          } else {
             velocity.y += 5;
          }
-         hitPlayer--;
+         incrementHitPlayer(-1);
          hittingPlayer();
       } else {
          frame++;
@@ -85,7 +85,7 @@ public class MiniGus extends HomingProjectile {
    public void onHitPlayer(Player player) {
       dir = new Vector(knockbackStrength, 0).rotateBy(Vector.sub(player.center(), center()).rotationOf())
             .rotationOf();
-      hitPlayer = 10;
+      hitPlayer(player, 10);
    }
 
    @Override

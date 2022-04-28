@@ -30,8 +30,7 @@ public class NoDuckSign extends Projectile {
       if (--life == 0) {
          alive = false;
       }
-      if (hitPlayer > 0)
-         hitPlayer--;
+      incrementHitPlayer(-1);
       frame = 0;
       move(velocity, false);
       velocity.y += 0.2;
@@ -45,7 +44,7 @@ public class NoDuckSign extends Projectile {
 
    @Override
    public void onHitPlayer(Player player) {
-      hitPlayer = 4;
+      hitPlayer(player, 4);
    }
 
    @Override
