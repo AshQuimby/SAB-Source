@@ -38,11 +38,13 @@ public class AssBall extends GameObject {
    }
 
    public void update() {
-      rgbTimer += 8;
-      if (rgbTimer > 511) {
-         rgbTimer = 0;
-         if (++rgbOffset >= 3) {
-            rgbOffset = 0;
+      if (!Settings.performanceMode()) {
+         rgbTimer += 8;
+         if (rgbTimer > 511) {
+            rgbTimer = 0;
+            if (++rgbOffset >= 3) {
+               rgbOffset = 0;
+            }
          }
       }
       fakePlayer.invincible = false;
@@ -54,14 +56,14 @@ public class AssBall extends GameObject {
       tempVelocity = tempVelocity.mul(0.9);
       pos.add(velocity);
       pos.add(tempVelocity);
-      velocity = velocity.mul(0.98);
+      velocity = velocity.mul(0.99);
       velocity.x += Math.random() - 0.5;
       velocity.y += Math.random() - 0.5;
       battleScreen.changeAssBallTimer(1);
       velocity.add(new Vector(0.1, 0)
             .rotateBy(Vector.sub(battleScreen.getStage().getSafeBlastZone().getCenter(), pos).rotationOf()));
       if (++frameTimer >= 2) {
-         if (++frame >= 18) {
+         if (++frame >= 18 || frame >= 15) {
             frame = 0;
          }
          frameTimer = 0;
@@ -73,24 +75,31 @@ public class AssBall extends GameObject {
    }
 
    public void render(Graphics g, ImageObserver target) {
-      BufferedImage image = Images.getImage("ball_sack.png");
-      int colorVal1 = Math.min(255, 511 - rgbTimer);
-      int colorVal2 = Math.min(255, rgbTimer);
-      image = Images.colorAverageEffect(image,
-            new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
-                  (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
-                  (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
-      battleScreen.renderObject(g, image, new Vector(pos.x - 40, pos.y - 40), 120, 120, 0, true, target);
-
-      image = Images.getImage("ass_ball.png");
-      image = Images.colorEffect(image,
-            new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
-                  (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
-                  (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
-      battleScreen.renderObject(g, image, pos, 40, 40, true, target);
-
-      image = Images.getImage("ass_ball_overlay.png");
-      battleScreen.renderObject(g, image, pos, 40, 40, frame, true, target);
+      if (!Settings.performanceMode()) {
+         BufferedImage image = Images.getImage("ball_sack.png");
+         int colorVal1 = Math.min(255, 511 - rgbTimer);
+         int colorVal2 = Math.min(255, rgbTimer);
+         image = Images.colorAverageEffect(image,
+               new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
+                     (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
+                     (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
+         battleScreen.renderObject(g, image, new Vector(pos.x - 40, pos.y - 40), 120, 120, 0, true, target);
+   
+         image = Images.getImage("ass_ball.png");
+         image = Images.colorEffect(image,
+               new Color((rgbOffset == 0 ? colorVal1 : rgbOffset == 2 ? colorVal2 : 0),
+                     (rgbOffset == 1 ? colorVal1 : rgbOffset == 0 ? colorVal2 : 0),
+                     (rgbOffset == 2 ? colorVal1 : rgbOffset == 1 ? colorVal2 : 0)));
+         battleScreen.renderObject(g, image, pos, 40, 40, true, target);
+   
+         image = Images.getImage("ass_ball_overlay.png");
+         battleScreen.renderObject(g, image, pos, 40, 40, frame, true, target);
+      } else {
+         BufferedImage image = Images.getImage("ball_sack.png");
+         battleScreen.renderObject(g, image, new Vector(pos.x - 40, pos.y - 40), 120, 120, true, target);
+         image = Images.getImage("ass_ball_color.png");
+         battleScreen.renderObject(g, image, pos, 40, 40, frame, true, target);
+      }
    }
 
    public void hit(Player player) {
@@ -100,6 +109,7 @@ public class AssBall extends GameObject {
          SoundEngine.playSound("ass_ball_shatter");
          fakePlayer.removeFromBattlescreen();
          alive = false;
+         fakePlayer.lives = 0;
          for (int i = 0; i < 16; i++) {
             battleScreen.addParticle(new Particle(pos.x + 36, pos.y + 36, (Math.random() - 0.5) * 16,
                   (Math.random() - 0.5) * 16, 2, 6, 6, "twinkle.png"));

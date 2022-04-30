@@ -65,7 +65,7 @@ public class Wrench extends Projectile {
       if (hitPlayers != null) {
          for (Player player : hitPlayers) {
             if (player.playerId != owner) {
-               player.hitPlayer(damage, 0, 0, 0, this);
+               player.hitPlayer(damage, 0, 0, 0, this, false);
                player.velocity = player.velocity.mul(-3);
                player.direction -= 1;
                for (int i = 0; i < 4; i++) {
@@ -74,8 +74,8 @@ public class Wrench extends Projectile {
                         (Math.random() - 0.5) * 3, 2, 4, 4, "twinkle.png"));
                }
             }
+            hitPlayer(player, 1);
          }
-         setHitPlayer(1);
       }
    }
 

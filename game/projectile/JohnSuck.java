@@ -92,6 +92,7 @@ public class JohnSuck extends PersistingProjectile {
          ownerPlayer.velocity.x *= 0.96;
          trappedPlayer.endLag = 4;
          trappedPlayer.stuck = 1;
+         trappedPlayer.invincible = true;
          trappedPlayer.hitbox
                .setCenter(Vector.sub(ownerPlayer.center(), new Vector(0, 48)));
          direction = ownerPlayer.direction;

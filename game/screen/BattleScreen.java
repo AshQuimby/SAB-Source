@@ -334,20 +334,11 @@ public class BattleScreen implements Screen {
             ticksInSecond = 0;
         }
         
-        if (!player1.render && player1.invincible && !player2.render && player2.invincible && stage.getClass() != Hell.class && player1.hitbox.y < 0) { // Send players to the Shadow Realm
-            stage = new Hell();
-            stage.battleScreen = this;
-            player1.kill();
-            player2.kill();
-            player1.lives++;
-            player2.lives++;
-        }
         if (!paused) {
             updateCamera();
         }
         if (gameEnded) {
             SoundEngine.playbackSpeed = 1;
-            SoundEngine.changeMusicSpeed(1f);
             if (toCharacterSelectScreenTimer == 90)
                 SoundEngine.playSound("final_death");
         }
@@ -366,6 +357,7 @@ public class BattleScreen implements Screen {
             List<AssBall> deadAssBalls = new ArrayList<>();
 
             for (Player player : players) {
+                player.invincible = false;
                 player.update();
                 player.uniqueAnimations();
                 if (player.lives <= 0) {
@@ -389,10 +381,14 @@ public class BattleScreen implements Screen {
 
             for (Particle particle : particles) {
                 particle.update();
-
+                
                 if (!particle.alive) {
                     deadParticles.add(particle);
                 }
+            }
+            
+            while (particles.size() > 50 && Settings.performanceMode()) {
+               particles.remove(0);
             }
 
             for (Projectile projectile : projectiles) {
@@ -405,10 +401,23 @@ public class BattleScreen implements Screen {
                     deadProjectiles.add(projectile);
                 }
             }
-
+            
+            if (!player1.render && player1.invincible && !player2.render && player2.invincible && stage.getClass() != Hell.class && player2.hitbox.y < 0) { // Send players to the Shadow Realm
+               stage = new Hell();
+               SoundEngine.playMusic("genetically_engineered_bad");
+               stage.battleScreen = this;
+               player1.kill();
+               player2.kill();
+               player1.lives++;
+               player2.lives++;
+            }
+            
             particles.removeAll(deadParticles);
             projectiles.removeAll(deadProjectiles);
             players.removeAll(deadPlayers);
+            for (AssBall assBall : deadAssBalls) {
+               players.remove(assBall.fakePlayer);
+            }
             assBalls.removeAll(deadAssBalls);
             projectiles.addAll(newProjectiles);
             newProjectiles = new ArrayList<>();
@@ -447,7 +456,7 @@ public class BattleScreen implements Screen {
     public Screen update() {
         Screen toReturn = bigBoyUpdate();
         if (warpSpeed) {
-            return bigBoyUpdate();
+             toReturn = bigBoyUpdate();
         }
         return toReturn;
     }

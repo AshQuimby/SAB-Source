@@ -32,6 +32,7 @@ public class Pipe extends Projectile {
         if (--life == 0) {
             alive = false;
         }
+        ownerPlayer.iFrames = 1;
         ownerPlayer.invincible = true;
         hittingPlayer();
         incrementHitPlayer(-1);

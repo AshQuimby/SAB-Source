@@ -101,7 +101,7 @@ public class Suck extends PersistingProjectile {
             trappedPlayer.hitbox
                   .setPosition(new Vector(pos.x + width / 2 - trappedPlayer.hitbox.width / 2 - 30 * direction,
                         pos.y + height / 2 - trappedPlayer.hitbox.height / 2));
-            trappedPlayer.hitPlayer(12, 42, dir, 0.05, this);
+            trappedPlayer.hitPlayer(12, 42, dir, 0.05, this, true);
             trappedPlayer.render = true;
             alive = false;
          }
@@ -125,7 +125,7 @@ public class Suck extends PersistingProjectile {
          trappedPlayer.hitbox
                .setPosition(new Vector(pos.x + width / 2 - trappedPlayer.hitbox.width / 2 - 30 * direction,
                      pos.y + height / 2 - trappedPlayer.hitbox.height / 2));
-         trappedPlayer.hitPlayer(12, 32, dir, 0.01, this);
+         trappedPlayer.hitPlayer(12, 32, dir, 0.01, this, true);
          trappedPlayer.render = true;
          alive = false;
       }

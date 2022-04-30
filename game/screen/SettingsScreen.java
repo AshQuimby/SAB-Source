@@ -75,14 +75,14 @@ public class SettingsScreen implements Screen {
         }
         if (keyCode == KeyEvent.VK_DOWN) {
             SoundEngine.playSound("blip");
-            if (settingIndex++ > 7) {
+            if (settingIndex++ > 8) {
                 settingIndex = 0;
             }
         }
         if (keyCode == KeyEvent.VK_UP) {
             SoundEngine.playSound("blip");
             if (settingIndex-- < 1) {
-                settingIndex = 8;
+                settingIndex = 9;
             }
         }
         return this;
@@ -121,6 +121,8 @@ public class SettingsScreen implements Screen {
                 Settings.setAssBalls(true);
             } else if (settingIndex == 8) {
                 Settings.setStageHazards(true);
+            } else if (settingIndex == 9) {
+                Settings.setPerformanceMode(true);
             }
         } else {
             if (settingIndex == 0) {
@@ -144,6 +146,8 @@ public class SettingsScreen implements Screen {
                 Settings.setAssBalls(false);
             } else if (settingIndex == 8) {
                 Settings.setStageHazards(false);
+            } else if (settingIndex == 9) {
+                Settings.setPerformanceMode(false);
             }
         }
     }
@@ -180,6 +184,8 @@ public class SettingsScreen implements Screen {
         drawText(new Vector(576 - 256, 256 + 32 * 7), 16, "Spawn Ass Balls: " + (Settings.assBalls() ? "On" : "Off"),
                 new Color(255, 255, 255), g, false);
         drawText(new Vector(576 - 256, 256 + 32 * 8), 16, "Stage Hazards: " + (Settings.stageHazards() ? "On" : "Off"),
+                new Color(255, 255, 255), g, false);
+        drawText(new Vector(576 - 256, 256 + 32 * 9), 16, "Lighter-weight Graphics: " + (Settings.performanceMode() ? "On" : "Off"),
                 new Color(255, 255, 255), g, false);
     }
 }

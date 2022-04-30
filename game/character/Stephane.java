@@ -3,14 +3,13 @@ package game.character;
 import game.Images;
 import game.Player;
 import game.SoundEngine;
-import game.animation.Animation;
-import game.particle.AnimatedParticle;
 import game.physics.*;
 import game.projectile.*;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
 import game.projectile.final_asses.Explosion;
 import game.stage.Block;
+import java.awt.Color;
 
 public class Stephane extends Character {
    public Stephane() {
@@ -69,7 +68,7 @@ public class Stephane extends Character {
       for (int i = 0; i < 4; i++) {
          if (blocks >= 1.0) {
             player.battleScreen.addProjectileAtCenter(
-                  new BlockSmash(player.hitbox.getCenter().x, player.hitbox.getCenter().y, 0, 0, 24,
+                  new BlockSmash(player.center().x, player.center().y, 0, 0, 24,
                         Math.toRadians(270), player.playerId, player));
             player.move(new Vector(0, -32), true);
          }
@@ -128,13 +127,12 @@ public class Stephane extends Character {
       }
 
       if (player.justDied) {
-         blocks = 16.0;
+         blocks = 8.0;
       }
    }
 
    @Override
    public void uniqueUpdatePostFreezeCases(Player player) {
-      blocks += 0.01;
       if (blocks > 16.0) {
          blocks = 16.0;
       }
@@ -155,6 +153,6 @@ public class Stephane extends Character {
    @Override
     public void renderUIElements(Player player, Graphics g, ImageObserver target) {
         g.drawImage(Images.getImage("stephane_ui.png"), 512 + (128 * player.playerId * 2), 600, target);
-        g.drawImage(Images.getImage("stephane_ui.png"), 512 + (128 * player.playerId * 2), 600, target);
+        player.battleScreen.drawText(new Vector(512 + (128 * player.playerId * 2), 620), 16, "" + (int) Math.min(16, blocks), new Color(255, 255, 255), g, false);
     }
 }

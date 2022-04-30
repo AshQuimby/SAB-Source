@@ -17,7 +17,10 @@ public class JohnBall extends Projectile {
         this.owner = ownerPlayer.playerId;
         this.ownerPlayer = ownerPlayer;
         dir = 0;
-        fileName = "john_ball.png";
+        if (ownerPlayer.costume > 0)
+            fileName = "john_ball_alt_" + ownerPlayer.costume + ".png";
+        else
+            fileName = "john_ball.png";
         pos = new Vector(ownerPlayer.hitbox.x, ownerPlayer.hitbox.y);
         velocity = new Vector(0, 8);
         unreflectable = true;
@@ -41,6 +44,7 @@ public class JohnBall extends Projectile {
             alive = false;
         }
         ownerPlayer.invincible = true;
+        ownerPlayer.iFrames = 1;
         ownerPlayer.velocity = velocity;
         if (++frame >= 4) {
             SoundEngine.playSound("swish");

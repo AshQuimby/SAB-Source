@@ -171,7 +171,6 @@ public class Player extends GameObject {
    public void update() {
       if (iFrames > 0) {
          invincible = true;
-         iFrames--;
       }
       dontLateUpdatePos = false;
       hitbox = selectedChar.getHitbox(this);
@@ -180,10 +179,12 @@ public class Player extends GameObject {
       if (heldItem != null) {
          heldItem.preUpdate();
       }
+      
       justDied = false;
       for (ModPlayerOverride modPlayer : modPlayers) {
          modPlayer.update(this);
       }
+      
       progressKeys();
       if (stunned > 0) {
          stunned--;
@@ -209,7 +210,7 @@ public class Player extends GameObject {
       }
 
       if (--respawnTimer > 0) {
-         iFrames = 80;
+         iFrames = 40;
          frame = 0;
          if (hitbox.y + hitbox.height < battleScreen.getStage().getSpawnOffset(playerId).y + 96)
             hitbox.y += 8;
@@ -451,11 +452,12 @@ public class Player extends GameObject {
          step(new Vector(velocity.x / 2, velocity.y / 2));
          pos = Vector.sub(hitbox.getPosition(), selectedChar.offset);
          return; // dont let parrying players move
-      } else {
-         invincible = false;
       }
       step(velocity);
-      invincible = false;
+      if (iFrames > 0) {
+         invincible = true;
+         iFrames--;
+      }
       selectedChar.uniqueUpdatePostEverything(this);
       tookDamage = false;
       pos = Vector.sub(hitbox.getPosition(), selectedChar.offset);
@@ -597,17 +599,17 @@ public class Player extends GameObject {
       velocity.y *= selectedChar.drag;
    }
 
-   public void hitPlayer(int damage, double kbStr, double kbDir, double kbDamageMult, Projectile projectile) {
+   public void hitPlayer(int damage, double kbStr, double kbDir, double kbDamageMult, Projectile projectile, boolean zoomIn) {
       lastHitBy = projectile.ownerPlayer;
       MutableBoolean overrideDamage = new MutableBoolean(false);
       selectedChar.uniqueOnHit(this, overrideDamage, projectile.ownerPlayer, damage, kbStr);
       selectedChar.uniqueOnHit(this, overrideDamage, projectile.ownerPlayer);
       if (!overrideDamage.value) {
          if (parryTimer < 0) {
-            hitPlayerByNonProjectile(damage, kbStr, kbDir, kbDamageMult);
+            hitPlayerByNonProjectile(damage, kbStr, kbDir, kbDamageMult, zoomIn);
          } else {
             parryTimer = 0;
-            iFrames = 20;
+            iFrames = 4;
             battleScreen.parryEffect();
             SoundEngine.playSound("parry");
             battleScreen
@@ -615,7 +617,7 @@ public class Player extends GameObject {
                         (Math.random() - 0.5) * 3,
                         (Math.random() - 0.5) * 3, 4, 5, 5, "twinkle.png"));
             if (projectile.ownerPlayer != null)
-               projectile.ownerPlayer.endLag += 15;
+               projectile.ownerPlayer.endLag += 8;
          }
       }
    }
@@ -627,9 +629,10 @@ public class Player extends GameObject {
       selectedChar.uniqueOnHit(this, overrideDamage, item.holder);
       if (!overrideDamage.value) {
          if (parryTimer < 0) {
-            hitPlayerByNonProjectile(damage, kbStr, kbDir, kbDamageMult);
+            hitPlayerByNonProjectile(damage, kbStr, kbDir, kbDamageMult, false);
          } else {
             parryTimer = 0;
+            iFrames = 4;
             battleScreen.parryEffect();
             SoundEngine.playSound("parry");
             battleScreen
@@ -637,22 +640,26 @@ public class Player extends GameObject {
                         (Math.random() - 0.5) * 3,
                         (Math.random() - 0.5) * 3, 4, 5, 5, "twinkle.png"));
             if (item.holder != null)
-               item.holder.endLag += 15;
+               item.holder.endLag += 8;
          }
       }
    }
 
-   public void hitPlayerByNonProjectile(int damage, double kbStr, double kbDir, double kbDamageMult) {
+   public void hitPlayerByNonProjectile(int damage, double kbStr, double kbDir, double kbDamageMult, boolean zoomIn) {
       falling = false;
       charging = false;
       battleScreen.changeAssBallTimer(-damage);
       charge = 0;
       SoundEngine.playSound("hit");
       tookDamage = true;
-      knockBack = new Vector(kbStr * 2, 0);
-      knockBack = knockBack.mul(this.damage * kbDamageMult + 1);
+      if (new Vector(kbStr * 2, 0).mul(this.damage * kbDamageMult + 1).len() > knockBack.len()) {
+         knockBack = new Vector(kbStr * 2, 0);
+         knockBack = knockBack.mul(this.damage * kbDamageMult + 1);
+      } else {
+         knockBack = new Vector(knockBack.len(), 0);
+      }
       knockBack.rotateBy(kbDir);
-      if (knockBack.len() > 240) {
+      if (knockBack.len() > 250 && zoomIn) {
          battleScreen.zoomInEffect();
       }
       this.damage += damage;
@@ -798,7 +805,7 @@ public class Player extends GameObject {
          image = Images.getImage(
                selectedChar.fileName.substring(0, selectedChar.fileName.length() - 4) + "_alt_" + costume + ".png");
       }
-      if ((iFrames + 4) / 4 % 2 == 0) {
+      if ((iFrames + 2) / 2 % 2 == 0) {
          image = Images.alphaEffect(image, 127);
       }
       if (finalAss) {

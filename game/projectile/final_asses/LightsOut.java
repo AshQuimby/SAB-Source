@@ -45,7 +45,7 @@ public class LightsOut extends HomingProjectile {
             ownerPlayer.falling = false;
             ownerPlayer.jumps = ownerPlayer.selectedChar.jumps;
             targetPlayer.hitPlayer(48, 52, Utilities.quickKnockbackDirection(ownerPlayer.direction == 1, -30),
-                    0.025, this);
+                    0.025, this, true);
         } else if (life > 10) {
             for (Player player : battleScreen.getPlayerList()) {
                 player.render = false;

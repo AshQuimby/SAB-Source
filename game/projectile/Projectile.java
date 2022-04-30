@@ -95,7 +95,7 @@ public abstract class Projectile extends GameObject {
    }
 
    private void hitPlayer(int damage, double kb, double dir, Player player) {
-      player.hitPlayer(damage, kb, dir, staticKnockback() ? 0 : 0.01, this);
+      player.hitPlayer(damage, kb, dir, staticKnockback() ? 0 : 0.01, this, hitZoomIn());
    }
 
    public void onHitPlayer(Player player) {
@@ -137,7 +137,11 @@ public abstract class Projectile extends GameObject {
    public Vector center() {
       return new Vector(pos.x + width / 2, pos.y + height / 2);
    }
-
+   
+   public boolean hitZoomIn() {
+      return true;
+   }
+   
    public boolean move(Vector step, boolean collideWithStage) {
       boolean collided = false;
       

@@ -43,7 +43,7 @@ public class Wobbler extends UpdatingPlatform {
         }
         for (Player player : stage.battleScreen.getPlayerList()) {
             if (player.hitbox.overlaps(new AABB(hitbox.x - 16, hitbox.y - 16, hitbox.width + 32, hitbox.height + 32)))
-                player.hitPlayerByNonProjectile(5, 10, velocity.rotationOf(), 0.02);
+                player.hitPlayerByNonProjectile(5, 10, velocity.rotationOf(), 0.02, true);
         }
         if (Math.random() > 0.9) {
             stage.battleScreen.addProjectileAtCenter(

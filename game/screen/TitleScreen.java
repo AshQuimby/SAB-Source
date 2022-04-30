@@ -6,6 +6,7 @@ import game.SoundEngine;
 import game.physics.Vector;
 import server.Server;
 import game.Window;
+import game.physics.AABB;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -17,13 +18,16 @@ public class TitleScreen implements Screen {
         "Host Game",
         "Join Game",
         "Settings",
-        "Quit"
+        "Quit",
+        "Credits"
     };
 
     private int selector;
+    private int tick;
 
     public TitleScreen() {
         selector = 0;
+        tick = 0;
     }
 
 	@Override
@@ -55,16 +59,18 @@ public class TitleScreen implements Screen {
                 case 4:
                     System.exit(0);
                     break;
+                case 5:
+                    return new CreditsScreen();
                 default:
                     System.out.println("WARNING: Invalid title screen option selected");
                     System.exit(1);
                     break;
             }
         } else if (event.getKeyCode() == KeyEvent.VK_DOWN || event.getKeyCode() == KeyEvent.VK_S) {
-            if (++selector > 4) selector = 0;
+            if (++selector > 5) selector = 0;
             SoundEngine.playSound("blip");
         } else if (event.getKeyCode() == KeyEvent.VK_UP || event.getKeyCode() == KeyEvent.VK_W) {
-            if (--selector < 0) selector = 4;
+            if (--selector < 0) selector = 5;
             SoundEngine.playSound("blip");
         }
 
@@ -78,6 +84,7 @@ public class TitleScreen implements Screen {
 
 	@Override
 	public Screen update() {
+      tick++;
 		return this;
 	}
 
@@ -110,11 +117,17 @@ public class TitleScreen implements Screen {
 
         return metrics.stringWidth(text);
     }
-
+       
 	@Override
 	public void render(Graphics g, ImageObserver target) {
+      AABB title = new AABB(0, 32, 460, 156);
+      title.setX2(1152);
+      title.x -= 32;
+      title.y += Math.cos(tick / 16.0) * 4.0;
 		g.drawImage(Images.getImage("title_screen.png"), 0, 0, target);
-
+      g.drawImage(Images.alphaEffect(Images.fillColorEffect(Images.getImage("super_ass_brothers.png"), new Color(0, 0, 0)), 128), (int) title.x, (int) title.y + 16, target);
+		g.drawImage(Images.getImage("super_ass_brothers.png"), (int) title.x, (int) title.y, target);
+      
         for (int i = 0; i < options.length; i++) {
             int textLength = drawText(new Vector(10, 10 + i * 50), 30, options[i], Color.WHITE, g, false);
             if (selector == i) g.fillRect(10 + textLength, 25 + i * 50, 30, 10);

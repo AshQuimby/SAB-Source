@@ -21,9 +21,10 @@ public final class Settings {
   private static int portSetting;
   private static boolean assBallSetting;
   private static boolean stageHazardSetting;
+  private static boolean performanceModeSetting;
 
   public static void setSettings(boolean music, boolean soundEffects, boolean fixedCamera, float volume, int lives,
-      int aiPlayer1, int aiPlayer2, boolean testingMode, int port, boolean assBall, boolean stageHazard) {
+      int aiPlayer1, int aiPlayer2, boolean testingMode, int port, boolean assBall, boolean stageHazard, boolean performanceMode) {
     musicSetting = music;
     soundEffectsSetting = soundEffects;
     fixedCameraSetting = fixedCamera;
@@ -35,6 +36,7 @@ public final class Settings {
     portSetting = port;
     assBallSetting = assBall;
     stageHazardSetting = stageHazard;
+    performanceModeSetting = performanceMode;
   }
 
   private static String[] properties = new String[] {
@@ -47,12 +49,13 @@ public final class Settings {
       "ai_player_2",
       "ass_balls",
       "stage_hazards",
+      "performance_mode",
       "testing_mode",
       "port"
   };
 
   private static void defaultSettings() {
-    setSettings(true, true, false, 0.5f, 3, 0, 1, false, 19128, true, true);
+    setSettings(true, true, false, 0.5f, 3, 0, 1, false, 19128, true, true, false);
   }
 
   public static void writeToFile() {
@@ -76,6 +79,7 @@ public final class Settings {
       optionWriter.write("@ai_player_2 " + aiPlayer2Setting + "\n");
       optionWriter.write("@ass_balls " + assBallSetting + "\n");
       optionWriter.write("@stage_hazards " + stageHazardSetting + "\n");
+      optionWriter.write("@performance_mode " + performanceModeSetting + "\n");
       optionWriter.write("@testing_mode " + testingModeSetting + "\n");
       optionWriter.write("@port " + portSetting + "\n");
 
@@ -125,6 +129,7 @@ public final class Settings {
         aiPlayer2Setting = Integer.parseInt(settings.get("ai_player_2"));
         assBallSetting = Boolean.parseBoolean(settings.get("ass_balls"));
         stageHazardSetting = Boolean.parseBoolean(settings.get("stage_hazards"));
+        performanceModeSetting = Boolean.parseBoolean(settings.get("performance_mode"));
         testingModeSetting = Boolean.parseBoolean(settings.get("testing_mode"));
         portSetting = Integer.parseInt(settings.get("port"));
 
@@ -195,6 +200,10 @@ public final class Settings {
   public static boolean stageHazards() {
     return stageHazardSetting;
   }
+  
+  public static boolean performanceMode() {
+    return performanceModeSetting;
+  }
 
   public static void setMusic(boolean setTo) {
     musicSetting = setTo;
@@ -238,5 +247,9 @@ public final class Settings {
 
   public static void setStageHazards(boolean setTo) {
     stageHazardSetting = setTo;
+  }
+  
+  public static void setPerformanceMode(boolean setTo) {
+    performanceModeSetting = setTo;
   }
 }

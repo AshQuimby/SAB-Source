@@ -98,7 +98,7 @@ public class AirSlash extends Projectile {
                player.move(new Vector(48, 0)
                      .rotateBy((Vector.sub(ownerPlayer.hitbox.getCenter(), player.hitbox.getCenter()).rotationOf())),
                      true);
-               player.hitPlayer(damage, 10, dir, mult, this);
+               player.hitPlayer(damage, 10, dir, mult, this, true);
                player.velocity.y *= 0.2;
                player.velocity.x *= 0.3;
             }

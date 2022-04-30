@@ -6,6 +6,7 @@ import java.awt.image.ImageObserver;
 import game.GameObject;
 import game.physics.Vector;
 import game.Images;
+import game.Settings;
 import game.screen.BattleScreen;
 
 public class Particle extends GameObject {
@@ -31,7 +32,7 @@ public class Particle extends GameObject {
       scale -= 0.125;
       pos.x += width * scale / 16;
       pos.y += height * scale / 16;
-      if (scale < 0.125)
+      if (scale < 0.125 || (scale < 0.25 && Settings.performanceMode()))
          alive = false;
    }
 

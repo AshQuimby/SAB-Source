@@ -12,7 +12,7 @@ public class ChainFinalSlash extends Projectile {
         width = 256;
         this.direction = direction;
         height = 256;
-        life = 120;
+        life = 100;
         alive = true;
         knockbackStrength = 56;
         this.owner = owner;
@@ -56,7 +56,9 @@ public class ChainFinalSlash extends Projectile {
         hitbox.x += 64 * ownerPlayer.direction;
 
         pos = hitbox.getPosition();
-
+         
+        direction = ownerPlayer.direction;
+         
         dir = direction == 1 ? Math.toRadians(-30) : Math.toRadians(210);
 
         ownerPlayer.stunned = 1;
@@ -83,5 +85,10 @@ public class ChainFinalSlash extends Projectile {
         if (playerHit != null) {
             playerHit.stunned = 0;
         }
+    }
+    
+    @Override
+    public boolean hitZoomIn() {
+        return life <= 1 && frame >= 9;
     }
 }

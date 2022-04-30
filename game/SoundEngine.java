@@ -25,13 +25,7 @@ public class SoundEngine {
         }
         readModSounds(new File("mods"));
     }
-
-    public static void changeMusicSpeed(float newSpeed) {
-        currentMusicTrack.get(0).stop();
-        currentMusicTrack.get(0).setRate(newSpeed);
-        currentMusicTrack.get(0).play();
-    }
-
+    
     public static void stopMusic() {
         try {
             currentMusicTrack.get(0).stop();

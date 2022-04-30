@@ -36,7 +36,7 @@ public class Grab extends Projectile {
         if (hittingPlayer() != null) {
             for (Player player : hittingPlayer()) {
                 if (player.playerId != owner && !player.invincible) {
-                    player.hitPlayer(damage, 0, 0, 0, this);
+                    player.hitPlayer(damage, 0, 0, 0, this, false);
                     player.velocity = Vector.sub(ownerPlayer.center(), player.center());
                     player.velocity.y -= 16;
                     player.touchingStage = false;

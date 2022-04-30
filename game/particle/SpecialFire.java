@@ -1,5 +1,7 @@
 package game.particle;
 
+import game.Settings;
+
 public class SpecialFire extends Particle {
    public float scaleSpeed;
 
@@ -27,7 +29,7 @@ public class SpecialFire extends Particle {
       if (--timeLeft <= 0) {
          alive = false;
       }
-      if (scale < 0.125)
+      if (scale < 0.125 || (scale < 0.25 && Settings.performanceMode()))
          alive = false;
    }
 }

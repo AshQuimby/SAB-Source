@@ -18,7 +18,12 @@ public class PsuedoPlayer extends Player {
    }
    
    public void removeFromBattlescreen() {
-      battleScreen.getPlayerList().remove(this);
+      lives = 0;
+      justDied = true;
+   }
+   
+   @Override
+   public void kill() {
    }
    
    @Override

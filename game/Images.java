@@ -88,11 +88,12 @@ public class Images {
         return colorImage;
     }
 
-    public static BufferedImage foillColorEffect(BufferedImage image, Color color) {
+    public static BufferedImage fillColorEffect(BufferedImage image, Color color) {
         BufferedImage colorImage = createCopy(image);
         for (int i = 0; i < colorImage.getWidth(); i++) {
             for (int j = 0; j < colorImage.getHeight(); j++) {
-                colorImage.setRGB(i, j, color.getRGB());
+                Color oldColor = new Color(colorImage.getRGB(i, j), true);
+                colorImage.setRGB(i, j, new Color(color.getRed(), color.getGreen(), color.getBlue(), oldColor.getAlpha()).getRGB());
             }
         }
         return colorImage;

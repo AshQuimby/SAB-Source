@@ -1,10 +1,7 @@
 package game.stage;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.awt.Graphics;
 import java.awt.image.ImageObserver;
-import java.io.Serializable;
 
 import game.particle.Particle;
 import game.projectile.BlockSmash;
