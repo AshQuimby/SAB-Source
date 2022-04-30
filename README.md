@@ -14,7 +14,7 @@
 
   These are the two main things that we want to fix, yet we can't seem to find a way to do it. These are the struggles of using only the Java standard library with a       custom engine built from scratch.
   
-# How To Play
+## How To Play
 
   Navigate the menus using the arrow keys or WASD. Press Escape or Shift to go back to the previous menu. Press Enter to confirm your selection.
   
@@ -26,7 +26,7 @@
   
   To join a game, type in the host's IP address and port and wait to connect. The server won't start the game until both players are connected, so being in the loading     screen for a few seconds is normal.
   
-# Credits
+## Credits
   
   Developers: AshQuimby, a_viper
   
